@@ -14,7 +14,7 @@ function flatten(value: unknown, prefix = "", result: Record<string, string> = {
 }
 
 function variables(text: string) {
-  return [...text.matchAll(/\\{\\{[^}]+\\}\\}/g)].map(([match]) => match).sort();
+  return [...text.matchAll(/\{\{[^}]+\}\}/g)].map(([match]) => match).sort();
 }
 
 describe("Dutch translation integrity", () => {
