@@ -161,7 +161,7 @@ public sealed class EmailTemplateService : IEmailTemplateService
     public string BuildRestaurantAlertEmail(Booking booking, Restaurant restaurant, BrandSettings brand, string websiteUrl, RestaurantAlertKind kind, string locale = "en")
     {
         DateTime localDate = TimeZoneHelper.ConvertUtcToLocal(booking.Date, restaurant.Timezone);
-        string dateStr = DateFormatter.FormatLongDate(localDate);
+        string dateStr = DateFormatter.FormatLongDate(localDate, locale);
         string timeStr = booking.EndTime is DateTime end
             ? DateFormatter.FormatTimeRange(localDate, TimeZoneHelper.ConvertUtcToLocal(end, restaurant.Timezone), locale)
             : DateFormatter.FormatTime(localDate, locale);
