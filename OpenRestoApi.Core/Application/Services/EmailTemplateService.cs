@@ -47,7 +47,7 @@ public sealed class EmailTemplateService : IEmailTemplateService
             headerHtml = $"""
                 <tr><td style="padding:40px 40px 24px;text-align:center;background-color:#ffffff;">
                   <h1 style="margin:0;font-size:24px;font-weight:700;color:#111827;">{WebUtility.HtmlEncode(restaurant.Name)}</h1>
-                  <p style="margin:8px 0 0;font-size:16px;color:#6b7280;">Booking Confirmed</p>
+                  <p style="margin:8px 0 0;font-size:16px;color:#6b7280;">{L(locale, "Booking Confirmed", "Reservering bevestigd")}</p>
                 </td></tr>
                 """;
         }
