@@ -806,46 +806,46 @@
       }
     },
     "bookings": {
-      "pageTitle": "Bookings",
-      "searchResultsTitle": "Search Results",
-      "searchResultsCount_one": "{{count}} result for \"{{query}}\"",
-      "searchResultsCount_other": "{{count}} results for \"{{query}}\"",
-      "totalTodaySummary": "{{total}} total · {{today}} today",
-      "clearSearch": "Clear",
-      "clearSearchLabel": "Clear search",
-      "newBooking": "New Booking",
-      "newBookingLabel": "New booking",
+      "pageTitle": "Reserveringen",
+      "searchResultsTitle": "Zoekresultaten",
+      "searchResultsCount_one": "{{count}} resultaat voor \"{{query}}\"",
+      "searchResultsCount_other": "{{count}} resultaten voor \"{{query}}\"",
+      "totalTodaySummary": "{{total}} totaal · {{today}} vandaag",
+      "clearSearch": "Wissen",
+      "clearSearchLabel": "Zoekopdracht wissen",
+      "newBooking": "Nieuwe reservering",
+      "newBookingLabel": "Nieuwe reservering",
       "screenTitle": {
-        "live": "Live Bookings",
-        "past": "Past Bookings",
-        "cancelled": "Cancelled Bookings",
-        "noShow": "No-show Bookings"
+        "live": "Actuele reserveringen",
+        "past": "Eerdere reserveringen",
+        "cancelled": "Geannuleerde reserveringen",
+        "noShow": "Niet verschenen"
       },
-      "previousNoShows_one": "{{count}} previous no-show",
-      "previousNoShows_other": "{{count}} previous no-shows",
+      "previousNoShows_one": "{{count}} keer eerder niet verschenen",
+      "previousNoShows_other": "{{count}} keer eerder niet verschenen",
       "tabs": {
-        "active": "Active",
-        "past": "Past",
-        "noShow": "No-shows",
-        "cancelled": "Cancelled",
-        "showLabel": "Show {{tab}} bookings"
+        "active": "Actief",
+        "past": "Eerder",
+        "noShow": "Niet verschenen",
+        "cancelled": "Geannuleerd",
+        "showLabel": "Toon reserveringen: {{tab}}"
       },
       "viewToggle": {
-        "timetable": "Timetable",
-        "list": "List",
-        "timetableLabel": "Timetable view",
-        "listLabel": "List view",
-        "service": "Service",
-        "serviceLabel": "Service view"
+        "timetable": "Tijdschema",
+        "list": "Lijst",
+        "timetableLabel": "Tijdschema weergeven",
+        "listLabel": "Lijstweergave",
+        "service": "Bediening",
+        "serviceLabel": "Weergave voor de bediening"
       },
       "timetable": {
-        "previousDay": "Previous day",
-        "nextDay": "Next day",
-        "jumpToTodayLabel": "{{date}}, jump to today",
-        "tapForToday": "tap for today",
+        "previousDay": "Vorige dag",
+        "nextDay": "Volgende dag",
+        "jumpToTodayLabel": "{{date}}, ga naar vandaag",
+        "tapForToday": "tik voor vandaag",
         "legend": {
-          "seatedNow": "Seated now",
-          "booked": "Booked",
+          "seatedNow": "Aan tafel",
+          "booked": "Gereserveerd",
           "now": "Now",
           "tapHint": "Tap a sitting to view details"
         },
@@ -1051,41 +1051,41 @@
       }
     },
     "dashboard": {
-      "nativeTitle": "Admin Dashboard",
-      "title": "Dashboard",
-      "welcomeSubtitle": "Welcome back. Here is what's happening today.",
-      "successTitle": "Success",
+      "nativeTitle": "Beheer",
+      "title": "Overzicht",
+      "welcomeSubtitle": "Welkom terug. Dit staat er vandaag op de planning.",
+      "successTitle": "Gelukt",
       "metrics": {
         "todayBookings": {
-          "label": "Today's Bookings",
-          "sub": "Total covers for today",
-          "noShows_one": "{{count}} no-show today",
-          "noShows_other": "{{count}} no-shows today"
+          "label": "Reserveringen vandaag",
+          "sub": "Totaal aantal gasten vandaag",
+          "noShows_one": "{{count}} gast niet verschenen vandaag",
+          "noShows_other": "{{count}} gasten niet verschenen vandaag"
         },
         "activeHolds": {
-          "label": "Active Holds",
-          "sub": "Tables currently being held"
+          "label": "Tafels tijdelijk vastgehouden",
+          "sub": "Tafels die tijdelijk worden vastgehouden"
         },
         "restaurantStatus": {
-          "label": "Restaurant Status",
-          "active": "Active",
-          "paused": "Paused",
-          "subActive": "All venues are accepting bookings",
-          "subPaused_one": "{{count}} venue is currently paused",
-          "subPaused_other": "{{count}} venues are currently paused"
+          "label": "Status restaurant",
+          "active": "Actief",
+          "paused": "Gepauzeerd",
+          "subActive": "Alle locaties nemen reserveringen aan",
+          "subPaused_one": "{{count}} locatie is tijdelijk gepauzeerd",
+          "subPaused_other": "{{count}} locaties zijn tijdelijk gepauzeerd"
         },
         "totalCovers": {
-          "label": "Total Covers",
-          "sub": "Total guests served (all time)"
+          "label": "Totaal aantal gasten",
+          "sub": "Totaal aantal gasten ooit"
         }
       },
       "quickActions": {
-        "viewAllBookings": "View All Bookings",
-        "manageSettings": "Manage Settings"
+        "viewAllBookings": "Bekijk alle reserveringen",
+        "manageSettings": "Instellingen beheren"
       },
       "chart": {
-        "title": "Occupancy Overview",
-        "last7Days": "Last 7 days",
+        "title": "Overzicht bezetting",
+        "last7Days": "Afgelopen 7 dagen",
         "dayLabel": {
           "tMinus6": "T-6",
           "tMinus5": "T-5",
@@ -1093,11 +1093,11 @@
           "tMinus3": "T-3",
           "tMinus2": "T-2",
           "tMinus1": "T-1",
-          "today": "Today"
+          "today": "Vandaag"
         },
         "toggle": {
-          "relativeLabel": "Label hours relative to now",
-          "calendarLabel": "Label hours by clock time",
+          "relativeLabel": "Toon uren ten opzichte van nu",
+          "calendarLabel": "Toon uren als kloktijd",
           "relativeText": "T-x",
           "datesText": "Dates"
         },
@@ -1130,8 +1130,8 @@
     },
     "layout": {
       "desktopWall": {
-        "title": "Screen too small",
-        "body": "The admin dashboard requires a wider screen.\nTry rotating your device or using a larger screen."
+        "title": "Scherm te klein",
+        "body": "Voor het beheerscherm is een breder scherm nodig.\nDraai je apparaat of gebruik een groter scherm."
       }
     },
     "locations": {
@@ -1245,45 +1245,45 @@
       }
     },
     "login": {
-      "nativeTitle": "Admin Login",
-      "badge": "Admin",
-      "backToApp": "Back to {{appName}}",
+      "nativeTitle": "Inloggen voor beheer",
+      "badge": "Beheer",
+      "backToApp": "Terug naar {{appName}}",
       "signIn": {
-        "title": "Sign in",
-        "subtitle": "Manage your restaurant bookings.",
-        "emailLabel": "Email",
+        "title": "Inloggen",
+        "subtitle": "Beheer de reserveringen van je restaurant.",
+        "emailLabel": "E-mailadres",
         "emailPlaceholder": "admin@restaurant.com",
-        "passwordLabel": "Password",
-        "submit": "Sign In",
-        "submitting": "Signing in…",
-        "forgotPassword": "Forgot password?",
-        "invalidCredentials": "Invalid email or password. Please try again."
+        "passwordLabel": "Wachtwoord",
+        "submit": "Inloggen",
+        "submitting": "Inloggen…",
+        "forgotPassword": "Wachtwoord vergeten?",
+        "invalidCredentials": "E-mailadres of wachtwoord klopt niet. Probeer het opnieuw."
       },
       "pvqEmail": {
-        "title": "Reset password",
-        "subtitle": "We'll verify your identity using your security question.",
-        "emailLabel": "Admin email",
+        "title": "Wachtwoord herstellen",
+        "subtitle": "We controleren je identiteit met je beveiligingsvraag.",
+        "emailLabel": "E-mailadres beheerder",
         "emailPlaceholder": "admin@restaurant.com",
-        "submit": "Continue",
-        "checking": "Checking…",
-        "noQuestionConfigured": "No security question has been configured for this account."
+        "submit": "Verder",
+        "checking": "Controleren…",
+        "noQuestionConfigured": "Er is geen beveiligingsvraag ingesteld voor dit account."
       },
       "pvqAnswer": {
-        "title": "Security question",
-        "answerLabel": "Your answer",
-        "answerPlaceholder": "Answer (not case sensitive)",
-        "submit": "Verify Answer",
-        "verifying": "Verifying…",
-        "incorrectAnswer": "Incorrect answer. Please try again."
+        "title": "Beveiligingsvraag",
+        "answerLabel": "Je antwoord",
+        "answerPlaceholder": "Antwoord (hoofdletters maken niet uit)",
+        "submit": "Antwoord controleren",
+        "verifying": "Controleren…",
+        "incorrectAnswer": "Dat antwoord klopt niet. Probeer het opnieuw."
       },
       "reset": {
-        "title": "Set new password",
-        "subtitle": "This link expires in 15 minutes.",
-        "newPasswordLabel": "New password",
-        "newPasswordPlaceholder": "At least 6 characters",
-        "confirmPasswordLabel": "Confirm password",
-        "confirmPasswordPlaceholder": "Repeat password",
-        "submit": "Reset Password",
+        "title": "Nieuw wachtwoord instellen",
+        "subtitle": "Deze link verloopt na 15 minuten.",
+        "newPasswordLabel": "Nieuw wachtwoord",
+        "newPasswordPlaceholder": "Minstens 6 tekens",
+        "confirmPasswordLabel": "Bevestig wachtwoord",
+        "confirmPasswordPlaceholder": "Herhaal je wachtwoord",
+        "submit": "Wachtwoord opnieuw instellen",
         "resetting": "Resetting…"
       },
       "done": {
@@ -1378,40 +1378,40 @@
     },
     "settings": {
       "weekdays": {
-        "monday": "Monday",
-        "tuesday": "Tuesday",
-        "wednesday": "Wednesday",
-        "thursday": "Thursday",
-        "friday": "Friday",
-        "saturday": "Saturday",
-        "sunday": "Sunday",
-        "mon": "Mon",
-        "tue": "Tue",
-        "wed": "Wed",
-        "thu": "Thu",
-        "fri": "Fri",
-        "sat": "Sat",
-        "sun": "Sun"
+        "monday": "Maandag",
+        "tuesday": "Dinsdag",
+        "wednesday": "Woensdag",
+        "thursday": "Donderdag",
+        "friday": "Vrijdag",
+        "saturday": "Zaterdag",
+        "sunday": "Zondag",
+        "mon": "Ma",
+        "tue": "Di",
+        "wed": "Wo",
+        "thu": "Do",
+        "fri": "Vr",
+        "sat": "Za",
+        "sun": "Zo"
       },
       "openingHours": {
-        "title": "Opening Hours",
-        "subtitle": "{{count}} of 7 days open · {{mode}}",
-        "modeUniform": "Same every day",
-        "modeCustom": "Custom per day",
-        "opensLabel": "Opens",
-        "closesLabel": "Closes",
-        "openDaysLabel": "Open days",
-        "tapDayHint": "Tap a day to mark it open or closed.",
-        "copyHint": "Tap a day to mark it open or closed. Use the copy icon to apply one day's hours to the whole week.",
-        "closedLabel": "Closed",
-        "dayToggleLabel": "{{day}}: {{state}}. Tap to toggle.",
+        "title": "Openingstijden",
+        "subtitle": "{{count}} van de 7 dagen open · {{mode}}",
+        "modeUniform": "Iedere dag hetzelfde",
+        "modeCustom": "Per dag instellen",
+        "opensLabel": "Open vanaf",
+        "closesLabel": "Sluit om",
+        "openDaysLabel": "Open dagen",
+        "tapDayHint": "Tik op een dag om deze open of gesloten te zetten.",
+        "copyHint": "Tik op een dag om deze open of gesloten te zetten. Met het kopieerpictogram kun je de tijden op de hele week toepassen.",
+        "closedLabel": "Gesloten",
+        "dayToggleLabel": "{{day}}: {{state}}. Tik om te wisselen.",
         "dayStateOpen": "open",
-        "dayStateClosed": "closed",
-        "copyHoursLabel": "Copy {{day}}'s hours to every day",
-        "overnightHint": "A closing time at or before opening means the restaurant closes after midnight.",
-        "lastBookingLabel": "Last booking",
-        "lastBookingShortLabel": "Last",
-        "lastBookingUntilClose": "Until close",
+        "dayStateClosed": "gesloten",
+        "copyHoursLabel": "Kopieer de openingstijden van {{day}} naar alle dagen",
+        "overnightHint": "Een sluitingstijd vóór of op de openingstijd betekent dat het restaurant na middernacht sluit.",
+        "lastBookingLabel": "Laatste reservering",
+        "lastBookingShortLabel": "Laatste",
+        "lastBookingUntilClose": "Tot sluitingstijd",
         "lastBookingDayLabel": "Last booking time for {{day}}",
         "lastBookingHint": "Last booking is the latest start a guest can book online. Guests still see the full opening hours; only the slots offered stop earlier."
       },
@@ -2223,39 +2223,39 @@
     "sidebar": {
       "nav": {
         "sections": {
-          "manage": "Manage",
-          "configure": "Configure"
+          "manage": "Beheer",
+          "configure": "Instellingen"
         },
         "items": {
-          "overview": "Overview",
-          "bookings": "Bookings",
-          "tonight": "Tonight",
-          "locations": "Locations",
-          "notifications": "Notifications",
-          "activity": "Activity",
-          "brand": "Brand",
-          "emailPush": "Email & Push",
-          "users": "Users",
-          "apiKeys": "API Keys",
-          "nativeApp": "Native app",
+          "overview": "Overzicht",
+          "bookings": "Reserveringen",
+          "tonight": "Vandaag",
+          "locations": "Locaties",
+          "notifications": "Meldingen",
+          "activity": "Activiteiten",
+          "brand": "Huisstijl",
+          "emailPush": "E-mail en meldingen",
+          "users": "Gebruikers",
+          "apiKeys": "API-sleutels",
+          "nativeApp": "Mobiele app",
           "account": "Account",
-          "waitlist": "Waitlist",
-          "embed": "Website widget"
+          "waitlist": "Wachtlijst",
+          "embed": "Reserveringswidget"
         },
-        "unreadLabel_one": "{{label}}, {{count}} unread",
-        "unreadLabel_other": "{{label}}, {{count}} unread"
+        "unreadLabel_one": "{{label}}, {{count}} ongelezen",
+        "unreadLabel_other": "{{label}}, {{count}} ongelezen"
       },
-      "managingLocations_one": "Managing {{count}} location",
-      "managingLocations_other": "Managing {{count}} locations",
-      "adminPanel": "Admin Panel",
-      "backToSite": "Back to site",
+      "managingLocations_one": "Beheer van {{count}} locatie",
+      "managingLocations_other": "Beheer van {{count}} locaties",
+      "adminPanel": "Beheerpaneel",
+      "backToSite": "Terug naar de website",
       "themeToggle": {
-        "switchToLight": "Switch to light mode",
-        "switchToDark": "Switch to dark mode",
-        "lightMode": "Light mode",
-        "darkMode": "Dark mode"
+        "switchToLight": "Schakel naar lichte weergave",
+        "switchToDark": "Schakel naar donkere weergave",
+        "lightMode": "Lichte weergave",
+        "darkMode": "Donkere weergave"
       },
-      "logOut": "Log out"
+      "logOut": "Uitloggen"
     },
     "tonight": {
       "title": "Tonight",
