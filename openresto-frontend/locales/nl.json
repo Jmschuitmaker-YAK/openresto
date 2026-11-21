@@ -114,12 +114,12 @@
       "onlineMaxModalMessage": "Ben je met {{count}} gasten of meer? Neem even contact met ons op, dan kijken we samen wat mogelijk is."
     },
     "moveNotice": {
-      "body": "We have moved your booking at {{venue}}.\n\nPreviously: {{previous}}\nNow: {{next}}\n\nEverything else about the booking stays the same.{{referenceLine}}\n\nIf the new time does not work for you, reply to this email and we will sort it out.",
-      "greetingGeneric": "Hello,",
-      "greetingNamed": "Hi {{name}},",
-      "referenceLine": "\n\nYour booking reference is unchanged: {{ref}}.",
-      "subject": "Your booking at {{venue}} has moved",
-      "venueFallback": "the restaurant"
+      "body": "We hebben je reservering bij {{venue}} verplaatst.\n\nEerst: {{previous}}\nNu: {{next}}\n\nDe rest van je reservering blijft hetzelfde.{{referenceLine}}\n\nKomt het nieuwe tijdstip niet uit? Antwoord dan op deze e-mail, dan zoeken we samen een oplossing.",
+      "greetingGeneric": "Hallo,",
+      "greetingNamed": "Hoi {{name}},",
+      "referenceLine": "\n\nJe reserveringscode blijft hetzelfde: {{ref}}.",
+      "subject": "Je reservering bij {{venue}} is verplaatst",
+      "venueFallback": "het restaurant"
     },
     "popularTimes": {
       "availableTimesA11y": "Beschikbare tijden",
@@ -190,57 +190,57 @@
       "failed": "De reserveringspas maken is niet gelukt. Controleer je verbinding en probeer het opnieuw."
     },
     "waitlist": {
-      "joinCta": "Join the waitlist",
-      "intro": "We'll tell you when your table is ready.",
-      "partySizeLabel": "Party size",
-      "emailLabel": "Email (optional)",
+      "joinCta": "Op de wachtlijst",
+      "intro": "We laten je weten wanneer je tafel klaarstaat.",
+      "partySizeLabel": "Aantal gasten",
+      "emailLabel": "E-mailadres (niet verplicht)",
       "push": {
-        "offButton": "Notify me",
-        "onButton": "Notifications on",
-        "offHint": "Get a notification on this device when your table is ready.",
-        "onHint": "This device will be notified when your table is ready.",
-        "denied": "Notifications are turned off for this app. Allow them in your device settings to be notified."
+        "offButton": "Laat het me weten",
+        "onButton": "Meldingen aan",
+        "offHint": "Ontvang een melding op dit apparaat wanneer je tafel klaarstaat.",
+        "onHint": "Je krijgt een melding op dit apparaat wanneer je tafel klaarstaat.",
+        "denied": "Meldingen staan uit voor deze app. Zet ze aan bij de apparaatinstellingen als je een melding wilt ontvangen."
       },
-      "submit": "Join the waitlist",
-      "partiesWaiting_one": "1 party waiting",
-      "partiesWaiting_other": "{{count}} parties waiting",
-      "waitNow": "A table is free now",
-      "waitMinutes": "About {{minutes}} min wait",
-      "waitUnknown": "No table here seats a party that size",
-      "notAccepting": "The waitlist isn't open right now.",
-      "loadFailed": "Couldn't load the waitlist. Please try again.",
-      "joinAgain": "Join again",
-      "openTicket": "See it in My Bookings"
+      "submit": "Op de wachtlijst",
+      "partiesWaiting_one": "1 gezelschap wacht",
+      "partiesWaiting_other": "{{count}} gezelschappen wachten",
+      "waitNow": "Er is nu een tafel vrij",
+      "waitMinutes": "Ongeveer {{minutes}} minuten wachten",
+      "waitUnknown": "Er is hier geen tafel voor een gezelschap van deze grootte",
+      "notAccepting": "De wachtlijst is momenteel gesloten.",
+      "loadFailed": "De wachtlijst laden is niet gelukt. Probeer het opnieuw.",
+      "joinAgain": "Opnieuw aanmelden",
+      "openTicket": "Bekijk het onder Mijn reserveringen"
     },
     "waitlistStatus": {
-      "routeTitle": "Your place in line",
-      "ticket": "Ticket #{{number}}",
-      "ticketKey": "Ticket",
-      "waitKey": "Wait",
+      "routeTitle": "Je plek op de wachtlijst",
+      "ticket": "Nummer {{number}}",
+      "ticketKey": "Nummer",
+      "waitKey": "Wachttijd",
       "waitValue": "{{minutes}} min",
-      "waitNow": "Now",
-      "joinedKey": "Joined",
-      "waitingTitle": "You're on the list",
-      "partiesAhead_one": "1 party ahead of you",
-      "partiesAhead_other": "{{count}} parties ahead of you",
-      "next": "You're next",
-      "readyTitle": "Your table is ready",
-      "readyBody": "Please head to the host stand.",
-      "seatedTitle": "Enjoy your meal",
-      "leftTitle": "You've left the waitlist",
-      "expiredTitle": "This waitlist entry has expired",
-      "pushOn": "You'll get a notification when your table is ready.",
-      "leave": "Leave the Waitlist",
+      "waitNow": "Nu",
+      "joinedKey": "Aangemeld",
+      "waitingTitle": "Je staat op de wachtlijst",
+      "partiesAhead_one": "Nog 1 gezelschap voor je",
+      "partiesAhead_other": "Nog {{count}} gezelschappen voor je",
+      "next": "Je bent de volgende",
+      "readyTitle": "Je tafel staat klaar",
+      "readyBody": "Meld je even bij ons.",
+      "seatedTitle": "Eet smakelijk!",
+      "leftTitle": "Je bent van de wachtlijst af",
+      "expiredTitle": "Je aanmelding op de wachtlijst is verlopen",
+      "pushOn": "Je krijgt een melding wanneer je tafel klaarstaat.",
+      "leave": "Wachtlijst verlaten",
       "leaveModal": {
-        "title": "Leave the Waitlist",
-        "message": "Are you sure you want to leave the waitlist? You'll lose your place in line.",
-        "confirm": "Leave Waitlist",
-        "confirming": "Leaving…",
-        "keep": "Stay in Line"
+        "title": "Wachtlijst verlaten",
+        "message": "Weet je zeker dat je de wachtlijst wilt verlaten? Je verliest dan je plek.",
+        "confirm": "Wachtlijst verlaten",
+        "confirming": "Afmelden…",
+        "keep": "Op de wachtlijst blijven"
       },
-      "leaveFailed": "Couldn't leave the waitlist. Please try again.",
-      "notFound": "We couldn't find that waitlist entry.",
-      "loadFailed": "Couldn't refresh your place in line."
+      "leaveFailed": "Afmelden is niet gelukt. Probeer het opnieuw.",
+      "notFound": "We kunnen je aanmelding niet vinden.",
+      "loadFailed": "We konden je plek op de wachtlijst niet bijwerken."
     },
     "embed": {
       "bookAnother": "Nog een tafel reserveren",
@@ -266,7 +266,7 @@
     },
     "footer": {
       "adminLinkText": "Beheer",
-      "copyrightFallback": "© {{year}} {{appName}}. All rights reserved.",
+      "copyrightFallback": "© {{year}} {{appName}}. Alle rechten voorbehouden.",
       "privacyPolicy": "Privacyverklaring",
       "restaurantAdminLabel": "Restaurantbeheer"
     },
@@ -324,7 +324,7 @@
       "helpBody": "Bij Locaties vind je openingstijden, menukaarten en beschikbare tijden. Kies een tijd om te reserveren. Onder Mijn reserveringen kun je met je reserveringscode een bestaande reservering terugvinden.",
       "language": "Taal",
       "moreOptions": "Meer opties",
-      "openMenu": "Open menu",
+      "openMenu": "Open het menu",
       "switchToDarkMode": "Schakel naar donkere weergave",
       "switchToLightMode": "Schakel naar lichte weergave",
       "viewKeyboardShortcuts": "Bekijk sneltoetsen",
@@ -594,9 +594,9 @@
       "openInAppleMaps": "Open in Apple Kaarten",
       "openInGoogleMaps": "Open in Google Maps",
       "openTill": "Open tot {{time}}",
-      "opensInHours": "Opens in {{hours}}h",
-      "opensInHoursMinutes": "Opens in {{hours}}h {{minutes}}m",
-      "opensInMinutes": "Opens in {{minutes}}m",
+      "opensInHours": "Opent over {{hours}} uur",
+      "opensInHoursMinutes": "Opent over {{hours}} uur en {{minutes}} minuten",
+      "opensInMinutes": "Opent over {{minutes}} minuten",
       "seeDetails": "Bekijk details",
       "seeDetailsFor": "Bekijk details van {{name}}",
       "viewDetailsAndBook": "{{name}}, bekijk details en reserveer"
@@ -677,13 +677,13 @@
       "dateWalkIn": "Alleen binnenlopen"
     },
     "seatingMap": {
-      "combinableHeading": "Tables we can combine",
-      "heading": "Seating & tables",
-      "seatsCount_one": "{{count}} seat",
-      "seatsCount_other": "{{count}} seats",
-      "seatsUpTo": "Seats up to {{count}} pushed together",
-      "tableFallbackName": "Table {{id}}",
-      "walkInOnly": "Walk-ins only"
+      "combinableHeading": "Tafels die we kunnen samenvoegen",
+      "heading": "Zitplaatsen en tafels",
+      "seatsCount_one": "{{count}} zitplaats",
+      "seatsCount_other": "{{count}} zitplaatsen",
+      "seatsUpTo": "Samen ruimte voor maximaal {{count}} personen",
+      "tableFallbackName": "Tafel {{id}}",
+      "walkInOnly": "Alleen zonder reservering"
     },
     "slotRow": {
       "bookAt": "Reserveer bij {{name}} om {{time}}",
@@ -692,8 +692,8 @@
       "showAllTimesFor": "Bekijk alle tijden voor {{name}}"
     },
     "tags": {
-      "moreTagsLabel_one": "{{count}} more tag: {{list}}",
-      "moreTagsLabel_other": "{{count}} more tags: {{list}}"
+      "moreTagsLabel_one": "{{count}} extra kenmerk: {{list}}",
+      "moreTagsLabel_other": "{{count}} extra kenmerken: {{list}}"
     }
   },
   "admin": {
