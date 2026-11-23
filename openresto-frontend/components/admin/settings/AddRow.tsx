@@ -61,7 +61,7 @@ export function AddRow({
           <View style={styles.extraField}>
             {extraOptions ? (
               <Select
-                selectedValue={extra || undefined}
+                selectedValue={extraOptions.find((option) => String(option.value) === extra)?.value}
                 onSelect={(v) => setExtra(String(v))}
                 options={extraOptions}
                 placeholder={extraPlaceholder}
