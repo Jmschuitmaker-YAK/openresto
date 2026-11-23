@@ -23,6 +23,7 @@ const APR_16_LABEL = new Date("2026-04-16T12:00:00").toLocaleDateString(undefine
   weekday: "short",
   month: "short",
   day: "numeric",
+  year: "numeric",
 });
 
 // Local YYYY-MM-DD (matches how the component computes date strings).
