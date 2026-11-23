@@ -1,11 +1,12 @@
 import { getActiveLocale } from "@/utils/locale";
 
-/** Formats a Date as a short label, e.g. "Sat, Apr 18". */
+/** Formats a Date with an unambiguous year, e.g. "Sat, Apr 18, 2026". */
 export function fmtDate(d: Date): string {
   return d.toLocaleDateString(getActiveLocale(), {
     weekday: "short",
     month: "short",
     day: "numeric",
+    year: "numeric",
   });
 }
 

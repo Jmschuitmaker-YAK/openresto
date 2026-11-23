@@ -224,6 +224,7 @@ describe("BookingDrawer", () => {
       weekday: "short",
       month: "short",
       day: "numeric",
+      year: "numeric",
     });
     renderWithProviders(<BookingDrawer {...baseProps} date="2026-04-17" />);
     expect(screen.getByText(`2 guests · ${expectedDay} · 19:30`)).toBeTruthy();

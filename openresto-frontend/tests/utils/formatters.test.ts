@@ -28,6 +28,7 @@ describe("formatters - fmtDate", () => {
     const result = fmtDate(d);
     expect(result).toContain("18");
     expect(result).toMatch(/apr/i);
+    expect(result).toContain("2026");
   });
 
   it("formats a date under fr", () => {
