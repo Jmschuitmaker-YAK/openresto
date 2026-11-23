@@ -36,7 +36,7 @@ import ScreenHeading from "@/components/layout/ScreenHeading";
 import LocationListItem from "@/components/restaurant/LocationListItem";
 import LocationsFilterBar, { type MealWindow } from "@/components/restaurant/LocationsFilterBar";
 import BookingDrawer from "@/components/booking/BookingDrawer";
-import { suggestTime } from "@/components/booking/bookingSuggestions";
+import { suggestNextBooking } from "@/components/booking/bookingSuggestions";
 import Button from "@/components/common/Button";
 import { hexToRgb } from "@/utils/colors";
 import { theme } from "@/theme/theme";
@@ -196,10 +196,12 @@ export default function LocationsScreen({
     if (restaurants.length !== 1) return;
     const restaurant = restaurants[0];
     if (restaurant.walkInOnly) return;
+    const next = suggestNextBooking(restaurant, restaurant.timezone || "UTC");
     didAutoOpenBooking.current = true;
+    if (next && !initialTime) setDateOverride(next.date);
     setDrawer({
       restaurant,
-      time: initialTime ?? suggestTime(restaurant, restaurant.timezone || "UTC"),
+      time: initialTime ?? next?.time ?? "",
     });
   }, [loading, loadFailed, restaurants, highlightId, initialWaitlist, initialTime]);
 
