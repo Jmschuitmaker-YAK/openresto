@@ -191,7 +191,8 @@ export default function LocationsScreen({
   // drawer doesn't reopen it after a refresh or a settings change.
   const didAutoOpenBooking = useRef(false);
   useEffect(() => {
-    if (loading || loadFailed || didAutoOpenBooking.current || highlightId || initialWaitlist) return;
+    if (loading || loadFailed || didAutoOpenBooking.current || highlightId || initialWaitlist)
+      return;
     if (restaurants.length !== 1) return;
     const restaurant = restaurants[0];
     if (restaurant.walkInOnly) return;
