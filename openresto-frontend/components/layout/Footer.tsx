@@ -50,9 +50,9 @@ export default function Footer() {
       <View testID="footer-inner" style={[styles.inner, isMobile && styles.innerMobile]}>
         <ThemedText style={[styles.copyright, { color: colors.muted }]}>{copyright}</ThemedText>
 
-        <View testID="footer-links" style={styles.right}>
+        <View testID="footer-links" style={[styles.right, isMobile && styles.rightMobile]}>
           {socialLinks.length > 0 && (
-            <View style={styles.social}>
+            <View testID="footer-social" style={[styles.social, isMobile && styles.socialMobile]}>
               {socialLinks.map((link) => (
                 <Pressable
                   key={link.id}

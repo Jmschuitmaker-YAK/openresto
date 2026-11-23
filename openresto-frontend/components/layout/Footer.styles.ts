@@ -32,12 +32,25 @@ export const styles = StyleSheet.create({
   right: {
     flexDirection: "row",
     alignItems: "center",
+    flexWrap: "wrap",
+    flexShrink: 1,
+    maxWidth: "100%",
     gap: theme.spacing.lg,
+  },
+  rightMobile: {
+    justifyContent: "center",
+    width: "100%",
   },
   social: {
     flexDirection: "row",
     alignItems: "center",
+    flexWrap: "wrap",
+    flexShrink: 1,
+    maxWidth: "100%",
     gap: theme.spacing.md,
+  },
+  socialMobile: {
+    justifyContent: "center",
   },
   socialBtn: {
     flexDirection: "row",
