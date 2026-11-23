@@ -146,7 +146,11 @@ export function BookingFormDrawerLayout({
                       ? t("booking.drawer.sectionDisclosureLabel")
                       : t("booking.drawer.seatingDisclosureLabel")}
                   </ThemedText>
-                  <Icon name={seatingOpen ? "chevron-up" : "chevron-down"} size="md" color={accent} />
+                  <Icon
+                    name={seatingOpen ? "chevron-up" : "chevron-down"}
+                    size="md"
+                    color={accent}
+                  />
                 </>
               );
             }}
