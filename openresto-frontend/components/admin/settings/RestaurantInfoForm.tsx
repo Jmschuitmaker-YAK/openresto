@@ -1108,21 +1108,21 @@ export function RestaurantInfoForm({
                   </ThemedText>
                 </View>
                 {guestsSelectSeating && (
-                <View style={styles.gridField}>
-                  <ThemedText style={[sharedStyles.fieldLabel, { color: mutedColor }]}>
-                    {t("admin.settings.restaurantInfo.guestsChooseLabel")}
-                  </ThemedText>
-                  <Select
-                    accessibilityLabel={t("admin.settings.restaurantInfo.guestsChooseLabel")}
-                    options={getGuestsChooseOptions(t)}
-                    selectedValue={guestsChooseTable ? GUESTS_CHOOSE_TABLE : GUESTS_CHOOSE_SECTION}
-                    onSelect={(value) => setGuestsChooseTable(value === GUESTS_CHOOSE_TABLE)}
-                  />
-                  <ThemedText style={[styles.fieldHint, { color: mutedColor }]}>
-                    {t("admin.settings.restaurantInfo.guestsChooseHint")}
-                  </ThemedText>
-                </View>
-                )
+                  <View style={styles.gridField}>
+                    <ThemedText style={[sharedStyles.fieldLabel, { color: mutedColor }]}>
+                      {t("admin.settings.restaurantInfo.guestsChooseLabel")}
+                    </ThemedText>
+                    <Select
+                      accessibilityLabel={t("admin.settings.restaurantInfo.guestsChooseLabel")}
+                      options={getGuestsChooseOptions(t)}
+                      selectedValue={guestsChooseTable ? GUESTS_CHOOSE_TABLE : GUESTS_CHOOSE_SECTION}
+                      onSelect={(value) => setGuestsChooseTable(value === GUESTS_CHOOSE_TABLE)}
+                    />
+                    <ThemedText style={[styles.fieldHint, { color: mutedColor }]}>
+                      {t("admin.settings.restaurantInfo.guestsChooseHint")}
+                    </ThemedText>
+                  </View>
+                )}
                 <View style={styles.gridField}>
                   <ThemedText style={[sharedStyles.fieldLabel, { color: mutedColor }]}>
                     {t("admin.settings.restaurantInfo.refFormatLabel")}
