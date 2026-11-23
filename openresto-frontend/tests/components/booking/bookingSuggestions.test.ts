@@ -1,8 +1,4 @@
-import {
-  latestStartMinutes,
-  suggestDate,
-  suggestNextBooking,
-} from "@/components/booking/bookingSuggestions";
+import { latestStartMinutes, suggestDate, suggestNextBooking } from "@/components/booking/bookingSuggestions";
 import { getNowInTimezone } from "@/utils/date";
 
 jest.mock("@/utils/date", () => ({
@@ -123,9 +119,10 @@ describe("suggestNextBooking", () => {
       hours: 20,
       minutes: 0,
     });
-    expect(
-      suggestNextBooking({ ...weekend, walkInDays: "5" }, "Europe/Amsterdam")
-    ).toEqual({ date: "2026-11-28", time: "11:00" });
+    expect(suggestNextBooking({ ...weekend, walkInDays: "5" }, "Europe/Amsterdam")).toEqual({
+      date: "2026-11-28",
+      time: "11:00",
+    });
   });
 
   it("honours the minimum notice and slot interval", () => {
@@ -148,6 +145,8 @@ describe("suggestNextBooking", () => {
       hours: 20,
       minutes: 0,
     });
-    expect(suggestNextBooking({ ...weekend, maxBookingDaysAhead: 1 }, "Europe/Amsterdam")).toBeNull();
+    expect(
+      suggestNextBooking({ ...weekend, maxBookingDaysAhead: 1 }, "Europe/Amsterdam")
+    ).toBeNull();
   });
 });
