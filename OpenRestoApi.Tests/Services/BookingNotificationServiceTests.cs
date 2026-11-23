@@ -55,10 +55,19 @@ public class BookingNotificationServiceTests : IDisposable
             new AdminPushSubscriptionRepository(_db),
             new TableRepository(_db),
             new BookingRepository(_db),
+            CreateRestaurantRepository(),
             Options.Create(vapid),
             _webPushClientMock.Object,
             new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> { ["Locale:Default"] = locale }).Build(),
             NullLogger<BookingNotificationService>.Instance);
+    }
+
+    private IRestaurantRepository CreateRestaurantRepository()
+    {
+        var repository = new Mock<IRestaurantRepository>();
+        repository.Setup(r => r.GetByIdAsync(It.IsAny<int>()))
+            .ReturnsAsync((int id) => _db.Restaurants.Find(id));
+        return repository.Object;
     }
 
     private async Task<AdminPushSubscription> SeedPushSubscriptionAsync(string endpoint = "https://push.example/sub1")
@@ -119,6 +128,58 @@ public class BookingNotificationServiceTests : IDisposable
         Assert.Contains("2 gasten", payload);
         Assert.Contains("11:00", payload);
         Assert.DoesNotContain("AM", payload);
+    }
+
+    [Theory]
+    [InlineData(2026, 1, 15, 11, 0, "12:00")]
+    [InlineData(2026, 7, 15, 10, 0, "12:00")]
+    public async Task NotifyBookingCreatedAsync_UsesRestaurantTimeZone_InWinterAndSummer(
+        int year, int month, int day, int utcHour, int utcMinute, string expectedTime)
+    {
+        Restaurant restaurant = await SeedRestaurantAsync();
+        restaurant.Timezone = "Europe/Amsterdam";
+        await _db.SaveChangesAsync();
+        await SeedPushSubscriptionAsync();
+        var booking = MakeBooking();
+        booking.Date = new DateTime(year, month, day, utcHour, utcMinute, 0, DateTimeKind.Utc);
+        _db.Bookings.Add(booking);
+        await _db.SaveChangesAsync();
+
+        string? payload = null;
+        _webPushClientMock
+            .Setup(c => c.SendNotificationAsync(It.IsAny<PushSubscription>(), It.IsAny<string>(), It.IsAny<VapidDetails>(), It.IsAny<CancellationToken>()))
+            .Callback<PushSubscription, string, VapidDetails, CancellationToken>((_, json, _, _) => payload = json)
+            .Returns(Task.CompletedTask);
+
+        await CreateService(ConfiguredVapid(), "nl").NotifyBookingCreatedAsync(booking, "Eilanderij");
+
+        Assert.NotNull(payload);
+        Assert.Contains(expectedTime, payload);
+        Assert.Contains("Nieuwe reservering", payload);
+    }
+
+    [Fact]
+    public async Task NotifyBookingCancelledAsync_UsesRestaurantTimeZone()
+    {
+        Restaurant restaurant = await SeedRestaurantAsync();
+        restaurant.Timezone = "Europe/Amsterdam";
+        await _db.SaveChangesAsync();
+        await SeedPushSubscriptionAsync();
+        var booking = MakeBooking();
+        booking.Date = new DateTime(2026, 11, 24, 11, 0, 0, DateTimeKind.Utc);
+        _db.Bookings.Add(booking);
+        await _db.SaveChangesAsync();
+        string? payload = null;
+        _webPushClientMock
+            .Setup(c => c.SendNotificationAsync(It.IsAny<PushSubscription>(), It.IsAny<string>(), It.IsAny<VapidDetails>(), It.IsAny<CancellationToken>()))
+            .Callback<PushSubscription, string, VapidDetails, CancellationToken>((_, json, _, _) => payload = json)
+            .Returns(Task.CompletedTask);
+
+        await CreateService(ConfiguredVapid(), "nl").NotifyBookingCancelledAsync(booking, "Eilanderij");
+
+        Assert.NotNull(payload);
+        Assert.Contains("12:00", payload);
+        Assert.Contains("Reservering geannuleerd", payload);
     }
 
     // ── NotifyBookingCreatedAsync ─────────────────────────────────────────────
@@ -456,6 +517,7 @@ public class BookingNotificationServiceTests : IDisposable
             new AdminPushSubscriptionRepository(_db),
             new TableRepository(_db),
             new BookingRepository(_db),
+            CreateRestaurantRepository(),
             Options.Create(new VapidSettings()),
             _webPushClientMock.Object,
             new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> { ["Locale:Default"] = "en" }).Build(),
