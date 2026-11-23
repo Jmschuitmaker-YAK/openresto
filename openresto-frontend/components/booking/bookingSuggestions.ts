@@ -1,10 +1,5 @@
 import { getNowInTimezone } from "@/utils/date";
-import {
-  getHoursForDate,
-  getLastBookingForDate,
-  isOpenOnDate,
-  HoursSource,
-} from "@/utils/openingHours";
+import { getHoursForDate, getLastBookingForDate, isOpenOnDate, HoursSource } from "@/utils/openingHours";
 import { isWalkInOnlyOnDate, type WalkInSource } from "@/utils/walkIn";
 
 /* istanbul ignore next */
@@ -82,5 +77,8 @@ export function suggestDate(restaurant: HoursSource, timezone: string): string {
 
 /** Suggested start time, aligned with the suggested date rather than today's service hours. */
 export function suggestTime(restaurant: HoursSource, timezone: string): string {
-  return suggestNextBooking(restaurant, timezone)?.time ?? getHoursForDate(restaurant, suggestDate(restaurant, timezone)).open;
+  return (
+    suggestNextBooking(restaurant, timezone)?.time ??
+    getHoursForDate(restaurant, suggestDate(restaurant, timezone)).open
+  );
 }
