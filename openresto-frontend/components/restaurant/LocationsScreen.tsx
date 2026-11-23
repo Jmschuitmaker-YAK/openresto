@@ -315,7 +315,7 @@ export default function LocationsScreen({
           meal={meal}
           today={today}
           compact={isCompact}
-          defaultExpanded={highlightId === r.id}
+          defaultExpanded={restaurants.length === 1 || highlightId === r.id}
           registerRef={registerRef}
           onExpand={handleExpand}
           onBook={handleBook}
@@ -338,7 +338,7 @@ export default function LocationsScreen({
   const heading = (
     <ScreenHeading
       standalone
-      title={t("restaurant.locationsScreen.title")}
+      title={restaurants.length === 1 ? restaurants[0].name : t("restaurant.locationsScreen.title")}
       subtitle={t("restaurant.locationsScreen.subtitle")}
     />
   );
