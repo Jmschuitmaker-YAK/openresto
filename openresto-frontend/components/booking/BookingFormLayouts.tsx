@@ -157,7 +157,7 @@ export function BookingFormDrawerLayout({
             </>
           )}
         </View>
-        )}
+      )}
 
       {restaurant.guestsSelectSeating !== false && divider}
       {parts.holdBanner}
