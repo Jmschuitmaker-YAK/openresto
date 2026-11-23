@@ -175,6 +175,40 @@ public class EmailTemplateServiceTests
     }
 
     [Fact]
+    public void BuildConfirmationEmail_HidesAutomaticSeating_WhenGuestSelectionDisabled()
+    {
+        var restaurant = MakeRestaurant();
+        restaurant.GuestsSelectSeating = false;
+        var booking = MakeBooking(sectionName: "Serre", tableName: "Tafel 4");
+
+        string html = _svc.BuildConfirmationEmail(booking, restaurant, _defaultBrand, DefaultWebsiteUrl, "nl");
+
+        Assert.DoesNotContain(">Gedeelte<", html);
+        Assert.DoesNotContain(">Tafel<", html);
+        Assert.DoesNotContain("Serre", html);
+        Assert.DoesNotContain("Tafel 4", html);
+
+        // The staff alert still needs the internal assignment.
+        string alert = _svc.BuildRestaurantAlertEmail(
+            booking, restaurant, _defaultBrand, DefaultWebsiteUrl, RestaurantAlertKind.Created, "nl");
+        Assert.Contains("Serre", alert);
+        Assert.Contains("Tafel 4", alert);
+    }
+
+    [Fact]
+    public void BuildConfirmationEmail_ShowsSeating_WhenGuestSelectionEnabled()
+    {
+        var restaurant = MakeRestaurant();
+        restaurant.GuestsSelectSeating = true;
+        var booking = MakeBooking(sectionName: "Patio", tableName: "P3");
+
+        string html = _svc.BuildConfirmationEmail(booking, restaurant, _defaultBrand, DefaultWebsiteUrl);
+
+        Assert.Contains("Patio", html);
+        Assert.Contains("P3", html);
+    }
+
+    [Fact]
     public void BuildConfirmationEmail_RendersSpecialRequests_WhenPresent()
     {
         var restaurant = MakeRestaurant();
