@@ -29,9 +29,9 @@ describe("BookRedirect", () => {
     expect(capturedHref).toBe("/(user)/locations/42");
   });
 
-  it("redirects to / when restaurantId param is absent", () => {
+  it("redirects to /locations when restaurantId param is absent", () => {
     (useLocalSearchParams as jest.Mock).mockReturnValue({});
     render(<BookRedirect />);
-    expect(capturedHref).toBe("/");
+    expect(capturedHref).toBe("/locations");
   });
 });
