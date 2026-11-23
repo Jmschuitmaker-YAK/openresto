@@ -167,7 +167,7 @@
       "dayBodyWithDays": "Op {{days}} kun je hier niet online reserveren. Kies een andere dag of kom gewoon langs.",
       "dayTitle": "Op deze dag kun je alleen binnenlopen",
       "daysBanner": "Op {{days}} kun je alleen binnenlopen, niet online reserveren.",
-      "locationBody": "Hier kun je niet online reserveren. Kom tijdens openingstijden gerust langs; wie het eerst komt, heeft als eerste plek.",
+      "locationBody": "Online reserveren is hier niet mogelijk. Kom tijdens openingstijden gerust langs!",
       "locationTitle": "Je kunt gewoon binnenlopen"
     },
     "reminders": {
@@ -639,7 +639,7 @@
       "hideDetailsFor": "Verberg details van {{name}}",
       "hoursRange": "{{open}} – {{close}} {{day}}",
       "menuLabel": "Menukaart",
-      "noReservationsFirstCome": "Reserveren is niet nodig; wie het eerst komt, heeft als eerste plek",
+      "noReservationsFirstCome": "Reserveren hoeft niet, maar is wel zo handig. Dan weet je zeker dat er een plekje voor je is!",
       "showDetails": "Bekijk details",
       "showDetailsFor": "Bekijk details van {{name}}",
       "today": "vandaag",
