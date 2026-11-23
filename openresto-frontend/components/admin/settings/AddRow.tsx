@@ -31,6 +31,7 @@ export function AddRow({
   const [name, setName] = useState("");
   const [extra, setExtra] = useState("");
   const [saving, setSaving] = useState(false);
+  const selectedExtraOption = extraOptions?.find((option) => String(option.value) === extra);
 
   // Collapsed — the standing "add" CTA for the list it heads. Left-aligned so it sits flush with
   // the rows it appends to, matching every other create CTA in the admin (footer links,
@@ -61,9 +62,7 @@ export function AddRow({
           <View style={styles.extraField}>
             {extraOptions ? (
               <Select
-                selectedValue={
-                  extraOptions.find((option) => String(option.value) === extra)?.value
-                }
+                selectedValue={selectedExtraOption?.value}
                 onSelect={(v) => setExtra(String(v))}
                 options={extraOptions}
                 placeholder={extraPlaceholder}
