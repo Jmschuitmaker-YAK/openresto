@@ -1,4 +1,8 @@
-import { latestStartMinutes, suggestDate, suggestNextBooking } from "@/components/booking/bookingSuggestions";
+import {
+  latestStartMinutes,
+  suggestDate,
+  suggestNextBooking,
+} from "@/components/booking/bookingSuggestions";
 import { getNowInTimezone } from "@/utils/date";
 
 jest.mock("@/utils/date", () => ({
