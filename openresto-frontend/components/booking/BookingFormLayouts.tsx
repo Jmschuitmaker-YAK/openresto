@@ -145,7 +145,11 @@ export function BookingFormDrawerLayout({
                       ? t("booking.drawer.sectionDisclosureLabel")
                       : t("booking.drawer.seatingDisclosureLabel")}
                   </ThemedText>
-                  <Icon name={seatingOpen ? "chevron-up" : "chevron-down"} size="md" color={accent} />
+                  <Icon
+                    name={seatingOpen ? "chevron-up" : "chevron-down"}
+                    size="md"
+                    color={accent}
+                  />
                 </>
               );
             }}
@@ -216,13 +220,17 @@ export function BookingFormInlineLayout({
 
       <View testID="booking-field-row" style={rowStyle}>
         <View style={half}>{parts.timePickerField()}</View>
-        {restaurant.guestsSelectSeating !== false && <View style={half}>{parts.sectionField}</View>}
+        {restaurant.guestsSelectSeating !== false && (
+          <View style={half}>{parts.sectionField}</View>
+        )}
       </View>
 
       {parts.timezoneHint}
 
       <View testID="booking-field-row" style={rowStyle}>
-        {restaurant.guestsSelectSeating !== false && <View style={half}>{parts.tableField}</View>}
+        {restaurant.guestsSelectSeating !== false && (
+          <View style={half}>{parts.tableField}</View>
+        )}
         <View style={half}>{parts.nameField}</View>
       </View>
 
