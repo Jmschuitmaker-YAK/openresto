@@ -52,7 +52,10 @@ describe("AddRow", () => {
       <AddRow
         label="Add Table"
         extraPlaceholder="Seats"
-        extraOptions={[{ label: "2 seats", value: 2 }, { label: "4 seats", value: 4 }]}
+        extraOptions={[
+          { label: "2 seats", value: 2 },
+          { label: "4 seats", value: 4 },
+        ]}
         onAdd={onAdd}
       />
     );
