@@ -18,6 +18,7 @@ public sealed class BookingNotificationService(
     IAdminPushSubscriptionRepository pushSubscriptionRepository,
     ITableRepository tableRepository,
     IBookingRepository bookingRepository,
+    IRestaurantRepository restaurantRepository,
     IOptions<VapidSettings> vapidOptions,
     IWebPushClient webPushClient,
     IConfiguration configuration,
@@ -28,6 +29,7 @@ public sealed class BookingNotificationService(
     private readonly IAdminPushSubscriptionRepository _pushSubscriptionRepository = pushSubscriptionRepository;
     private readonly ITableRepository _tableRepository = tableRepository;
     private readonly IBookingRepository _bookingRepository = bookingRepository;
+    private readonly IRestaurantRepository _restaurantRepository = restaurantRepository;
     private readonly VapidSettings _vapid = vapidOptions.Value;
     private readonly IWebPushClient _webPushClient = webPushClient;
     private readonly string _pushLocale = configuration["Locale:Default"]?.Equals("nl", StringComparison.OrdinalIgnoreCase) == true ? "nl" : "en";
@@ -65,7 +67,8 @@ public sealed class BookingNotificationService(
         await _notificationRepository.AddAsync(notification);
         _log.LogInformation("[Notif] BookingCreated saved id={Id}", notification.Id);
 
-        string localTime = FormatUtcAsLocalTime(booking.Date, _pushLocale);
+        Restaurant? restaurant = await _restaurantRepository.GetByIdAsync(booking.RestaurantId);
+        string localTime = FormatUtcAsLocalTime(booking.Date, restaurant?.Timezone, _pushLocale);
         await SendPushAsync(
             booking.RestaurantId,
             notification.Id,
@@ -102,7 +105,8 @@ public sealed class BookingNotificationService(
         await _notificationRepository.AddAsync(notification);
         _log.LogInformation("[Notif] BookingCancelled saved id={Id}", notification.Id);
 
-        string localTime = FormatUtcAsLocalTime(booking.Date, _pushLocale);
+        Restaurant? restaurant = await _restaurantRepository.GetByIdAsync(booking.RestaurantId);
+        string localTime = FormatUtcAsLocalTime(booking.Date, restaurant?.Timezone, _pushLocale);
         await SendPushAsync(
             booking.RestaurantId,
             notification.Id,
@@ -283,8 +287,11 @@ public sealed class BookingNotificationService(
     private static string GuestCountLabel(int seats, string locale) =>
         locale == "nl" ? (seats == 1 ? "gast" : "gasten") : (seats == 1 ? "guest" : "guests");
 
-    private static string FormatUtcAsLocalTime(DateTime utc, string locale) =>
-        locale == "nl"
-            ? utc.ToString("ddd d MMM 'om' HH:mm", CultureInfo.GetCultureInfo("nl-NL"))
-            : utc.ToString("ddd d MMM 'at' h:mm tt", CultureInfo.InvariantCulture);
+    private static string FormatUtcAsLocalTime(DateTime utc, string? timezone, string locale)
+    {
+        DateTime local = TimeZoneHelper.ConvertUtcToLocal(utc, timezone ?? "UTC");
+        return locale == "nl"
+            ? local.ToString("ddd d MMM 'om' HH:mm", CultureInfo.GetCultureInfo("nl-NL"))
+            : local.ToString("ddd d MMM 'at' h:mm tt", CultureInfo.InvariantCulture);
+    }
 }
