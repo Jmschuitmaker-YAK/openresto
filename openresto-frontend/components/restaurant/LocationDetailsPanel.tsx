@@ -135,13 +135,15 @@ export function LocationDetailsPanel({
 
       {walkInLocation && <WalkInNotice scope="location" onJoinWaitlist={onJoinWaitlist} />}
 
-      <LocationSeatingMap
-        restaurant={restaurant}
-        isDark={isDark}
-        borderColor={borderColor}
-        mutedColor={mutedColor}
-        primaryColor={primaryColor}
-      />
+      {restaurant.guestsSelectSeating !== false && (
+        <LocationSeatingMap
+          restaurant={restaurant}
+          isDark={isDark}
+          borderColor={borderColor}
+          mutedColor={mutedColor}
+          primaryColor={primaryColor}
+        />
+      )}
     </View>
   );
 }
