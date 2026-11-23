@@ -9,6 +9,7 @@ import LocationsScreen, {
   splitFits,
 } from "@/components/restaurant/LocationsScreen";
 import { isMobileWidth } from "@/constants/breakpoints";
+import { suggestNextBooking } from "@/components/booking/bookingSuggestions";
 import { fetchRestaurants } from "@/api/restaurants";
 import { scrollIntoView } from "@/utils/scrollIntoView";
 import { renderWithProviders } from "@/tests/helpers/renderWithProviders";
@@ -276,6 +277,9 @@ describe("LocationsScreen", () => {
     await waitFor(() => expect(screen.getByTestId("mock-drawer")).toBeTruthy());
     expect(screen.getByTestId("drawer-restaurant").props.children).toBe("Downtown Bistro");
     expect(screen.getByTestId("drawer-mode").props.children).toBe("book");
+    const next = suggestNextBooking(mockRestaurants[0], mockRestaurants[0].timezone);
+    expect(screen.getByTestId("drawer-date").props.children).toBe(next?.date);
+    expect(screen.getByTestId("drawer-time").props.children).toBe(next?.time);
 
     // Closing the form should return to the restaurant details, not reopen it.
     fireEvent.press(screen.getByTestId("drawer-close"));
