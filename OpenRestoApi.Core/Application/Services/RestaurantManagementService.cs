@@ -319,7 +319,7 @@ public class RestaurantManagementService(
             MaxTableOversizeSeats = r.MaxTableOversizeSeats,
             MaxCoversPerSlot = r.MaxCoversPerSlot,
             GuestsChooseTable = r.GuestsChooseTable,
-            GuestsSelectSeating = r.GuestsSelectSeating,
+        GuestsSelectSeating = r.GuestsSelectSeating,
             BookingRefFormat = r.BookingRefFormat.ToString(),
             DateExceptions = DateExceptionsHelper.ToDtos(r),
             MaxBookingDaysAhead = r.MaxBookingDaysAhead,
