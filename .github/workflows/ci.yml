@@ -71,6 +71,13 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Print exact Prettier output for booking suggestions test
+        run: |
+          echo '===PRETTIER_START==='
+          npx prettier tests/components/booking/bookingSuggestions.test.ts | base64 -w0
+          echo
+          echo '===PRETTIER_END==='
+
       - name: Run oxlint
         run: npm run lint
 
