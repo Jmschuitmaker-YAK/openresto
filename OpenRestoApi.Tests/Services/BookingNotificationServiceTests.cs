@@ -1,5 +1,6 @@
 using System.Net;
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
@@ -46,7 +47,7 @@ public class BookingNotificationServiceTests : IDisposable
         PrivateKey = "PRIVATEKEY",
     };
 
-    private BookingNotificationService CreateService(VapidSettings? vapid = null)
+    private BookingNotificationService CreateService(VapidSettings? vapid = null, string locale = "en")
     {
         vapid ??= new VapidSettings();
         return new BookingNotificationService(
@@ -56,6 +57,7 @@ public class BookingNotificationServiceTests : IDisposable
             new BookingRepository(_db),
             Options.Create(vapid),
             _webPushClientMock.Object,
+            new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> { ["Locale:Default"] = locale }).Build(),
             NullLogger<BookingNotificationService>.Instance);
     }
 
@@ -94,6 +96,30 @@ public class BookingNotificationServiceTests : IDisposable
         Seats = 2,
         Date = DateTime.UtcNow.AddDays(1),
     };
+
+    [Fact]
+    public async Task NotifyBookingCreatedAsync_DutchPush_UsesDutchWordsAnd24HourClock()
+    {
+        await SeedRestaurantAsync();
+        await SeedPushSubscriptionAsync();
+        var booking = MakeBooking();
+        booking.Date = new DateTime(2026, 11, 24, 11, 0, 0, DateTimeKind.Utc);
+        _db.Bookings.Add(booking);
+        await _db.SaveChangesAsync();
+        string? payload = null;
+        _webPushClientMock
+            .Setup(c => c.SendNotificationAsync(It.IsAny<PushSubscription>(), It.IsAny<string>(), It.IsAny<VapidDetails>(), It.IsAny<CancellationToken>()))
+            .Callback<PushSubscription, string, VapidDetails, CancellationToken>((_, json, _, _) => payload = json)
+            .Returns(Task.CompletedTask);
+
+        await CreateService(ConfiguredVapid(), "nl").NotifyBookingCreatedAsync(booking, "Eilanderij Kolhorn");
+
+        Assert.NotNull(payload);
+        Assert.Contains("Nieuwe reservering", payload);
+        Assert.Contains("2 gasten", payload);
+        Assert.Contains("11:00", payload);
+        Assert.DoesNotContain("AM", payload);
+    }
 
     // ── NotifyBookingCreatedAsync ─────────────────────────────────────────────
 
