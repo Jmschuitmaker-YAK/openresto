@@ -458,6 +458,7 @@ public class BookingNotificationServiceTests : IDisposable
             new BookingRepository(_db),
             Options.Create(new VapidSettings()),
             _webPushClientMock.Object,
+            new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> { ["Locale:Default"] = "en" }).Build(),
             NullLogger<BookingNotificationService>.Instance,
             alerts);
 
