@@ -139,14 +139,43 @@ describe("Footer", () => {
     expect(StyleSheet.flatten(screen.getByTestId("site-footer").props.style).paddingBottom).toBe(0);
   });
 
-  it("lays its links out in one unwrapped row beside the copyright", () => {
+  it("keeps its links responsive beside the copyright on desktop", () => {
     render(<Footer />);
     expect(StyleSheet.flatten(screen.getByTestId("footer-inner").props.style).flexDirection).toBe(
       "row"
     );
-    expect(
-      StyleSheet.flatten(screen.getByTestId("footer-links").props.style).flexWrap
-    ).toBeUndefined();
+    expect(StyleSheet.flatten(screen.getByTestId("footer-links").props.style).flexWrap).toBe(
+      "wrap"
+    );
+  });
+
+  it("centers wrapping social, privacy and admin links on narrow screens", async () => {
+    (useWindowDimensions as jest.Mock).mockReturnValue({ width: 360, height: 700 });
+    (fetchSocialLinks as jest.Mock).mockResolvedValue([
+      { id: 1, label: "Instagram", url: "https://instagram.com/resto", iconKey: "logo-instagram", sortOrder: 0 },
+      { id: 2, label: "Facebook", url: "https://facebook.com/resto", iconKey: "logo-facebook", sortOrder: 1 },
+    ]);
+    (useAppTheme as jest.Mock).mockReturnValue({
+      brand: {
+        appName: "Test App",
+        primaryColor: "#0a7ea4",
+        privacyPolicyUrl: "https://example.com/privacy",
+      },
+      colors: { border: "#ccc", muted: "#666" },
+    });
+
+    render(<Footer />);
+    expect(await screen.findByLabelText("Instagram")).toBeTruthy();
+    expect(screen.getByLabelText("Facebook")).toBeTruthy();
+    expect(screen.getByLabelText("Privacy policy")).toBeTruthy();
+    expect(screen.getByText("Admin")).toBeTruthy();
+    const links = StyleSheet.flatten(screen.getByTestId("footer-links").props.style);
+    const social = StyleSheet.flatten(screen.getByTestId("footer-social").props.style);
+    expect(links.flexWrap).toBe("wrap");
+    expect(links.justifyContent).toBe("center");
+    expect(links.width).toBe("100%");
+    expect(social.flexWrap).toBe("wrap");
+    expect(social.justifyContent).toBe("center");
   });
 
   /**
