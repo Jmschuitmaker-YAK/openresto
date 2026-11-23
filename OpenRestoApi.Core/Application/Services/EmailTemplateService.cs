@@ -63,7 +63,9 @@ public sealed class EmailTemplateService : IEmailTemplateService
                </div>
                """;
 
-        string sectionHtml = booking.Section != null
+        // Hide internal automatic seating assignments from guest-facing confirmations.
+        // The restaurant alert below still includes the assigned section/table for staff.
+        string sectionHtml = restaurant.GuestsSelectSeating && booking.Section != null
             ? $"""
                <tr>
                  <td style='padding:12px 0;color:#6b7280;font-size:14px;'>{L(locale, "Section", "Gedeelte")}</td>
@@ -76,7 +78,7 @@ public sealed class EmailTemplateService : IEmailTemplateService
         // Combinable-table group booking: Table is null, so fall back to a readable group label so
         // the confirmation email still tells the diner what they reserved.
         tableLabel ??= booking.TableGroup is not null ? BookingMapper.GroupLabel(booking.TableGroup) : null;
-        string tableHtml = tableLabel != null
+        string tableHtml = restaurant.GuestsSelectSeating && tableLabel != null
             ? $"""
                <tr>
                  <td style='padding:12px 0;color:#6b7280;font-size:14px;'>{L(locale, "Table", "Tafel")}</td>
