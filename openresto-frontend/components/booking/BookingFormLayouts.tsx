@@ -68,6 +68,7 @@ export function BookingFormDrawerLayout({
   onToggleSeating: () => void;
 }) {
   const { t } = useTranslation();
+  const showSeating = restaurant.guestsSelectSeating !== false;
   const divider = <View style={[styles.divider, { backgroundColor: borderColor }]} />;
 
   const partyAndDate = (
@@ -123,41 +124,47 @@ export function BookingFormDrawerLayout({
 
       {divider}
 
-      <View style={styles.drawerSection}>
-        <Pressable
-          testID="seating-disclosure-toggle"
-          onPress={() => {
-            haptics.selection();
-            onToggleSeating();
-          }}
-          accessibilityRole="button"
-          accessibilityState={{ expanded: seatingOpen }}
-          style={styles.disclosureToggle}
-        >
-          {({ hovered, pressed }: { hovered?: boolean; pressed: boolean }) => {
-            const accent = hovered || pressed ? primaryColor : mutedColor;
-            return (
-              <>
-                <Icon name="options-outline" size="md" color={accent} />
-                <ThemedText style={[styles.disclosureText, { color: accent }]}>
-                  {restaurant.guestsChooseTable === false
-                    ? t("booking.drawer.sectionDisclosureLabel")
-                    : t("booking.drawer.seatingDisclosureLabel")}
-                </ThemedText>
-                <Icon name={seatingOpen ? "chevron-up" : "chevron-down"} size="md" color={accent} />
-              </>
-            );
-          }}
-        </Pressable>
-        {seatingOpen && (
-          <>
-            {parts.sectionField}
-            {parts.tableField}
-          </>
-        )}
-      </View>
+      {showSeating && (
+        <View style={styles.drawerSection}>
+          <Pressable
+            testID="seating-disclosure-toggle"
+            onPress={() => {
+              haptics.selection();
+              onToggleSeating();
+            }}
+            accessibilityRole="button"
+            accessibilityState={{ expanded: seatingOpen }}
+            style={styles.disclosureToggle}
+          >
+            {({ hovered, pressed }: { hovered?: boolean; pressed: boolean }) => {
+              const accent = hovered || pressed ? primaryColor : mutedColor;
+              return (
+                <>
+                  <Icon name="options-outline" size="md" color={accent} />
+                  <ThemedText style={[styles.disclosureText, { color: accent }]}>
+                    {restaurant.guestsChooseTable === false
+                      ? t("booking.drawer.sectionDisclosureLabel")
+                      : t("booking.drawer.seatingDisclosureLabel")}
+                  </ThemedText>
+                  <Icon
+                    name={seatingOpen ? "chevron-up" : "chevron-down"}
+                    size="md"
+                    color={accent}
+                  />
+                </>
+              );
+            }}
+          </Pressable>
+          {seatingOpen && (
+            <>
+              {parts.sectionField}
+              {parts.tableField}
+            </>
+          )}
+        </View>
+      )}
 
-      {divider}
+      {showSeating && divider}
       {parts.holdBanner}
 
       <View style={styles.drawerFooter}>
@@ -183,6 +190,7 @@ export function BookingFormInlineLayout({
   isTwoColumn,
 }: Omit<LayoutProps, "primaryColor" | "borderColor"> & { isTwoColumn: boolean }) {
   const { t } = useTranslation();
+  const showSeating = restaurant.guestsSelectSeating !== false;
   const half = isTwoColumn ? styles.fieldHalf : undefined;
   const rowStyle = isTwoColumn ? styles.fieldRow : styles.fieldRowStacked;
 
@@ -214,13 +222,13 @@ export function BookingFormInlineLayout({
 
       <View testID="booking-field-row" style={rowStyle}>
         <View style={half}>{parts.timePickerField()}</View>
-        <View style={half}>{parts.sectionField}</View>
+        {showSeating && <View style={half}>{parts.sectionField}</View>}
       </View>
 
       {parts.timezoneHint}
 
       <View testID="booking-field-row" style={rowStyle}>
-        <View style={half}>{parts.tableField}</View>
+        {showSeating && <View style={half}>{parts.tableField}</View>}
         <View style={half}>{parts.nameField}</View>
       </View>
 

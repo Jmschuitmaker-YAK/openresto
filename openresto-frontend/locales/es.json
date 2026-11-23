@@ -2013,6 +2013,8 @@
         "slotIntervalHint": "Separación entre las horas de inicio que los clientes pueden elegir.",
         "oversizeLabel": "Exceso máximo de mesa",
         "oversizeHint": "No se ofrecen mesas con más asientos libres que este número.",
+        "guestsSelectSeatingLabel": "Los clientes eligen zona o mesa",
+        "guestsSelectSeatingHint": "Desactivado: el sistema asigna automáticamente una mesa adecuada sin que los clientes elijan zona o mesa.",
         "guestsChooseLabel": "Los clientes eligen",
         "guestsChooseTable": "Una sección y una mesa",
         "guestsChooseSection": "Solo una sección",

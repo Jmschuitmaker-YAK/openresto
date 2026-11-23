@@ -2013,6 +2013,8 @@
         "slotIntervalHint": "Abstand zwischen den Startzeiten, die Gäste wählen können.",
         "oversizeLabel": "Maximale Tischüberschreitung",
         "oversizeHint": "Tische mit mehr freien Plätzen als dieser Zahl werden nicht angeboten.",
+        "guestsSelectSeatingLabel": "Gäste wählen ihren Bereich oder Tisch",
+        "guestsSelectSeatingHint": "Aus: Gäste wählen keinen Bereich oder Tisch. Das System weist automatisch einen passenden Tisch zu.",
         "guestsChooseLabel": "Gäste wählen",
         "guestsChooseTable": "Einen Bereich und einen Tisch",
         "guestsChooseSection": "Nur einen Bereich",

@@ -168,6 +168,9 @@ public class Restaurant
     /// </summary>
     public bool GuestsChooseTable { get; set; } = true;
 
+    /// <summary>Whether diners see section/table selection. Default true preserves existing behaviour.</summary>
+    public bool GuestsSelectSeating { get; set; } = true;
+
     /// <summary>
     /// True when a bookable unit of <paramref name="unitSeats"/> seats — a table or a
     /// combinable group — may take a party of <paramref name="partySize"/>: large enough to

@@ -44,6 +44,7 @@ import { styles as sharedStyles } from "./settings.styles";
 import Select, { type SelectOption } from "@/components/common/Select";
 import { styles } from "./RestaurantInfoForm.styles";
 import { Icon } from "@/components/common/Icon";
+import { ToggleSwitch } from "./settingsShared";
 
 const TIMEZONES = [
   "UTC",
@@ -326,6 +327,9 @@ export function RestaurantInfoForm({
   const [guestsChooseTable, setGuestsChooseTable] = useState(
     restaurant.guestsChooseTable !== false
   );
+  const [guestsSelectSeating, setGuestsSelectSeating] = useState(
+    restaurant.guestsSelectSeating !== false
+  );
   const [bookingRefFormat, setBookingRefFormat] = useState<BookingRefFormat>(
     restaurant.bookingRefFormat ?? "AlphaNumeric"
   );
@@ -471,6 +475,7 @@ export function RestaurantInfoForm({
     maxTableOversizeSeats,
     maxCoversPerSlot,
     guestsChooseTable,
+    guestsSelectSeating,
     bookingRefFormat,
     dateExceptions,
     maxBookingDaysAhead,
@@ -500,6 +505,7 @@ export function RestaurantInfoForm({
     maxTableOversizeSeats: restaurant.maxTableOversizeSeats ?? null,
     maxCoversPerSlot: restaurant.maxCoversPerSlot ?? null,
     guestsChooseTable: restaurant.guestsChooseTable !== false,
+    guestsSelectSeating: restaurant.guestsSelectSeating !== false,
     bookingRefFormat: restaurant.bookingRefFormat ?? "AlphaNumeric",
     dateExceptions: restaurant.dateExceptions ?? [],
     maxBookingDaysAhead: restaurant.maxBookingDaysAhead ?? null,
@@ -613,6 +619,7 @@ export function RestaurantInfoForm({
         maxTableOversizeSeats: result.maxTableOversizeSeats,
         maxCoversPerSlot: result.maxCoversPerSlot,
         guestsChooseTable: result.guestsChooseTable,
+        guestsSelectSeating: result.guestsSelectSeating,
         bookingRefFormat: result.bookingRefFormat,
         dateExceptions: result.dateExceptions,
         maxBookingDaysAhead: result.maxBookingDaysAhead,
@@ -645,6 +652,7 @@ export function RestaurantInfoForm({
       setMaxTableOversizeSeats(previous.maxTableOversizeSeats);
       setMaxCoversText(previous.maxCoversPerSlot == null ? "" : String(previous.maxCoversPerSlot));
       setGuestsChooseTable(previous.guestsChooseTable);
+      setGuestsSelectSeating(previous.guestsSelectSeating);
       setBookingRefFormat(previous.bookingRefFormat);
       setDateExceptions(previous.dateExceptions);
       setMaxDaysAheadText(limitText(previous.maxBookingDaysAhead));
@@ -1087,18 +1095,37 @@ export function RestaurantInfoForm({
                 </View>
                 <View style={styles.gridField}>
                   <ThemedText style={[sharedStyles.fieldLabel, { color: mutedColor }]}>
-                    {t("admin.settings.restaurantInfo.guestsChooseLabel")}
+                    {t("admin.settings.restaurantInfo.guestsSelectSeatingLabel")}
                   </ThemedText>
-                  <Select
-                    accessibilityLabel={t("admin.settings.restaurantInfo.guestsChooseLabel")}
-                    options={getGuestsChooseOptions(t)}
-                    selectedValue={guestsChooseTable ? GUESTS_CHOOSE_TABLE : GUESTS_CHOOSE_SECTION}
-                    onSelect={(value) => setGuestsChooseTable(value === GUESTS_CHOOSE_TABLE)}
+                  <ToggleSwitch
+                    checked={guestsSelectSeating}
+                    onChange={setGuestsSelectSeating}
+                    accessibilityLabel={t("admin.settings.restaurantInfo.guestsSelectSeatingLabel")}
+                    primaryColor={primaryColor}
+                    borderColor={borderColor}
                   />
                   <ThemedText style={[styles.fieldHint, { color: mutedColor }]}>
-                    {t("admin.settings.restaurantInfo.guestsChooseHint")}
+                    {t("admin.settings.restaurantInfo.guestsSelectSeatingHint")}
                   </ThemedText>
                 </View>
+                {guestsSelectSeating && (
+                  <View style={styles.gridField}>
+                    <ThemedText style={[sharedStyles.fieldLabel, { color: mutedColor }]}>
+                      {t("admin.settings.restaurantInfo.guestsChooseLabel")}
+                    </ThemedText>
+                    <Select
+                      accessibilityLabel={t("admin.settings.restaurantInfo.guestsChooseLabel")}
+                      options={getGuestsChooseOptions(t)}
+                      selectedValue={
+                        guestsChooseTable ? GUESTS_CHOOSE_TABLE : GUESTS_CHOOSE_SECTION
+                      }
+                      onSelect={(value) => setGuestsChooseTable(value === GUESTS_CHOOSE_TABLE)}
+                    />
+                    <ThemedText style={[styles.fieldHint, { color: mutedColor }]}>
+                      {t("admin.settings.restaurantInfo.guestsChooseHint")}
+                    </ThemedText>
+                  </View>
+                )}
                 <View style={styles.gridField}>
                   <ThemedText style={[sharedStyles.fieldLabel, { color: mutedColor }]}>
                     {t("admin.settings.restaurantInfo.refFormatLabel")}

@@ -81,6 +81,7 @@ public class RestaurantManagementService(
             MaxTableOversizeSeats = dto.MaxTableOversizeSeats,
             MaxCoversPerSlot = dto.MaxCoversPerSlot,
             GuestsChooseTable = dto.GuestsChooseTable,
+            GuestsSelectSeating = dto.GuestsSelectSeating,
             BookingRefFormat = string.IsNullOrWhiteSpace(dto.BookingRefFormat)
                 ? BookingRefFormat.AlphaNumeric
                 : ParseBookingRefFormat(dto.BookingRefFormat),
@@ -258,6 +259,11 @@ public class RestaurantManagementService(
             r.GuestsChooseTable = req.GuestsChooseTable.Value;
         }
 
+        if (req.GuestsSelectSeating.HasValue)
+        {
+            r.GuestsSelectSeating = req.GuestsSelectSeating.Value;
+        }
+
         if (req.BookingRefFormat != null)
         {
             r.BookingRefFormat = ParseBookingRefFormat(req.BookingRefFormat);
@@ -313,6 +319,7 @@ public class RestaurantManagementService(
             MaxTableOversizeSeats = r.MaxTableOversizeSeats,
             MaxCoversPerSlot = r.MaxCoversPerSlot,
             GuestsChooseTable = r.GuestsChooseTable,
+        GuestsSelectSeating = r.GuestsSelectSeating,
             BookingRefFormat = r.BookingRefFormat.ToString(),
             DateExceptions = DateExceptionsHelper.ToDtos(r),
             MaxBookingDaysAhead = r.MaxBookingDaysAhead,
@@ -344,6 +351,7 @@ public class RestaurantManagementService(
         int? MaxTableOversizeSeats,
         int? MaxCoversPerSlot,
         bool GuestsChooseTable,
+        bool GuestsSelectSeating,
         BookingRefFormat BookingRefFormat,
         bool WalkInOnly,
         string? WalkInDays,
@@ -357,7 +365,7 @@ public class RestaurantManagementService(
             r.Name, r.Address, r.Description, r.MenuUrl, r.PhoneNumber, r.EmailAddress, r.OpenTime,
             r.CloseTime, r.OpenHoursJson, r.LastBookingTime, r.OpenDays, r.Timezone, r.Tags,
             r.DefaultBookingDurationMinutes, r.TurnTimesJson, r.BookingSlotIntervalMinutes, r.MaxTableOversizeSeats,
-            r.MaxCoversPerSlot, r.GuestsChooseTable, r.BookingRefFormat, r.WalkInOnly, r.WalkInDays, r.DateExceptionsJson,
+            r.MaxCoversPerSlot, r.GuestsChooseTable, r.GuestsSelectSeating, r.BookingRefFormat, r.WalkInOnly, r.WalkInDays, r.DateExceptionsJson,
             r.MaxBookingDaysAhead, r.MinBookingNoticeMinutes, r.MinOnlinePartySize, r.MaxOnlinePartySize);
     }
 
@@ -385,6 +393,7 @@ public class RestaurantManagementService(
             before.MaxTableOversizeSeats, after.MaxTableOversizeSeats);
         _audit.RecordChange("maxCoversPerSlot", before.MaxCoversPerSlot, after.MaxCoversPerSlot);
         _audit.RecordChange("guestsChooseTable", before.GuestsChooseTable, after.GuestsChooseTable);
+        _audit.RecordChange("guestsSelectSeating", before.GuestsSelectSeating, after.GuestsSelectSeating);
         _audit.RecordChange("bookingRefFormat", before.BookingRefFormat, after.BookingRefFormat);
         _audit.RecordChange("walkInOnly", before.WalkInOnly, after.WalkInOnly);
         _audit.RecordChange("walkInDays", before.WalkInDays, after.WalkInDays);
@@ -951,6 +960,7 @@ public class RestaurantManagementService(
         MaxTableOversizeSeats = r.MaxTableOversizeSeats,
         MaxCoversPerSlot = r.MaxCoversPerSlot,
         GuestsChooseTable = r.GuestsChooseTable,
+            GuestsSelectSeating = r.GuestsSelectSeating,
         BookingRefFormat = r.BookingRefFormat.ToString(),
         DateExceptions = DateExceptionsHelper.ToDtos(r),
         MaxBookingDaysAhead = r.MaxBookingDaysAhead,

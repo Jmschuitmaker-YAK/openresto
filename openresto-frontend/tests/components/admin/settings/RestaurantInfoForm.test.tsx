@@ -521,6 +521,23 @@ describe("RestaurantInfoForm", () => {
     expect(onSaved).toHaveBeenCalledWith(expect.objectContaining({ guestsChooseTable: false }));
   });
 
+  it("saves the guest seating switch and hides the secondary seating choice", async () => {
+    (restaurantsApi.updateRestaurant as jest.Mock).mockResolvedValue({
+      ...mockRestaurant,
+      guestsSelectSeating: false,
+    });
+    render(<RestaurantInfoForm restaurant={mockRestaurant} onSaved={onSaved} />);
+    expect(screen.getByText("A section and a table")).toBeTruthy();
+    fireEvent.press(screen.getByLabelText("Let guests choose a section or table"));
+    expect(screen.queryByText("A section and a table")).toBeNull();
+    await flushAutosave();
+    expect(restaurantsApi.updateRestaurant).toHaveBeenCalledWith(
+      1,
+      expect.objectContaining({ guestsSelectSeating: false })
+    );
+    expect(onSaved).toHaveBeenCalledWith(expect.objectContaining({ guestsSelectSeating: false }));
+  });
+
   // ── Per-day opening hours (#175) ─────────────────────────────────────────
 
   const uniformWeek = [1, 2, 3, 4, 5, 6, 7].map((day) => ({

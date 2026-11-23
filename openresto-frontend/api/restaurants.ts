@@ -144,6 +144,8 @@ export interface RestaurantDto {
   maxCoversPerSlot?: number | null;
   /** False when guests choose only a section and the server picks the table. */
   guestsChooseTable?: boolean;
+  /** False hides guest-facing seating selection and uses automatic assignment. */
+  guestsSelectSeating?: boolean;
   /** Format of references minted for new bookings; existing bookings keep theirs. */
   bookingRefFormat?: BookingRefFormat;
   /** Dates that depart from the weekly schedule, earliest first. Empty or absent when none. */
@@ -258,6 +260,7 @@ export async function updateRestaurant(
     maxTableOversizeSeats?: number | null;
     maxCoversPerSlot?: number | null;
     guestsChooseTable?: boolean;
+    guestsSelectSeating?: boolean;
     bookingRefFormat?: BookingRefFormat;
     walkInOnly?: boolean;
     walkInDays?: string;

@@ -4716,6 +4716,7 @@ export interface components {
             maxCoversPerSlot?: null | number | string;
             /** @description False when guests choose only a section and the server picks the table. */
             guestsChooseTable?: boolean;
+            guestsSelectSeating?: boolean;
             /** @description Format of references minted for new bookings: "AlphaNumeric" or "Numeric". */
             bookingRefFormat?: string;
             /** @description Dates that depart from the weekly schedule, earliest first. Empty when none. */
@@ -4882,6 +4883,8 @@ export interface components {
             maxCoversPerSlot?: null | number | string;
             /** @description False lets guests choose only a section, never a table. Null leaves it untouched. */
             guestsChooseTable?: null | boolean;
+            /** @description False hides section/table selection and uses restaurant-wide automatic assignment. */
+            guestsSelectSeating?: null | boolean;
             /**
              * @description Booking reference format for new bookings — "AlphaNumeric" (three words) or "Numeric"
              *     (digits only), case-insensitive. Null leaves the stored value untouched (PATCH-style).
