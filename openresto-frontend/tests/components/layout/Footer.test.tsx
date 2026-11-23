@@ -152,8 +152,20 @@ describe("Footer", () => {
   it("centers wrapping social, privacy and admin links on narrow screens", async () => {
     (useWindowDimensions as jest.Mock).mockReturnValue({ width: 360, height: 700 });
     (fetchSocialLinks as jest.Mock).mockResolvedValue([
-      { id: 1, label: "Instagram", url: "https://instagram.com/resto", iconKey: "logo-instagram", sortOrder: 0 },
-      { id: 2, label: "Facebook", url: "https://facebook.com/resto", iconKey: "logo-facebook", sortOrder: 1 },
+      {
+        id: 1,
+        label: "Instagram",
+        url: "https://instagram.com/resto",
+        iconKey: "logo-instagram",
+        sortOrder: 0,
+      },
+      {
+        id: 2,
+        label: "Facebook",
+        url: "https://facebook.com/resto",
+        iconKey: "logo-facebook",
+        sortOrder: 1,
+      },
     ]);
     (useAppTheme as jest.Mock).mockReturnValue({
       brand: {
