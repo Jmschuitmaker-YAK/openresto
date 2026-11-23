@@ -270,7 +270,7 @@ describe("LocationsScreen", () => {
     (fetchRestaurants as jest.Mock).mockResolvedValue([mockRestaurants[0]]);
     renderWithProviders(<LocationsScreen />);
     await waitFor(() => expect(screen.getByTestId("expanded-1").props.children).toBe("true"));
-    expect(screen.getByText("Downtown Bistro")).toBeTruthy();
+    expect(within(screen.getByTestId("screen-heading")).getByText("Downtown Bistro")).toBeTruthy();
     expect(screen.queryByText("Our locations")).toBeNull();
     expect(screen.getByTestId("locations-filter-bar")).toBeTruthy();
   });
