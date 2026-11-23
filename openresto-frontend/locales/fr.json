@@ -2013,6 +2013,8 @@
         "slotIntervalHint": "Écart entre les heures de début que les clients peuvent choisir.",
         "oversizeLabel": "Dépassement maximal de table",
         "oversizeHint": "Les tables ayant plus de places libres que ce nombre ne sont pas proposées.",
+        "guestsSelectSeatingLabel": "Les clients choisissent leur salle ou table",
+        "guestsSelectSeatingHint": "Désactivé : une table adaptée est attribuée automatiquement, sans choix de salle ou de table.",
         "guestsChooseLabel": "Les clients choisissent",
         "guestsChooseTable": "Une section et une table",
         "guestsChooseSection": "Une section seulement",
