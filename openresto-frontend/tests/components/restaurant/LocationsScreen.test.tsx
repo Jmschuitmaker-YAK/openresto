@@ -266,6 +266,23 @@ describe("LocationsScreen", () => {
     expect(screen.getByTestId("locations-filter-bar")).toBeTruthy();
   });
 
+  it("opens the only location without requiring guests to select it", async () => {
+    (fetchRestaurants as jest.Mock).mockResolvedValue([mockRestaurants[0]]);
+    renderWithProviders(<LocationsScreen />);
+    await waitFor(() => expect(screen.getByTestId("expanded-1").props.children).toBe("true"));
+    expect(screen.getByText("Downtown Bistro")).toBeTruthy();
+    expect(screen.queryByText("Our locations")).toBeNull();
+    expect(screen.getByTestId("locations-filter-bar")).toBeTruthy();
+  });
+
+  it("keeps the location choice collapsed when there are multiple restaurants", async () => {
+    (fetchRestaurants as jest.Mock).mockResolvedValue(mockRestaurants);
+    renderWithProviders(<LocationsScreen />);
+    await waitFor(() => expect(screen.getByTestId("expanded-1").props.children).toBe("false"));
+    expect(screen.getByTestId("expanded-2").props.children).toBe("false");
+    expect(screen.getByText("Our locations")).toBeTruthy();
+  });
+
   it("leaves the resting filter bar part of the list rather than a toolbar", async () => {
     await onWeb(async () => {
       (fetchRestaurants as jest.Mock).mockResolvedValue(mockRestaurants);
