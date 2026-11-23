@@ -47,6 +47,27 @@ describe("AddRow", () => {
     expect(screen.getByPlaceholderText("Seats")).toBeTruthy();
   });
 
+  it("shows the selected numeric seat count before adding a table", async () => {
+    render(
+      <AddRow
+        label="Add Table"
+        extraPlaceholder="Seats"
+        extraOptions={[
+          { label: "2 seats", value: 2 },
+          { label: "4 seats", value: 4 },
+        ]}
+        onAdd={onAdd}
+      />
+    );
+    fireEvent.press(screen.getByText("Add Table"));
+    fireEvent.press(screen.getByText("Seats"));
+    await act(async () => {
+      fireEvent.press(screen.getByText("4 seats"));
+    });
+    expect(screen.getByText("4 seats")).toBeTruthy();
+    expect(screen.queryByText("Seats")).toBeNull();
+  });
+
   it("does not show extra input without extraPlaceholder", () => {
     render(<AddRow label="Add Item" placeholder="Item name" onAdd={onAdd} />);
     fireEvent.press(screen.getByText("Add Item"));
