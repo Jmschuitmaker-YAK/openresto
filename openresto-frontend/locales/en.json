@@ -2013,6 +2013,8 @@
         "slotIntervalHint": "Gap between the start times guests can pick.",
         "oversizeLabel": "Max table oversize",
         "oversizeHint": "Tables with more spare seats than this aren't offered.",
+        "guestsSelectSeatingLabel": "Let guests choose a section or table",
+        "guestsSelectSeatingHint": "Off: guests skip seating selection and a suitable table is assigned automatically.",
         "guestsChooseLabel": "Guests choose",
         "guestsChooseTable": "A section and a table",
         "guestsChooseSection": "A section only",
