@@ -1116,7 +1116,9 @@ export function RestaurantInfoForm({
                     <Select
                       accessibilityLabel={t("admin.settings.restaurantInfo.guestsChooseLabel")}
                       options={getGuestsChooseOptions(t)}
-                      selectedValue={guestsChooseTable ? GUESTS_CHOOSE_TABLE : GUESTS_CHOOSE_SECTION}
+                      selectedValue={
+                        guestsChooseTable ? GUESTS_CHOOSE_TABLE : GUESTS_CHOOSE_SECTION
+                      }
                       onSelect={(value) => setGuestsChooseTable(value === GUESTS_CHOOSE_TABLE)}
                     />
                     <ThemedText style={[styles.fieldHint, { color: mutedColor }]}>
