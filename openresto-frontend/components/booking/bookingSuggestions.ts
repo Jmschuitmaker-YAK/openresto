@@ -1,5 +1,10 @@
 import { getNowInTimezone } from "@/utils/date";
-import { getHoursForDate, getLastBookingForDate, isOpenOnDate, HoursSource } from "@/utils/openingHours";
+import {
+  getHoursForDate,
+  getLastBookingForDate,
+  isOpenOnDate,
+  HoursSource,
+} from "@/utils/openingHours";
 import { isWalkInOnlyOnDate, type WalkInSource } from "@/utils/walkIn";
 
 /* istanbul ignore next */
@@ -46,7 +51,7 @@ export function suggestNextBooking(
   const now = getNowInTimezone(timezone);
   const startMinute = now.hours * 60 + now.minutes;
   const interval = [15, 30, 60].includes(restaurant.bookingSlotIntervalMinutes ?? 15)
-    ? (restaurant.bookingSlotIntervalMinutes ?? 15)
+    ? restaurant.bookingSlotIntervalMinutes!
     : 15;
   const notice = Math.max(0, restaurant.minBookingNoticeMinutes ?? 0);
   const ahead = Math.min(366, Math.max(0, restaurant.maxBookingDaysAhead ?? 366));
