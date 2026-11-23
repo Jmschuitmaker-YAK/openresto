@@ -1,0 +1,23 @@
+name: Temporary Prettier Diff
+on:
+  push:
+    branches: [feature/optional-guest-seating-selection]
+permissions:
+  contents: read
+jobs:
+  prettier-diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: openresto-frontend/package-lock.json
+      - run: npm ci
+        working-directory: openresto-frontend
+      - name: Print exact formatting changes
+        working-directory: openresto-frontend
+        run: |
+          npx prettier --write components/booking/BookingFormLayouts.tsx
+          git diff -- components/booking/BookingFormLayouts.tsx
