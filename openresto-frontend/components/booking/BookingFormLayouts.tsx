@@ -124,40 +124,40 @@ export function BookingFormDrawerLayout({
       {divider}
 
       {restaurant.guestsSelectSeating !== false && (
-      <View style={styles.drawerSection}>
-        <Pressable
-          testID="seating-disclosure-toggle"
-          onPress={() => {
-            haptics.selection();
-            onToggleSeating();
-          }}
-          accessibilityRole="button"
-          accessibilityState={{ expanded: seatingOpen }}
-          style={styles.disclosureToggle}
-        >
-          {({ hovered, pressed }: { hovered?: boolean; pressed: boolean }) => {
-            const accent = hovered || pressed ? primaryColor : mutedColor;
-            return (
-              <>
-                <Icon name="options-outline" size="md" color={accent} />
-                <ThemedText style={[styles.disclosureText, { color: accent }]}>
-                  {restaurant.guestsChooseTable === false
-                    ? t("booking.drawer.sectionDisclosureLabel")
-                    : t("booking.drawer.seatingDisclosureLabel")}
-                </ThemedText>
-                <Icon name={seatingOpen ? "chevron-up" : "chevron-down"} size="md" color={accent} />
-              </>
-            );
-          }}
-        </Pressable>
-        {seatingOpen && (
-          <>
-            {parts.sectionField}
-            {parts.tableField}
-          </>
+        <View style={styles.drawerSection}>
+          <Pressable
+            testID="seating-disclosure-toggle"
+            onPress={() => {
+              haptics.selection();
+              onToggleSeating();
+            }}
+            accessibilityRole="button"
+            accessibilityState={{ expanded: seatingOpen }}
+            style={styles.disclosureToggle}
+          >
+            {({ hovered, pressed }: { hovered?: boolean; pressed: boolean }) => {
+              const accent = hovered || pressed ? primaryColor : mutedColor;
+              return (
+                <>
+                  <Icon name="options-outline" size="md" color={accent} />
+                  <ThemedText style={[styles.disclosureText, { color: accent }]}>
+                    {restaurant.guestsChooseTable === false
+                      ? t("booking.drawer.sectionDisclosureLabel")
+                      : t("booking.drawer.seatingDisclosureLabel")}
+                  </ThemedText>
+                  <Icon name={seatingOpen ? "chevron-up" : "chevron-down"} size="md" color={accent} />
+                </>
+              );
+            }}
+          </Pressable>
+          {seatingOpen && (
+            <>
+              {parts.sectionField}
+              {parts.tableField}
+            </>
+          )}
+        </View>
         )}
-      </View>
-      )}
 
       {restaurant.guestsSelectSeating !== false && divider}
       {parts.holdBanner}
