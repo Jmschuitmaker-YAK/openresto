@@ -36,6 +36,7 @@ import ScreenHeading from "@/components/layout/ScreenHeading";
 import LocationListItem from "@/components/restaurant/LocationListItem";
 import LocationsFilterBar, { type MealWindow } from "@/components/restaurant/LocationsFilterBar";
 import BookingDrawer from "@/components/booking/BookingDrawer";
+import { suggestTime } from "@/components/booking/bookingSuggestions";
 import Button from "@/components/common/Button";
 import { hexToRgb } from "@/utils/colors";
 import { theme } from "@/theme/theme";
@@ -183,6 +184,23 @@ export default function LocationsScreen({
   }, []);
 
   useEffect(loadRestaurants, [loadRestaurants]);
+
+  // A single bookable restaurant needs no location selection: show its booking form
+  // immediately on the normal locations route. Respect explicit deep links (which
+  // own their own drawer/waitlist intent), and do this once per visit so closing the
+  // drawer doesn't reopen it after a refresh or a settings change.
+  const didAutoOpenBooking = useRef(false);
+  useEffect(() => {
+    if (loading || loadFailed || didAutoOpenBooking.current || highlightId || initialWaitlist) return;
+    if (restaurants.length !== 1) return;
+    const restaurant = restaurants[0];
+    if (restaurant.walkInOnly) return;
+    didAutoOpenBooking.current = true;
+    setDrawer({
+      restaurant,
+      time: initialTime ?? suggestTime(restaurant, restaurant.timezone || "UTC"),
+    });
+  }, [loading, loadFailed, restaurants, highlightId, initialWaitlist, initialTime]);
 
   // A pull keeps the list on screen while it reloads: swapping in the spinner would drop the
   // diner back to a blank page for a gesture that means "same page, newer numbers".
