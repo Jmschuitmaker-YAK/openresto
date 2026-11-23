@@ -57,7 +57,7 @@ export function suggestNextBooking(
     const { open } = getHoursForDate(restaurant, date);
     const [openHour, openMinute] = open.split(":").map(Number);
     const opening = openHour * 60 + openMinute;
-    const earliest = day === 0 ? startMinute + notice + 1 : opening;
+    const earliest = Math.max(opening, startMinute + notice + 1 - day * 1440);
     const index = Math.max(0, Math.ceil((earliest - opening) / interval));
     const slot = opening + index * interval;
     if (slot <= latestStartMinutes(restaurant, date) && slot < 1440) {
