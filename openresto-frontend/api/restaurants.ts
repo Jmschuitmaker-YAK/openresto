@@ -260,6 +260,7 @@ export async function updateRestaurant(
     maxTableOversizeSeats?: number | null;
     maxCoversPerSlot?: number | null;
     guestsChooseTable?: boolean;
+    guestsSelectSeating?: boolean;
     bookingRefFormat?: BookingRefFormat;
     walkInOnly?: boolean;
     walkInDays?: string;
