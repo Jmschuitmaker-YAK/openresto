@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Net;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenRestoApi.Core.Application.DTOs;
@@ -19,6 +20,7 @@ public sealed class BookingNotificationService(
     IBookingRepository bookingRepository,
     IOptions<VapidSettings> vapidOptions,
     IWebPushClient webPushClient,
+    IConfiguration configuration,
     ILogger<BookingNotificationService> logger,
     IRestaurantBookingAlertService? restaurantAlerts = null) : IBookingNotificationService
 {
@@ -28,6 +30,7 @@ public sealed class BookingNotificationService(
     private readonly IBookingRepository _bookingRepository = bookingRepository;
     private readonly VapidSettings _vapid = vapidOptions.Value;
     private readonly IWebPushClient _webPushClient = webPushClient;
+    private readonly string _pushLocale = configuration["Locale:Default"]?.Equals("nl", StringComparison.OrdinalIgnoreCase) == true ? "nl" : "en";
     private readonly ILogger<BookingNotificationService> _log = logger;
     private readonly IRestaurantBookingAlertService? _restaurantAlerts = restaurantAlerts;
 
@@ -62,13 +65,13 @@ public sealed class BookingNotificationService(
         await _notificationRepository.AddAsync(notification);
         _log.LogInformation("[Notif] BookingCreated saved id={Id}", notification.Id);
 
-        string localTime = FormatUtcAsLocalTime(booking.Date);
+        string localTime = FormatUtcAsLocalTime(booking.Date, _pushLocale);
         await SendPushAsync(
             booking.RestaurantId,
             notification.Id,
             new PushPayload(
-                Title: $"New booking - {restaurantName}",
-                Body: $"{booking.CustomerName ?? "Guest"} · {booking.Seats} guest{(booking.Seats == 1 ? "" : "s")} · {localTime}",
+                Title: _pushLocale == "nl" ? $"Nieuwe reservering – {restaurantName}" : $"New booking - {restaurantName}",
+                Body: $"{booking.CustomerName ?? (_pushLocale == "nl" ? "Gast" : "Guest")} · {booking.Seats} {GuestCountLabel(booking.Seats, _pushLocale)} · {localTime}",
                 Type: NotificationType.BookingCreated,
                 BookingId: booking.Id,
                 BookingRef: booking.BookingRef,
@@ -99,13 +102,13 @@ public sealed class BookingNotificationService(
         await _notificationRepository.AddAsync(notification);
         _log.LogInformation("[Notif] BookingCancelled saved id={Id}", notification.Id);
 
-        string localTime = FormatUtcAsLocalTime(booking.Date);
+        string localTime = FormatUtcAsLocalTime(booking.Date, _pushLocale);
         await SendPushAsync(
             booking.RestaurantId,
             notification.Id,
             new PushPayload(
-                Title: $"Booking cancelled - {restaurantName}",
-                Body: $"{booking.CustomerName ?? "Guest"} · {booking.Seats} guest{(booking.Seats == 1 ? "" : "s")} · {localTime}",
+                Title: _pushLocale == "nl" ? $"Reservering geannuleerd – {restaurantName}" : $"Booking cancelled - {restaurantName}",
+                Body: $"{booking.CustomerName ?? (_pushLocale == "nl" ? "Gast" : "Guest")} · {booking.Seats} {GuestCountLabel(booking.Seats, _pushLocale)} · {localTime}",
                 Type: NotificationType.BookingCancelled,
                 BookingId: booking.Id,
                 BookingRef: booking.BookingRef,
@@ -168,8 +171,8 @@ public sealed class BookingNotificationService(
             restaurantId,
             notification.Id,
             new PushPayload(
-                Title: $"Nearly full - {restaurantName}",
-                Body: $"{bookedTables} of {totalTables} tables booked today ({(int)(ratio * 100)}%)",
+                Title: _pushLocale == "nl" ? $"Bijna vol – {restaurantName}" : $"Nearly full - {restaurantName}",
+                Body: _pushLocale == "nl" ? $"Vandaag {bookedTables} van {totalTables} tafels gereserveerd ({(int)(ratio * 100)}%)" : $"{bookedTables} of {totalTables} tables booked today ({(int)(ratio * 100)}%)",
                 Type: NotificationType.RestaurantNearlyFull,
                 BookingId: null,
                 BookingRef: null,
@@ -277,6 +280,11 @@ public sealed class BookingNotificationService(
         await _notificationRepository.SaveChangesAsync();
     }
 
-    private static string FormatUtcAsLocalTime(DateTime utc) =>
-        utc.ToString("ddd d MMM 'at' h:mm tt", CultureInfo.InvariantCulture);
+    private static string GuestCountLabel(int seats, string locale) =>
+        locale == "nl" ? (seats == 1 ? "gast" : "gasten") : (seats == 1 ? "guest" : "guests");
+
+    private static string FormatUtcAsLocalTime(DateTime utc, string locale) =>
+        locale == "nl"
+            ? utc.ToString("ddd d MMM 'om' HH:mm", CultureInfo.GetCultureInfo("nl-NL"))
+            : utc.ToString("ddd d MMM 'at' h:mm tt", CultureInfo.InvariantCulture);
 }
