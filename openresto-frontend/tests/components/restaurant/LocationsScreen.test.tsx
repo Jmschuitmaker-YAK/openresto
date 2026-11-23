@@ -273,6 +273,22 @@ describe("LocationsScreen", () => {
     expect(within(screen.getByTestId("screen-heading")).getByText("Downtown Bistro")).toBeTruthy();
     expect(screen.queryByText("Our locations")).toBeNull();
     expect(screen.getByTestId("locations-filter-bar")).toBeTruthy();
+    await waitFor(() => expect(screen.getByTestId("mock-drawer")).toBeTruthy());
+    expect(screen.getByTestId("drawer-restaurant").props.children).toBe("Downtown Bistro");
+    expect(screen.getByTestId("drawer-mode").props.children).toBe("book");
+
+    // Closing the form should return to the restaurant details, not reopen it.
+    fireEvent.press(screen.getByTestId("drawer-close"));
+    expect(screen.queryByTestId("mock-drawer")).toBeNull();
+  });
+
+  it("does not auto-open the booking form for a single walk-in-only restaurant", async () => {
+    (fetchRestaurants as jest.Mock).mockResolvedValue([
+      { ...mockRestaurants[0], walkInOnly: true },
+    ]);
+    renderWithProviders(<LocationsScreen />);
+    await waitFor(() => expect(screen.getByTestId("expanded-1").props.children).toBe("true"));
+    expect(screen.queryByTestId("mock-drawer")).toBeNull();
   });
 
   it("keeps the location choice collapsed when there are multiple restaurants", async () => {
