@@ -68,6 +68,7 @@ export function BookingFormDrawerLayout({
   onToggleSeating: () => void;
 }) {
   const { t } = useTranslation();
+  const showSeating = restaurant.guestsSelectSeating !== false;
   const divider = <View style={[styles.divider, { backgroundColor: borderColor }]} />;
 
   const partyAndDate = (
@@ -123,7 +124,7 @@ export function BookingFormDrawerLayout({
 
       {divider}
 
-      {restaurant.guestsSelectSeating !== false && (
+      {showSeating && (
         <View style={styles.drawerSection}>
           <Pressable
             testID="seating-disclosure-toggle"
@@ -159,7 +160,7 @@ export function BookingFormDrawerLayout({
         </View>
       )}
 
-      {restaurant.guestsSelectSeating !== false && divider}
+      {showSeating && divider}
       {parts.holdBanner}
 
       <View style={styles.drawerFooter}>
@@ -185,6 +186,7 @@ export function BookingFormInlineLayout({
   isTwoColumn,
 }: Omit<LayoutProps, "primaryColor" | "borderColor"> & { isTwoColumn: boolean }) {
   const { t } = useTranslation();
+  const showSeating = restaurant.guestsSelectSeating !== false;
   const half = isTwoColumn ? styles.fieldHalf : undefined;
   const rowStyle = isTwoColumn ? styles.fieldRow : styles.fieldRowStacked;
 
@@ -216,13 +218,13 @@ export function BookingFormInlineLayout({
 
       <View testID="booking-field-row" style={rowStyle}>
         <View style={half}>{parts.timePickerField()}</View>
-        {restaurant.guestsSelectSeating !== false && <View style={half}>{parts.sectionField}</View>}
+        {showSeating && <View style={half}>{parts.sectionField}</View>}
       </View>
 
       {parts.timezoneHint}
 
       <View testID="booking-field-row" style={rowStyle}>
-        {restaurant.guestsSelectSeating !== false && <View style={half}>{parts.tableField}</View>}
+        {showSeating && <View style={half}>{parts.tableField}</View>}
         <View style={half}>{parts.nameField}</View>
       </View>
 
