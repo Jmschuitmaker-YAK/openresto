@@ -1100,6 +1100,7 @@ export function RestaurantInfoForm({
                   <ToggleSwitch
                     checked={guestsSelectSeating}
                     onChange={setGuestsSelectSeating}
+                    accessibilityLabel={t("admin.settings.restaurantInfo.guestsSelectSeatingLabel")}
                     primaryColor={primaryColor}
                     borderColor={borderColor}
                   />
