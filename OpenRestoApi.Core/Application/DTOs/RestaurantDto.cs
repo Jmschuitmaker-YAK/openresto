@@ -84,6 +84,9 @@ public class UpdateRestaurantRequest
     /// <summary>False lets guests choose only a section, never a table. Null leaves it untouched.</summary>
     public bool? GuestsChooseTable { get; set; }
 
+    /// <summary>False hides section/table selection and uses restaurant-wide automatic assignment.</summary>
+    public bool? GuestsSelectSeating { get; set; }
+
     /// <summary>
     /// Booking reference format for new bookings — "AlphaNumeric" (three words) or "Numeric"
     /// (digits only), case-insensitive. Null leaves the stored value untouched (PATCH-style).
@@ -382,6 +385,8 @@ public class RestaurantDto
 
     /// <summary>False when guests choose only a section and the server picks the table.</summary>
     public bool GuestsChooseTable { get; set; } = true;
+
+    public bool GuestsSelectSeating { get; set; } = true;
 
     /// <summary>Format of references minted for new bookings: "AlphaNumeric" or "Numeric".</summary>
     public string BookingRefFormat { get; set; } = Domain.BookingRefFormat.AlphaNumeric.ToString();
