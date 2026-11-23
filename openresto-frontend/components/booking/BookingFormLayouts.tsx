@@ -123,6 +123,7 @@ export function BookingFormDrawerLayout({
 
       {divider}
 
+      {restaurant.guestsSelectSeating !== false && (
       <View style={styles.drawerSection}>
         <Pressable
           testID="seating-disclosure-toggle"
@@ -156,8 +157,9 @@ export function BookingFormDrawerLayout({
           </>
         )}
       </View>
+      )}
 
-      {divider}
+      {restaurant.guestsSelectSeating !== false && divider}
       {parts.holdBanner}
 
       <View style={styles.drawerFooter}>
@@ -214,13 +216,13 @@ export function BookingFormInlineLayout({
 
       <View testID="booking-field-row" style={rowStyle}>
         <View style={half}>{parts.timePickerField()}</View>
-        <View style={half}>{parts.sectionField}</View>
+        {restaurant.guestsSelectSeating !== false && <View style={half}>{parts.sectionField}</View>}
       </View>
 
       {parts.timezoneHint}
 
       <View testID="booking-field-row" style={rowStyle}>
-        <View style={half}>{parts.tableField}</View>
+        {restaurant.guestsSelectSeating !== false && <View style={half}>{parts.tableField}</View>}
         <View style={half}>{parts.nameField}</View>
       </View>
 
