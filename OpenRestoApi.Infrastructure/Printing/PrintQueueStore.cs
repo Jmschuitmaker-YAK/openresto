@@ -141,6 +141,7 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
 
     public ClaimResult ClaimNext(string? token)
     {
+        if (token is null || token.Length != 64 || !token.All(char.IsAsciiHexDigit)) return new ClaimResult(false, null);
         using SqliteTransaction tx = connection.BeginTransaction(deferred: false);
         string? agent = Authenticate(tx, token);
         if (agent is null)
@@ -163,14 +164,14 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
                 WHERE AgentId=$agent AND ((Status='leased' AND LeaseUntil<=$now) OR (Status='queued' AND AvailableAt<=$now))
                 ORDER BY CASE WHEN Status='leased' THEN 0 ELSE 1 END, Sequence LIMIT 1
             ) AND NOT EXISTS (SELECT 1 FROM PrintJobs WHERE AgentId=$agent AND Status='leased' AND LeaseUntil>$now)
-            RETURNING Id,Printer,Kind,BookingRef,CustomerName,Seats,BookingDate,Timezone,RestaurantName,Locale
+            RETURNING Id,Printer,Kind,BookingRef,CustomerName,Seats,BookingDate,Timezone,RestaurantName,Locale,SpecialRequests
             """, ("$lease", lease), ("$until", now+120), ("$agent", agent), ("$now", now)))
         using (SqliteDataReader r = cmd.ExecuteReader())
         {
             if (r.Read())
             {
                 job = new Claim(r.GetString(0), lease, r.GetString(1),
-                    Receipt(r.GetString(2),r.GetString(3),r.GetString(4),r.GetInt32(5),r.IsDBNull(6) ? null : r.GetString(6),r.GetString(7),r.GetString(8),r.GetString(9)));
+                    Receipt(r.GetString(2),r.GetString(3),r.GetString(4),r.GetInt32(5),r.IsDBNull(6) ? null : r.GetString(6),r.GetString(7),r.GetString(8),r.GetString(9),r.GetString(10)));
             }
         }
         tx.Commit();
@@ -207,7 +208,8 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
             SET Status=CASE WHEN $status='retry' THEN 'queued' ELSE $status END,
                 AvailableAt=$now+60, LeaseUntil=NULL, Reason=$reason,
                 CompletedAt=CASE WHEN $status='retry' THEN NULL ELSE $now END,
-                CustomerName=CASE WHEN $status IN ('sent','uncertain') THEN '' ELSE CustomerName END
+                CustomerName=CASE WHEN $status IN ('sent','uncertain') THEN '' ELSE CustomerName END,
+                SpecialRequests=CASE WHEN $status IN ('sent','uncertain') THEN '' ELSE SpecialRequests END
             WHERE Id=$id AND AgentId=$agent AND Lease=$lease AND Status='leased'
             """, ("$status", status), ("$now", now), ("$reason", reason), ("$id", id), ("$agent", agent), ("$lease", lease));
         bool accepted = cmd.ExecuteNonQuery() == 1;
@@ -225,7 +227,7 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
 
     private static string Line(string s) => string.Concat(s.Where(c => !char.IsControl(c))).Trim();
 
-    internal static string Receipt(string kind, string reference, string name, int seats, string? date, string timezone, string restaurant, string locale)
+    internal static string Receipt(string kind, string reference, string name, int seats, string? date, string timezone, string restaurant, string locale, string requests)
     {
         // UTC is stored in SQLite; print on the restaurant clock, never on the server's clock.
         string[] words = locale switch
@@ -243,6 +245,8 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
         }
         DateTime utc = DateTime.Parse(date ?? throw new InvalidOperationException("Missing booking date."), CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
         DateTime local = TimeZoneHelper.ConvertUtcToLocal(utc, timezone);
-        return string.Create(CultureInfo.InvariantCulture, $"{words[heading]}\n{Line(restaurant)}\n--------------------------------\n{local:dd-MM-yyyy HH:mm}\n{words[4]}: {seats}\n{words[5]}: {Line(name)}\n{words[6]}: {Line(reference)}");
+        string notes = locale switch { "nl" => "Opmerking", "fr" => "Remarque", "de" => "Hinweis", "es" => "Nota", _ => "Note" };
+        string receipt = string.Create(CultureInfo.InvariantCulture, $"{words[heading]}\n{Line(restaurant)}\n--------------------------------\n{local:dd-MM-yyyy HH:mm}\n{words[4]}: {seats}\n{words[5]}: {Line(name)}\n{words[6]}: {Line(reference)}");
+        return string.IsNullOrWhiteSpace(requests) ? receipt : $"{receipt}\n{notes}: {Line(requests)}";
     }
 }

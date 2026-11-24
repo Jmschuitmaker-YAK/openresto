@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { EmailDeliveryPanel } from "@/components/admin/settings/EmailDeliveryPanel";
 import { EmailPreviewPanel } from "@/components/admin/settings/EmailPreviewPanel";
 import { EmailSettingsCard } from "@/components/admin/settings/EmailSettingsCard";
+import { PrintSettingsCard } from "@/components/admin/settings/PrintSettingsCard";
 import { PushNotificationsCard } from "@/components/admin/settings/PushNotificationsCard";
 import { SettingsPage, useSettingsPalette } from "@/components/admin/settings/SettingsPage";
 import { useAppTheme } from "@/hooks/use-app-theme";
@@ -28,6 +29,7 @@ export default function EmailSettingsScreen() {
       }
     >
       <EmailSettingsCard {...palette} isDark={isDark} email={email} />
+      <PrintSettingsCard />
       <PushNotificationsCard />
     </SettingsPage>
   );

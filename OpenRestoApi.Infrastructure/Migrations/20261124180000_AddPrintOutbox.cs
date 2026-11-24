@@ -33,6 +33,7 @@ public sealed class AddPrintOutbox : Migration
                 Kind TEXT NOT NULL CHECK (Kind IN ('created','cancelled','changed','test')),
                 BookingRef TEXT NOT NULL,
                 CustomerName TEXT NOT NULL,
+                SpecialRequests TEXT NOT NULL DEFAULT '',
                 Seats INTEGER NOT NULL,
                 BookingDate TEXT NULL,
                 Timezone TEXT NOT NULL,
@@ -51,32 +52,32 @@ public sealed class AddPrintOutbox : Migration
             CREATE INDEX IX_PrintJobs_AgentStatus ON PrintJobs(AgentId, Status, Sequence);
             CREATE TRIGGER PrintBookingCreated AFTER INSERT ON Bookings
             BEGIN
-                INSERT INTO PrintJobs (Id, AgentId, RestaurantId, Kind, BookingRef, CustomerName, Seats, BookingDate, Timezone, RestaurantName, Printer, Locale, CreatedAt, AvailableAt)
-            SELECT lower(hex(randomblob(16))), a.Id, NEW.RestaurantId, 'created', substr(NEW.BookingRef,1,100), substr(coalesce(NEW.CustomerName,''),1,200), NEW.Seats, NEW.Date, r.Timezone, substr(r.Name,1,200), a.Printer, a.Locale, unixepoch(), unixepoch()
+                INSERT INTO PrintJobs (Id, AgentId, RestaurantId, Kind, BookingRef, CustomerName, SpecialRequests, Seats, BookingDate, Timezone, RestaurantName, Printer, Locale, CreatedAt, AvailableAt)
+            SELECT lower(hex(randomblob(16))), a.Id, NEW.RestaurantId, 'created', substr(NEW.BookingRef,1,100), substr(coalesce(NEW.CustomerName,''),1,200), substr(coalesce(NEW.SpecialRequests,''),1,500), NEW.Seats, NEW.Date, r.Timezone, substr(r.Name,1,200), a.Printer, a.Locale, unixepoch(), unixepoch()
             FROM PrintAgents a JOIN Restaurants r ON r.Id=a.RestaurantId
-            WHERE a.RestaurantId=NEW.RestaurantId AND a.Active=1 AND a.Enabled=1 AND (NEW.IsCancelled=0 AND NEW.Status='Booked');
+            WHERE a.RestaurantId=NEW.RestaurantId AND a.Active=1 AND a.Enabled=1 AND r.IsArchived=0 AND (NEW.IsCancelled=0 AND NEW.Status='Booked');
             END;
             CREATE TRIGGER PrintBookingUpdated AFTER UPDATE ON Bookings
             BEGIN
-                INSERT INTO PrintJobs (Id, AgentId, RestaurantId, Kind, BookingRef, CustomerName, Seats, BookingDate, Timezone, RestaurantName, Printer, Locale, CreatedAt, AvailableAt)
-            SELECT lower(hex(randomblob(16))), a.Id, OLD.RestaurantId, 'cancelled', substr(OLD.BookingRef,1,100), substr(coalesce(OLD.CustomerName,''),1,200), OLD.Seats, OLD.Date, r.Timezone, substr(r.Name,1,200), a.Printer, a.Locale, unixepoch(), unixepoch()
+                INSERT INTO PrintJobs (Id, AgentId, RestaurantId, Kind, BookingRef, CustomerName, SpecialRequests, Seats, BookingDate, Timezone, RestaurantName, Printer, Locale, CreatedAt, AvailableAt)
+            SELECT lower(hex(randomblob(16))), a.Id, OLD.RestaurantId, 'cancelled', substr(OLD.BookingRef,1,100), substr(coalesce(OLD.CustomerName,''),1,200), substr(coalesce(OLD.SpecialRequests,''),1,500), OLD.Seats, OLD.Date, r.Timezone, substr(r.Name,1,200), a.Printer, a.Locale, unixepoch(), unixepoch()
             FROM PrintAgents a JOIN Restaurants r ON r.Id=a.RestaurantId
-            WHERE a.RestaurantId=OLD.RestaurantId AND a.Active=1 AND a.Enabled=1 AND (OLD.IsCancelled=0 AND (NEW.IsCancelled=1 OR OLD.RestaurantId IS NOT NEW.RestaurantId));
-                INSERT INTO PrintJobs (Id, AgentId, RestaurantId, Kind, BookingRef, CustomerName, Seats, BookingDate, Timezone, RestaurantName, Printer, Locale, CreatedAt, AvailableAt)
-            SELECT lower(hex(randomblob(16))), a.Id, NEW.RestaurantId, 'created', substr(NEW.BookingRef,1,100), substr(coalesce(NEW.CustomerName,''),1,200), NEW.Seats, NEW.Date, r.Timezone, substr(r.Name,1,200), a.Printer, a.Locale, unixepoch(), unixepoch()
+            WHERE a.RestaurantId=OLD.RestaurantId AND a.Active=1 AND a.Enabled=1 AND r.IsArchived=0 AND (OLD.IsCancelled=0 AND (NEW.IsCancelled=1 OR OLD.RestaurantId IS NOT NEW.RestaurantId));
+                INSERT INTO PrintJobs (Id, AgentId, RestaurantId, Kind, BookingRef, CustomerName, SpecialRequests, Seats, BookingDate, Timezone, RestaurantName, Printer, Locale, CreatedAt, AvailableAt)
+            SELECT lower(hex(randomblob(16))), a.Id, NEW.RestaurantId, 'created', substr(NEW.BookingRef,1,100), substr(coalesce(NEW.CustomerName,''),1,200), substr(coalesce(NEW.SpecialRequests,''),1,500), NEW.Seats, NEW.Date, r.Timezone, substr(r.Name,1,200), a.Printer, a.Locale, unixepoch(), unixepoch()
             FROM PrintAgents a JOIN Restaurants r ON r.Id=a.RestaurantId
-            WHERE a.RestaurantId=NEW.RestaurantId AND a.Active=1 AND a.Enabled=1 AND (NEW.IsCancelled=0 AND (OLD.IsCancelled=1 OR OLD.RestaurantId IS NOT NEW.RestaurantId));
-                INSERT INTO PrintJobs (Id, AgentId, RestaurantId, Kind, BookingRef, CustomerName, Seats, BookingDate, Timezone, RestaurantName, Printer, Locale, CreatedAt, AvailableAt)
-            SELECT lower(hex(randomblob(16))), a.Id, NEW.RestaurantId, 'changed', substr(NEW.BookingRef,1,100), substr(coalesce(NEW.CustomerName,''),1,200), NEW.Seats, NEW.Date, r.Timezone, substr(r.Name,1,200), a.Printer, a.Locale, unixepoch(), unixepoch()
+            WHERE a.RestaurantId=NEW.RestaurantId AND a.Active=1 AND a.Enabled=1 AND r.IsArchived=0 AND (NEW.IsCancelled=0 AND (OLD.IsCancelled=1 OR OLD.RestaurantId IS NOT NEW.RestaurantId));
+                INSERT INTO PrintJobs (Id, AgentId, RestaurantId, Kind, BookingRef, CustomerName, SpecialRequests, Seats, BookingDate, Timezone, RestaurantName, Printer, Locale, CreatedAt, AvailableAt)
+            SELECT lower(hex(randomblob(16))), a.Id, NEW.RestaurantId, 'changed', substr(NEW.BookingRef,1,100), substr(coalesce(NEW.CustomerName,''),1,200), substr(coalesce(NEW.SpecialRequests,''),1,500), NEW.Seats, NEW.Date, r.Timezone, substr(r.Name,1,200), a.Printer, a.Locale, unixepoch(), unixepoch()
             FROM PrintAgents a JOIN Restaurants r ON r.Id=a.RestaurantId
-            WHERE a.RestaurantId=NEW.RestaurantId AND a.Active=1 AND a.Enabled=1 AND (OLD.IsCancelled=0 AND NEW.IsCancelled=0 AND OLD.RestaurantId=NEW.RestaurantId AND (OLD.Date IS NOT NEW.Date OR OLD.Seats IS NOT NEW.Seats OR OLD.CustomerName IS NOT NEW.CustomerName));
+            WHERE a.RestaurantId=NEW.RestaurantId AND a.Active=1 AND a.Enabled=1 AND r.IsArchived=0 AND (OLD.IsCancelled=0 AND NEW.IsCancelled=0 AND OLD.RestaurantId=NEW.RestaurantId AND (OLD.Date IS NOT NEW.Date OR OLD.Seats IS NOT NEW.Seats OR OLD.CustomerName IS NOT NEW.CustomerName OR OLD.SpecialRequests IS NOT NEW.SpecialRequests));
             END;
             CREATE TRIGGER PrintBookingDeleted AFTER DELETE ON Bookings
             BEGIN
-                INSERT INTO PrintJobs (Id, AgentId, RestaurantId, Kind, BookingRef, CustomerName, Seats, BookingDate, Timezone, RestaurantName, Printer, Locale, CreatedAt, AvailableAt)
-            SELECT lower(hex(randomblob(16))), a.Id, OLD.RestaurantId, 'cancelled', substr(OLD.BookingRef,1,100), substr(coalesce(OLD.CustomerName,''),1,200), OLD.Seats, OLD.Date, r.Timezone, substr(r.Name,1,200), a.Printer, a.Locale, unixepoch(), unixepoch()
+                INSERT INTO PrintJobs (Id, AgentId, RestaurantId, Kind, BookingRef, CustomerName, SpecialRequests, Seats, BookingDate, Timezone, RestaurantName, Printer, Locale, CreatedAt, AvailableAt)
+            SELECT lower(hex(randomblob(16))), a.Id, OLD.RestaurantId, 'cancelled', substr(OLD.BookingRef,1,100), substr(coalesce(OLD.CustomerName,''),1,200), substr(coalesce(OLD.SpecialRequests,''),1,500), OLD.Seats, OLD.Date, r.Timezone, substr(r.Name,1,200), a.Printer, a.Locale, unixepoch(), unixepoch()
             FROM PrintAgents a JOIN Restaurants r ON r.Id=a.RestaurantId
-            WHERE a.RestaurantId=OLD.RestaurantId AND a.Active=1 AND a.Enabled=1 AND (OLD.IsCancelled=0 AND OLD.Status='Booked');
+            WHERE a.RestaurantId=OLD.RestaurantId AND a.Active=1 AND a.Enabled=1 AND r.IsArchived=0 AND (OLD.IsCancelled=0 AND OLD.Status='Booked');
             END;
             """);
     }

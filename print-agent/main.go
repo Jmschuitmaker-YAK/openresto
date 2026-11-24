@@ -232,6 +232,9 @@ func main() {
 	token := strings.TrimSpace(string(b))
 	if token == "" || strings.ContainsAny(token, "\r\n") { log.Fatal("invalid agent token") }
 	if err := os.MkdirAll(c.StateDir, 0700); err != nil { log.Fatal("cannot create state directory") }
+	unlock, err := lockState(c.StateDir)
+	if err != nil { log.Fatal("state directory is already in use or unavailable") }
+	defer unlock()
 	dialer := &net.Dialer{}
 	a := &agent{cfg:c, token:token, dial:dialer.DialContext,
 		client:&http.Client{Timeout:15*time.Second, CheckRedirect:func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}}

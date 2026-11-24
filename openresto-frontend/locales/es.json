@@ -2221,6 +2221,38 @@
         "replaceHint": "Esa fecha ya está en la lista; añadirla de nuevo sustituye la entrada anterior.",
         "cancelLabel": "Cancelar añadir",
         "addAction": "Añadir"
+      },
+      "printing": {
+        "title": "Impresora de tickets",
+        "subtitle": "Independiente de los correos al restaurante. Las confirmaciones a clientes no cambian.",
+        "location": "Establecimiento",
+        "online": "Agente conectado recientemente",
+        "offline": "Agente no conectado recientemente",
+        "enabled": "Imprimir nuevas reservas, cambios y cancelaciones",
+        "test": "Imprimir ticket de prueba",
+        "revoke": "Revocar agente",
+        "alias": "Nombre local de la impresora",
+        "locale": "Idioma del ticket",
+        "register": "Registrar agente",
+        "tokenWarning": "Copie el token al archivo protegido del agente. No se volverá a mostrar.",
+        "hideToken": "Ocultar token",
+        "refresh": "Actualizar estado",
+        "jobs": "Impresiones recientes",
+        "error": "No se pudo cargar o guardar la configuración.",
+        "replaceWarning": "Se revocará el agente anterior. Sus trabajos pendientes requieren revisión.",
+        "oldAgent": "Agente anterior",
+        "status": {
+          "queued": "En cola",
+          "leased": "En curso",
+          "sent": "Enviado a impresora",
+          "uncertain": "Incierto – comprobar ticket"
+        },
+        "kind": {
+          "created": "Nueva reserva",
+          "cancelled": "Cancelada",
+          "changed": "Modificada",
+          "test": "Prueba"
+        }
       }
     },
     "sidebar": {

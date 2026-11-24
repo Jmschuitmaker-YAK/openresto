@@ -18,7 +18,7 @@ namespace OpenRestoApi.Controllers;
 [RequestSizeLimit(4096)]
 public sealed class PrintSettingsController(AppDbContext db) : ControllerBase
 {
-    public sealed record RegisterRequest(string? Printer, string? Locale);
+    public sealed record RegisterRequest(string? Printer, string? Locale, bool Replace);
     public sealed record EnableRequest(bool Enabled);
     public sealed record ConfirmRequest(bool Confirm);
 
@@ -43,7 +43,9 @@ public sealed class PrintSettingsController(AppDbContext db) : ControllerBase
         {
             return BadRequest();
         }
-        PrintQueueStore.Registration? registration = Store().Register(restaurantId, request.Printer!, request.Locale!);
+        PrintQueueStore store = Store();
+        if (store.GetAgent(restaurantId) is not null && !request.Replace) return Conflict();
+        PrintQueueStore.Registration? registration = store.Register(restaurantId, request.Printer!, request.Locale!);
         return registration is null ? NotFound() : Ok(registration);
     }
 

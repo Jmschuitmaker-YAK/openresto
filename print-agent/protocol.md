@@ -1,7 +1,7 @@
 # Print API v1 (proposed contract)
 
-This document describes the future server implementation; these endpoints
-do not yet exist in OpenResto.
+This document specifies the private versioned protocol implemented on the feature branch.
+The integration remains unreleased until CI and staging validation.
 
 All endpoints require HTTPS and an agent-specific bearer token. Store only a
 hash of a high-entropy token server-side, scope it to one location and agent,
@@ -50,11 +50,12 @@ result. Do not return a terminal job as a new job with a different ID.
 Keep failed/uncertain jobs visible with operator reprint and audit trail.
 Retention of both server queue data and agent journal must be coordinated.
 
-## Admin integration (not implemented)
+## Admin integration
 
 Independent email and printer toggles for internal alerts; guest email and
 push remain unchanged. Default printer off for existing installations.
-Configure alias, location, event types, token registration/revocation, last
-heartbeat, queued/sent/uncertain status, test receipt and explicit reprint.
+Initial scope: one active agent per location, alias, token registration/revocation,
+last heartbeat, queued/sent/uncertain status and test receipt. Explicit reprint and
+advanced event configuration are follow-up work.
 Use least-privilege access and minimize receipt PII; guest contact data and
 notes should be printed only when operationally necessary.

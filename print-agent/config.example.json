@@ -7,5 +7,5 @@
     }
   },
   "stateDir": "/var/lib/openresto-print-agent",
-  "tokenFile": "/etc/openresto-print-agent/token"
+  "tokenFile": "/run/credentials/openresto-print-agent.service/token"
 }
