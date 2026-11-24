@@ -1,0 +1,11 @@
+{
+  "server": "https://reserveringen.example.org",
+  "printers": {
+    "bar": {
+      "address": "192.168.1.50:9100",
+      "cut": true
+    }
+  },
+  "stateDir": "/var/lib/openresto-print-agent",
+  "tokenFile": "/etc/openresto-print-agent/token"
+}

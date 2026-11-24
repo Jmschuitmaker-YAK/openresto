@@ -1,0 +1,33 @@
+name: Print Agent
+on:
+  pull_request:
+    paths:
+      - 'print-agent/**'
+      - '.github/workflows/print-agent.yml'
+  push:
+    branches:
+      - main
+      - feat/print-agent
+    paths:
+      - 'print-agent/**'
+      - '.github/workflows/print-agent.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: print-agent
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: print-agent/go.mod
+          cache: false
+      - run: go test -race ./...
+      - run: go vet ./...
+      - run: |
+          for target in linux/amd64 linux/arm64 windows/amd64 darwin/arm64; do
+            GOOS=${target%/*} GOARCH=${target#*/} CGO_ENABLED=0 go build -o /tmp/agent-${target%/*}-${target#*/} .
+          done
