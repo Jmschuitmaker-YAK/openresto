@@ -17,9 +17,7 @@ import { styles } from "./LocationsFilterBar.styles";
 export type MealWindow = "Lunch" | "Dinner" | "All";
 
 function mealOptions(compact: boolean, t: TFunction): SelectOption[] {
-  const all = compact
-    ? t("restaurant.filterBar.all")
-    : t("restaurant.filterBar.allTimes");
+  const all = compact ? t("restaurant.filterBar.all") : t("restaurant.filterBar.allTimes");
   return [
     { label: t("restaurant.filterBar.lunch"), value: "Lunch" },
     { label: t("restaurant.filterBar.dinner"), value: "Dinner" },
@@ -38,13 +36,11 @@ export function formatBarDate(
   date: string,
   today: string,
   compact: boolean,
-  t: TFunction = i18n.t.bind(i18n)
+  t: TFunction = i18n.getFixedT(i18n.language)
 ): string {
   const isToday = date === today;
   if (compact) return isToday ? t("restaurant.filterBar.today") : shortDate(date);
-  return isToday
-    ? t("restaurant.filterBar.todayDate", { date: shortDate(date) })
-    : shortDate(date);
+  return isToday ? t("restaurant.filterBar.todayDate", { date: shortDate(date) }) : shortDate(date);
 }
 
 function shortDate(date: string): string {

@@ -234,7 +234,6 @@ export function hasCustomHours(restaurant: HoursSource): boolean {
   );
 }
 
-
 export function isoDayShortName(isoDay: number): string {
   if (!Number.isInteger(isoDay) || isoDay < 1 || isoDay > 7) return "";
   return new Intl.DateTimeFormat(getActiveLocale() ?? "en", {

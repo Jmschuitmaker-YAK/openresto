@@ -83,8 +83,12 @@ function resolveEvent(input: CalendarInput): CalendarEvent {
     t("booking.calendar.eventGuests", { count: input.seats }),
     input.sectionName ? t("booking.calendar.eventSection", { name: input.sectionName }) : "",
     input.tableName ? t("booking.calendar.eventTable", { name: input.tableName }) : "",
-    input.restaurantAddress ? t("booking.calendar.eventAddress", { address: input.restaurantAddress }) : "",
-    input.specialRequests ? t("booking.calendar.eventRequests", { requests: input.specialRequests }) : "",
+    input.restaurantAddress
+      ? t("booking.calendar.eventAddress", { address: input.restaurantAddress })
+      : "",
+    input.specialRequests
+      ? t("booking.calendar.eventRequests", { requests: input.specialRequests })
+      : "",
   ]
     .filter(Boolean)
     .join("\n");
