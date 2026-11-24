@@ -53,7 +53,7 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
 
     // A replacement is a new identity. Existing jobs stay with the old agent; no silent replay.
     // Registration is disabled by default, so pairing does not suddenly print live reservations.
-    public Registration? Register(int restaurantId, string printer, string locale)
+    public Registration? Register(int restaurantId, string printer, string locale, bool replace = true)
     {
         if (!ValidAlias(printer) || !ValidLocale(locale))
         {
@@ -67,6 +67,15 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
                 return null;
             }
         }
+        if (!replace)
+        {
+            using SqliteCommand active = Command(tx, "SELECT 1 FROM PrintAgents WHERE RestaurantId=$id AND Active=1", ("$id", restaurantId));
+            if (active.ExecuteScalar() is not null)
+            {
+                throw new InvalidOperationException("An active print agent already exists.");
+            }
+        }
+        RetireJobs(tx, restaurantId);
         string id = RandomId();
         string token = RandomId(32);
         using (SqliteCommand deactivate = Command(tx, "UPDATE PrintAgents SET Active=0, Enabled=0 WHERE RestaurantId=$id AND Active=1", ("$id", restaurantId)))
@@ -92,9 +101,21 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
         return found;
     }
 
+    private void RetireJobs(SqliteTransaction tx, int restaurantId)
+    {
+        using SqliteCommand cmd = Command(tx, """
+            UPDATE PrintJobs SET Status='uncertain', Reason='agent_revoked', CompletedAt=$now,
+                CustomerName='', SpecialRequests='', LeaseUntil=NULL
+            WHERE RestaurantId=$id AND Status IN ('queued','leased')
+              AND AgentId IN (SELECT Id FROM PrintAgents WHERE RestaurantId=$id AND Active=1)
+            """, ("$id", restaurantId), ("$now", Now));
+        cmd.ExecuteNonQuery();
+    }
+
     public bool Revoke(int restaurantId)
     {
         using SqliteTransaction tx = connection.BeginTransaction(deferred: false);
+        RetireJobs(tx, restaurantId);
         using SqliteCommand cmd = Command(tx, "UPDATE PrintAgents SET Active=0, Enabled=0 WHERE RestaurantId=$id AND Active=1", ("$id", restaurantId));
         bool found = cmd.ExecuteNonQuery() == 1;
         tx.Commit();
@@ -152,6 +173,16 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
         using (SqliteCommand heartbeat = Command(tx, "UPDATE PrintAgents SET LastSeen=$now WHERE Id=$agent", ("$now", now), ("$agent", agent)))
         {
             heartbeat.ExecuteNonQuery();
+        }
+        // Do not silently print very old jobs after a long outage. Retain a visible outcome.
+        using (SqliteCommand expire = Command(tx, """
+            UPDATE PrintJobs SET Status='uncertain', Reason='expired', CompletedAt=$now,
+                CustomerName='', SpecialRequests='', LeaseUntil=NULL
+            WHERE AgentId=$agent AND Status IN ('queued','leased') AND CreatedAt<$cutoff
+              AND (Status='queued' OR LeaseUntil<=$now)
+            """, ("$now", now), ("$agent", agent), ("$cutoff", now-7*86400)))
+        {
+            expire.ExecuteNonQuery();
         }
         string lease = RandomId(32);
         Claim? job = null;

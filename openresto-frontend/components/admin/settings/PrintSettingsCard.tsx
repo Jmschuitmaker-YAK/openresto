@@ -69,9 +69,10 @@ function PrintSettingsForm() {
     setError(false);
     try {
       await action();
-      setReload((n) => n + 1);
+      if (location !== undefined) setStatus(await getPrintStatus(location));
     } catch {
       setError(true);
+      setStatus(null);
     } finally {
       setBusy(false);
       setConfirm(null);
@@ -139,11 +140,7 @@ function PrintSettingsForm() {
               onValueChange={(value) => void action("enabled", value)}
             />
             <ButtonRow align="start">
-              <Button
-                size="sm"
-                disabled={!ready}
-                onPress={() => void action("test")}
-              >
+              <Button size="sm" disabled={!ready} onPress={() => void action("test")}>
                 {t("admin.settings.printing.test")}
               </Button>
               <Button
@@ -190,7 +187,11 @@ function PrintSettingsForm() {
           variant="secondary"
           size="sm"
           disabled={busy}
-          onPress={() => setReload((n) => n + 1)}
+          onPress={() => {
+            setStatus(null);
+            setError(false);
+            setReload((n) => n + 1);
+          }}
         >
           {t("admin.settings.printing.refresh")}
         </Button>
@@ -200,9 +201,7 @@ function PrintSettingsForm() {
             <ThemedText>
               {t(`admin.settings.printing.kind.${job.kind}`)} ·{" "}
               {t(`admin.settings.printing.status.${job.status}`)}
-              {job.agentId !== agent?.agentId
-                ? ` · ${t("admin.settings.printing.oldAgent")}`
-                : ""}
+              {job.agentId !== agent?.agentId ? ` · ${t("admin.settings.printing.oldAgent")}` : ""}
             </ThemedText>
             {job.reason && <ThemedText>{job.reason}</ThemedText>}
           </View>
@@ -213,9 +212,7 @@ function PrintSettingsForm() {
           destructive
           loading={busy}
           onCancel={() => setConfirm(null)}
-          onConfirm={() =>
-            confirm === "register" ? void register() : void action("revoke")
-          }
+          onConfirm={() => (confirm === "register" ? void register() : void action("revoke"))}
         />
       </View>
     </View>

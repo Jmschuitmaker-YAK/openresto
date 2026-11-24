@@ -43,10 +43,15 @@ public sealed class PrintSettingsController(AppDbContext db) : ControllerBase
         {
             return BadRequest();
         }
-        PrintQueueStore store = Store();
-        if (store.GetAgent(restaurantId) is not null && !request.Replace) return Conflict();
-        PrintQueueStore.Registration? registration = store.Register(restaurantId, request.Printer!, request.Locale!);
-        return registration is null ? NotFound() : Ok(registration);
+        try
+        {
+            PrintQueueStore.Registration? registration = Store().Register(restaurantId, request.Printer!, request.Locale!, request.Replace);
+            return registration is null ? NotFound() : Ok(registration);
+        }
+        catch (InvalidOperationException)
+        {
+            return Conflict();
+        }
     }
 
     [HttpPost("enabled")]

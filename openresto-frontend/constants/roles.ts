@@ -22,7 +22,12 @@ export type AssignableRole = (typeof ASSIGNABLE_ROLES)[number];
 
 /** Things a role may or may not do. One entry per gated capability. */
 export type Capability =
-  "manage:users" | "delete:location" | "view:audit" | "manage:api-keys" | "manage:embed" | "manage:printing";
+  | "manage:users"
+  | "delete:location"
+  | "view:audit"
+  | "manage:api-keys"
+  | "manage:embed"
+  | "manage:printing";
 
 const CAPABILITY_ROLES: Record<Capability, readonly string[]> = {
   "manage:users": [ROLES.owner, ROLES.legacyAdmin],
