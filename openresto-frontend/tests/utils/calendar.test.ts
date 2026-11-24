@@ -1,6 +1,7 @@
 /**
  * @jest-environment ./jest-mocks/jsdomEnvironment.js
  */
+import i18n from "@/i18n";
 import { Platform } from "react-native";
 import { buildCalendarUrls, buildIcs, deliverIcs, fmtCal } from "@/utils/calendar";
 import { File, Paths } from "expo-file-system";
@@ -159,5 +160,26 @@ describe("calendar utility - deliverIcs", () => {
       mimeType: "text/calendar",
       UTI: "com.apple.ical.ics",
     });
+  });
+});
+
+describe("localized calendar exports", () => {
+  afterEach(async () => {
+    await i18n.changeLanguage("en");
+  });
+
+  it.each([
+    ["nl", "Reservering bij Test Resto"],
+    ["fr", "Réservation chez Test Resto"],
+    ["de", "Reservierung bei Test Resto"],
+    ["es", "Reserva en Test Resto"],
+    ["en", "Reservation at Test Resto"],
+  ])("uses %s for ICS and calendar links", async (language, title) => {
+    await i18n.changeLanguage(language);
+    expect(buildIcs(input)).toContain(`SUMMARY:${title}`);
+    const { googleUrl, outlookUrl } = buildCalendarUrls(input);
+    expect(googleUrl).toContain(encodeURIComponent(title));
+    expect(outlookUrl).toContain(encodeURIComponent(title));
+    expect(buildIcs(input)).toContain("DTSTART:20261010T120000Z");
   });
 });

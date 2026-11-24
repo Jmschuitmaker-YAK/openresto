@@ -52,7 +52,7 @@ export default function KeyboardShortcutsHelp({
                     <ThemedText style={styles.keyText}>{s.keys}</ThemedText>
                   </View>
                   <ThemedText style={[styles.description, { color: colors.muted }]}>
-                    {s.description}
+                    {t(s.descriptionKey)}
                   </ThemedText>
                 </View>
               ))}

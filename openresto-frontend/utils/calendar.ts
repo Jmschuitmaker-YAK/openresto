@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import { Platform } from "react-native";
 import { File, Paths } from "expo-file-system";
 import * as Sharing from "expo-sharing";
@@ -75,20 +76,21 @@ function resolveEvent(input: CalendarInput): CalendarEvent {
 
   const origin =
     typeof window !== "undefined" ? window.location?.origin : /* istanbul ignore next */ "";
+  const t = i18n.getFixedT(i18n.language);
   const description = [
-    origin ? `Booked via the URL: (${origin})` : "",
-    `Booking reference: ${input.bookingRef}`,
-    `Guests: ${input.seats}`,
-    input.sectionName ? `Section: ${input.sectionName}` : "",
-    input.tableName ? `Table: ${input.tableName}` : "",
-    input.restaurantAddress ? `Address: ${input.restaurantAddress}` : "",
-    input.specialRequests ? `Requests: ${input.specialRequests}` : "",
+    origin ? t("booking.calendar.eventSource", { url: origin }) : "",
+    t("booking.calendar.eventReference", { ref: input.bookingRef }),
+    t("booking.calendar.eventGuests", { count: input.seats }),
+    input.sectionName ? t("booking.calendar.eventSection", { name: input.sectionName }) : "",
+    input.tableName ? t("booking.calendar.eventTable", { name: input.tableName }) : "",
+    input.restaurantAddress ? t("booking.calendar.eventAddress", { address: input.restaurantAddress }) : "",
+    input.specialRequests ? t("booking.calendar.eventRequests", { requests: input.specialRequests }) : "",
   ]
     .filter(Boolean)
     .join("\n");
 
   return {
-    title: `Reservation at ${input.restaurantName}`,
+    title: t("booking.calendar.eventTitle", { name: input.restaurantName }),
     description,
     location: input.restaurantAddress,
     startDate,

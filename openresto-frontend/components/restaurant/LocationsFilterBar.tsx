@@ -1,4 +1,5 @@
 import { View } from "react-native";
+import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
 import { ThemedText } from "@/components/themed-text";
@@ -15,29 +16,34 @@ import { styles } from "./LocationsFilterBar.styles";
  */
 export type MealWindow = "Lunch" | "Dinner" | "All";
 
-function mealOptions(compact: boolean): SelectOption[] {
+function mealOptions(compact: boolean, t: TFunction): SelectOption[] {
   const all = compact
-    ? i18n.t("restaurant.filterBar.all")
-    : i18n.t("restaurant.filterBar.allTimes");
+    ? t("restaurant.filterBar.all")
+    : t("restaurant.filterBar.allTimes");
   return [
-    { label: i18n.t("restaurant.filterBar.lunch"), value: "Lunch" },
-    { label: i18n.t("restaurant.filterBar.dinner"), value: "Dinner" },
+    { label: t("restaurant.filterBar.lunch"), value: "Lunch" },
+    { label: t("restaurant.filterBar.dinner"), value: "Dinner" },
     { label: all, value: "All" },
   ];
 }
 
-function seatOptions(compact: boolean): SelectOption[] {
+function seatOptions(compact: boolean, t: TFunction): SelectOption[] {
   return [...Array(10).keys()].map((i) => ({
-    label: compact ? String(i + 1) : i18n.t("restaurant.filterBar.guestCount", { count: i + 1 }),
+    label: compact ? String(i + 1) : t("restaurant.filterBar.guestCount", { count: i + 1 }),
     value: i + 1,
   }));
 }
 
-export function formatBarDate(date: string, today: string, compact: boolean): string {
+export function formatBarDate(
+  date: string,
+  today: string,
+  compact: boolean,
+  t: TFunction = i18n.t.bind(i18n)
+): string {
   const isToday = date === today;
-  if (compact) return isToday ? i18n.t("restaurant.filterBar.today") : shortDate(date);
+  if (compact) return isToday ? t("restaurant.filterBar.today") : shortDate(date);
   return isToday
-    ? i18n.t("restaurant.filterBar.todayDate", { date: shortDate(date) })
+    ? t("restaurant.filterBar.todayDate", { date: shortDate(date) })
     : shortDate(date);
 }
 
@@ -92,7 +98,7 @@ export default function LocationsFilterBar({
         <Select
           icon="people-outline"
           accessibilityLabel={t("restaurant.filterBar.numberOfGuests")}
-          options={seatOptions(!!compact)}
+          options={seatOptions(!!compact, t)}
           selectedValue={seats}
           onSelect={(v) => onSeatsChange(v as number)}
         />
@@ -101,7 +107,7 @@ export default function LocationsFilterBar({
       <View style={compact ? styles.controlCompactWide : styles.controlDate}>
         <DatePicker
           icon={compact ? undefined : "calendar-outline"}
-          triggerLabel={formatBarDate(date, today, !!compact)}
+          triggerLabel={formatBarDate(date, today, !!compact, t)}
           selectedDate={date}
           onSelect={onDateChange}
         />
@@ -111,7 +117,7 @@ export default function LocationsFilterBar({
         <Select
           icon={compact ? undefined : "time-outline"}
           accessibilityLabel={t("restaurant.filterBar.timeOfDay")}
-          options={mealOptions(!!compact)}
+          options={mealOptions(!!compact, t)}
           selectedValue={meal}
           onSelect={(v) => onMealChange(v as MealWindow)}
         />

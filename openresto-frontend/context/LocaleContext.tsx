@@ -75,8 +75,8 @@ const LocaleContext = createContext<LocaleContextValue>({
  * resolution effect and the switcher's `setLocale`, so the two paths can't drift apart.
  */
 function applyLocale(locale: SupportedLocale): void {
-  i18n.changeLanguage(locale);
   setActiveLocale(locale);
+  i18n.changeLanguage(locale);
 
   /* istanbul ignore else -- native has no `document`; every test runs under jsdom */
   if (typeof document !== "undefined") {

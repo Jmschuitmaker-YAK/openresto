@@ -1,3 +1,4 @@
+import { getActiveLocale } from "@/utils/locale";
 import { DateExceptionDto, DayHoursDto } from "@/api/restaurants";
 import { getDateException } from "@/utils/dateExceptions";
 import { getRestaurantDate, getRestaurantNow, parseDayOfWeek } from "@/utils/restaurantTime";
@@ -233,10 +234,13 @@ export function hasCustomHours(restaurant: HoursSource): boolean {
   );
 }
 
-const DAY_NAMES_SHORT = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export function isoDayShortName(isoDay: number): string {
-  return DAY_NAMES_SHORT[isoDay - 1] ?? "";
+  if (!Number.isInteger(isoDay) || isoDay < 1 || isoDay > 7) return "";
+  return new Intl.DateTimeFormat(getActiveLocale() ?? "en", {
+    weekday: "short",
+    timeZone: "UTC",
+  }).format(new Date(Date.UTC(2026, 0, 4 + isoDay)));
 }
 
 /**
