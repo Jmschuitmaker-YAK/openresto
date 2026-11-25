@@ -22,6 +22,7 @@ import (
 type printer struct {
 	Address string `json:"address"`
 	Cut bool `json:"cut"`
+	PaperWidthMM int `json:"paperWidthMm,omitempty"`
 }
 
 type config struct {
@@ -62,6 +63,9 @@ func validateConfig(c config) error {
 		return errors.New("stateDir, tokenFile and printers are required")
 	}
 	for id, p := range c.Printers {
+		if p.PaperWidthMM != 0 && p.PaperWidthMM != 58 && p.PaperWidthMM != 80 {
+			return errors.New("paperWidthMm must be 58 or 80")
+		}
 		if !jobID.MatchString(id) {
 			return errors.New("invalid printer identifier")
 		}
@@ -128,27 +132,6 @@ func (a *agent) saveResult(id string, r result) error {
 	return syncDirectory(a.cfg.StateDir)
 }
 
-func receipt(text string, cut bool) []byte {
-	// Only the agent may generate ESC/POS control bytes. The API supplies text,
-	// never raw printer commands. ASCII is portable across printer code pages.
-	var b bytes.Buffer
-	b.Write([]byte{0x1b, 0x40})
-	for _, r := range strings.ReplaceAll(text, "\r\n", "\n") {
-		switch {
-		case r == '\n': b.WriteByte('\n')
-		case r >= 32 && r <= 126: b.WriteRune(r)
-		default:
-			const accented = "ÀÁÂÃÄÅàáâãäåÈÉÊËèéêëÌÍÎÏìíîïÒÓÔÕÖòóôõöÙÚÛÜùúûüÇçÑñ"
-			const plain =    "AAAAAAaaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUUuuuuCcNn"
-			i := strings.IndexRune(accented, r)
-			if i >= 0 { b.WriteByte(plain[len([]rune(accented[:i]))]) } else if r >= 32 && r != 127 { b.WriteByte('?') }
-		}
-	}
-	b.WriteString("\n\n\n")
-	if cut { b.Write([]byte{0x1d, 0x56, 0x00}) }
-	return b.Bytes()
-}
-
 func (a *agent) process(ctx context.Context, j job) result {
 	if r, err := a.readResult(j.ID); err == nil { return r
 	} else if !os.IsNotExist(err) {
@@ -170,7 +153,7 @@ func (a *agent) process(ctx context.Context, j job) result {
 	if err := a.saveResult(j.ID, result{Status:"sending"}); err != nil {
 		return result{Status:"retry", Reason:"journal_write_failed"}
 	}
-	data := receipt(j.Text, p.Cut)
+	data := receipt(j.Text, p)
 	n, err := conn.Write(data)
 	r := result{Status:"sent"}
 	if err != nil || n != len(data) {
@@ -219,7 +202,11 @@ func run(ctx context.Context, a *agent) {
 }
 
 func main() {
-	if len(os.Args) != 2 { log.Fatal("usage: openresto-print-agent CONFIG.json") }
+	if len(os.Args) == 3 && os.Args[1] == "--preview" {
+		if err := previewCommand(os.Stdout, os.Args[2]); err != nil { log.Fatal(err) }
+		return
+	}
+	if len(os.Args) != 2 { log.Fatal("usage: openresto-print-agent CONFIG.json | --preview 58|80") }
 	b, err := os.ReadFile(os.Args[1])
 	if err != nil { log.Fatal("could not read configuration") }
 	var c config
