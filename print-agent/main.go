@@ -202,14 +202,14 @@ func (a *agent) tick(ctx context.Context) error {
 }
 
 func run(ctx context.Context, a *agent) {
-	delay := 2*time.Second
+	delay := 5*time.Second
 	for ctx.Err() == nil {
 		if err := a.tick(ctx); err != nil {
 			if ctx.Err() != nil { return }
 			log.Printf("poll: %v", err)
 			delay *= 2
 			if delay > 60*time.Second { delay = 60*time.Second }
-		} else { delay = 2*time.Second }
+		} else { delay = 5*time.Second }
 		timer := time.NewTimer(delay)
 		select {
 		case <-ctx.Done(): timer.Stop(); return

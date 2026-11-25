@@ -48,7 +48,7 @@ Make repeated identical results idempotent; a lost response must not cause a
 second print. The agent can reclaim the same ID and report its journaled
 result. Do not return a terminal job as a new job with a different ID.
 Keep failed/uncertain jobs visible with operator reprint and audit trail.
-Retention of both server queue data and agent journal must be coordinated.
+Unresolved jobs expire after seven days (marked uncertain), even when the agent is offline. Terminal history is deleted after 30 days. The agent journal remains local and is not automatically compacted.
 
 ## Admin integration
 

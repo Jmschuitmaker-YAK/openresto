@@ -188,6 +188,37 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
         return jobs;
     }
 
+    // Run even when an agent has been offline for weeks. Expiration is visible;
+    // delete terminal history after 30 days, without replaying it.
+    public void Prune()
+    {
+        using SqliteTransaction tx = connection.BeginTransaction(deferred: false);
+        long now = Now;
+        using (SqliteCommand expire = Command(tx, """
+            UPDATE PrintJobs SET Status='uncertain', Reason='expired', CompletedAt=$now,
+                CustomerName='', SpecialRequests='', LeaseUntil=NULL
+            WHERE Status IN ('queued','leased') AND CreatedAt<$cutoff
+                AND (Status='queued' OR LeaseUntil<=$now)
+            """, ("$now", now), ("$cutoff", now-7*86400)))
+        {
+            expire.ExecuteNonQuery();
+        }
+        using (SqliteCommand delete = Command(tx, """
+            DELETE FROM PrintJobs WHERE Status IN ('sent','uncertain') AND CompletedAt<$cutoff
+            """, ("$cutoff", now-30*86400)))
+        {
+            delete.ExecuteNonQuery();
+        }
+        using (SqliteCommand retired = Command(tx, """
+            DELETE FROM PrintAgents WHERE Active=0 AND NOT EXISTS
+                (SELECT 1 FROM PrintJobs j WHERE j.AgentId=PrintAgents.Id)
+            """))
+        {
+            retired.ExecuteNonQuery();
+        }
+        tx.Commit();
+    }
+
     public ClaimResult ClaimNext(string? token)
     {
         if (token is null || token.Length != 64 || !token.All(char.IsAsciiHexDigit)) return new ClaimResult(false, null);
@@ -198,7 +229,7 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
             return new ClaimResult(false, null);
         }
         long now = Now;
-        using (SqliteCommand heartbeat = Command(tx, "UPDATE PrintAgents SET LastSeen=$now WHERE Id=$agent", ("$now", now), ("$agent", agent)))
+        using (SqliteCommand heartbeat = Command(tx, "UPDATE PrintAgents SET LastSeen=$now WHERE Id=$agent AND (LastSeen IS NULL OR LastSeen<$now-15)", ("$now", now), ("$agent", agent)))
         {
             heartbeat.ExecuteNonQuery();
         }

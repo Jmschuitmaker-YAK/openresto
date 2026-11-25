@@ -132,6 +132,32 @@ public sealed class PrintOutboxTests : IDisposable
         Assert.Null(_store.ClaimNext(registration.Token).Job);
     }
 
+    [Fact]
+    public void Retention_ExpiresOfflineJobsWithoutAnAgentPoll()
+    {
+        _store.Register(RestaurantId, "bar", "nl");
+        _store.SetEnabled(RestaurantId, true);
+        AddBooking();
+        using (var cmd = _connection.CreateCommand())
+        {
+            cmd.CommandText = "UPDATE PrintJobs SET CreatedAt=unixepoch()-8*86400";
+            cmd.ExecuteNonQuery();
+        }
+        _store.Prune();
+        var job = Assert.Single(_store.GetJobs(RestaurantId));
+        Assert.Equal("uncertain", job.Status);
+        Assert.Equal("expired", job.Reason);
+        using (var cmd = _connection.CreateCommand())
+        {
+            cmd.CommandText = "SELECT CustomerName FROM PrintJobs";
+            Assert.Equal("", cmd.ExecuteScalar());
+            cmd.CommandText = "UPDATE PrintJobs SET CompletedAt=unixepoch()-31*86400";
+            cmd.ExecuteNonQuery();
+        }
+        _store.Prune();
+        Assert.Empty(_store.GetJobs(RestaurantId));
+    }
+
     public void Dispose()
     {
         _db.Dispose();
