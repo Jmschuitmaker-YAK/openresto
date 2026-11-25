@@ -1,0 +1,107 @@
+name: Eilanderij Release
+
+on:
+  push:
+    tags:
+      - 'eilanderij-v*'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify fork release version
+    if: github.repository == 'Jmschuitmaker-YAK/openresto'
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.version.outputs.image_tag }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify tag and version
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! "$GITHUB_REF_NAME" =~ ^eilanderij-v([0-9]+\.[0-9]+\.[0-9]+)-([1-9][0-9]*)$ ]]; then
+            echo "Expected eilanderij-vX.Y.Z-N" >&2
+            exit 1
+          fi
+          version="${BASH_REMATCH[1]}"
+          revision="${BASH_REMATCH[2]}"
+          git merge-base --is-ancestor HEAD origin/main
+          ./scripts/check-release-version.sh "$version"
+          echo "image_tag=${version}-eilanderij.${revision}" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build fork image (${{ matrix.image }})
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: backend
+            context: .
+            file: ./OpenRestoApi/Dockerfile
+          - image: frontend
+            context: ./openresto-frontend
+            file: ./openresto-frontend/Dockerfile
+          - image: nginx
+            context: ./nginx
+            file: ./nginx/Dockerfile
+          - image: cli
+            context: ./openresto-cli
+            file: ./openresto-cli/Dockerfile
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v7
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.file }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ghcr.io/jmschuitmaker-yak/openresto-${{ matrix.image }}:${{ needs.verify.outputs.image_tag }}
+          build-args: ${{ matrix.image == 'frontend' && 'EXPO_PUBLIC_API_URL=/api' || '' }}
+          cache-from: type=gha,scope=fork-${{ matrix.image }}
+          cache-to: type=gha,mode=max,scope=fork-${{ matrix.image }}
+
+  release:
+    name: Publish fork GitHub release
+    needs: [verify, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Generate pinned fork Compose file
+        env:
+          IMAGE_TAG: ${{ needs.verify.outputs.image_tag }}
+        run: |
+          sed -e 's|ghcr.io/karanshukla/|ghcr.io/jmschuitmaker-yak/|g' \
+              -e "s|\${OPENRESTO_VERSION:-latest}|$IMAGE_TAG|g" \
+              docker-compose.release.yml > /tmp/docker-compose.yml
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IMAGE_TAG: ${{ needs.verify.outputs.image_tag }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" --verify-tag \
+            --title "OpenResto Eilanderij $IMAGE_TAG" \
+            --notes "Fork release built from $GITHUB_SHA. Includes pinned fork container images and the source archive. Existing installations should keep their own configuration and persistent volumes." \
+            "/tmp/docker-compose.yml#docker-compose.yml"
