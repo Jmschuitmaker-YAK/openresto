@@ -1,5 +1,6 @@
 import { get, post } from "./client";
 import { apiErrorMessage } from "@/api/errors";
+import i18n from "@/i18n";
 
 export async function login(email: string, password: string): Promise<{ message: string } | null> {
   try {
@@ -54,7 +55,7 @@ export async function changePassword(
       message: res.ok ? (body.message ?? "Done.") : apiErrorMessage(body, "Request failed."),
     };
   } catch {
-    return { ok: false, message: "Network error." };
+    return { ok: false, message: i18n.t("errors.network") };
   }
 }
 
@@ -71,7 +72,7 @@ export async function changeEmail(
       email: body.email,
     };
   } catch {
-    return { ok: false, message: "Network error." };
+    return { ok: false, message: i18n.t("errors.network") };
   }
 }
 
@@ -116,7 +117,7 @@ export async function setupPvq(
       message: res.ok ? (body.message ?? "Done.") : apiErrorMessage(body, "Failed."),
     };
   } catch {
-    return { ok: false, message: "Network error." };
+    return { ok: false, message: i18n.t("errors.network") };
   }
 }
 
@@ -147,6 +148,6 @@ export async function resetPassword(
       message: res.ok ? (body.message ?? "Done.") : apiErrorMessage(body, "Failed."),
     };
   } catch {
-    return { ok: false, message: "Network error." };
+    return { ok: false, message: i18n.t("errors.network") };
   }
 }

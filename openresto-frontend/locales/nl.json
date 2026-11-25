@@ -559,7 +559,9 @@
     "embed": {
       "origin_invalid": "‘{{origin}}’ is geen geldig websiteadres. Gebruik het formaat https://example.com.",
       "too_many_origins": "Maximaal {{max}} websites mogen de reserveringswidget tonen."
-    }
+    },
+    "passwordMismatch": "Wachtwoorden komen niet overeen.",
+    "network": "Netwerkfout."
   },
   "lookup": {
     "cancelModal": {
@@ -1529,7 +1531,8 @@
         "sendTestLabel": "Verstuur een testmail",
         "testingButton": "Testen…",
         "retestButton": "Opnieuw testen",
-        "sendTestButton": "Testmail versturen"
+        "sendTestButton": "Testmail versturen",
+        "connectionSuccessMessage": "Verbinding geslaagd."
       },
       "contact": {
         "title": "Contact & website",
@@ -1833,7 +1836,8 @@
           "customHint": "Je eigen server"
         },
         "saveFailed": "Opslaan mislukt.",
-        "saveToApply": "E-mails worden via je SMTP-account verstuurd. Sla op om de wijziging toe te passen."
+        "saveToApply": "E-mails worden via je SMTP-account verstuurd. Sla op om de wijziging toe te passen.",
+        "savedMessage": "E-mailinstellingen opgeslagen."
       },
       "users": {
         "title": "Gebruikers",
@@ -1970,7 +1974,10 @@
         "darkMode": "Donker",
         "previewInModeLabel": "Voorbeeld in {{mode}} modus",
         "bookCta": "Reserveren",
-        "hint": "Locaties zijn voorbeelden. De overige inhoud is je eigen inhoud, inclusief nog niet opgeslagen wijzigingen."
+        "hint": "Locaties zijn voorbeelden. De overige inhoud is je eigen inhoud, inclusief nog niet opgeslagen wijzigingen.",
+        "exampleRiverside": "Aan het water",
+        "exampleOldTown": "Dorpskern",
+        "exampleHarbour": "Haven"
       },
       "restaurantInfo": {
         "oversizeOff": "Uit",
@@ -2210,7 +2217,8 @@
           "locationLabel": "Locatie",
           "allLocations": "Alle locaties",
           "scriptLabel": "Reserveringswidget",
-          "linkLabel": "Alleen link"
+          "linkLabel": "Alleen link",
+          "bookingLinkText": "Reserveer een tafel"
         },
         "probe": {
           "checking": "Controleren of deze server klaar is voor de widget…",

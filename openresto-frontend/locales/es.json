@@ -559,7 +559,9 @@
     "embed": {
       "origin_invalid": "«{{origin}}» no es una dirección de sitio. Usa el formato https://example.com.",
       "too_many_origins": "Como máximo {{max}} sitios pueden mostrar el widget de reservas."
-    }
+    },
+    "passwordMismatch": "Las contraseñas no coinciden.",
+    "network": "Error de red."
   },
   "lookup": {
     "cancelModal": {
@@ -1529,7 +1531,8 @@
         "sendTestLabel": "Enviar un correo de prueba",
         "testingButton": "Probando…",
         "retestButton": "Volver a probar",
-        "sendTestButton": "Enviar prueba"
+        "sendTestButton": "Enviar prueba",
+        "connectionSuccessMessage": "Conexión correcta."
       },
       "contact": {
         "title": "Contacto y sitio web",
@@ -1833,7 +1836,8 @@
           "customHint": "Tu propio servidor"
         },
         "saveFailed": "No se pudo guardar.",
-        "saveToApply": "Los correos se enviarán mediante tu cuenta SMTP. Guarda para aplicar los cambios."
+        "saveToApply": "Los correos se enviarán mediante tu cuenta SMTP. Guarda para aplicar los cambios.",
+        "savedMessage": "Configuración de correo guardada."
       },
       "users": {
         "title": "Usuarios",
@@ -1970,7 +1974,10 @@
         "darkMode": "Oscuro",
         "previewInModeLabel": "Vista previa en modo {{mode}}",
         "bookCta": "Reservar",
-        "hint": "Los locales son de muestra. Todo lo demás es su contenido real, incluidos los cambios aún no guardados."
+        "hint": "Los locales son de muestra. Todo lo demás es su contenido real, incluidos los cambios aún no guardados.",
+        "exampleRiverside": "Ribera",
+        "exampleOldTown": "Casco antiguo",
+        "exampleHarbour": "Puerto"
       },
       "restaurantInfo": {
         "oversizeOff": "Desactivado",
@@ -2210,7 +2217,8 @@
           "locationLabel": "Local",
           "allLocations": "Todos los locales",
           "scriptLabel": "Widget de reservas",
-          "linkLabel": "Solo enlace"
+          "linkLabel": "Solo enlace",
+          "bookingLinkText": "Reservar una mesa"
         },
         "probe": {
           "checking": "Comprobando que este servidor está listo para el widget…",

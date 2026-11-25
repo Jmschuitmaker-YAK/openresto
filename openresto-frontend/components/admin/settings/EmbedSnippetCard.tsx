@@ -29,12 +29,13 @@ const ALL_LOCATIONS = 0;
  * pins that both snippets name this server and the picked location, and that "all locations"
  * leaves the location out.
  */
-export function embedSnippets(server: string, locationId: number) {
+export function embedSnippets(server: string, locationId: number, linkText = "Book a table") {
+  const escapedText = linkText.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const base = server.replace(/\/+$/, "");
   const location = locationId === ALL_LOCATIONS ? "" : String(locationId);
   return {
     script: `<script src="${base}/embed.js"${location && ` data-location="${location}"`}></script>`,
-    link: `<a href="${base}/embed${location && `?location=${location}`}" target="_blank">Book a table</a>`,
+    link: `<a href="${base}/embed${location && `?location=${location}`}" target="_blank">${escapedText}</a>`,
   };
 }
 
@@ -171,7 +172,7 @@ export function EmbedSnippetCard({
     };
   }, [origins, probeRun]);
 
-  const snippets = embedSnippets(resolveServerAddress(null, brand.websiteUrl), locationId);
+  const snippets = embedSnippets(resolveServerAddress(null, brand.websiteUrl), locationId, t("admin.settings.embed.snippet.bookingLinkText"));
 
   return (
     <View

@@ -11,7 +11,7 @@ import { hexToRgb } from "@/utils/colors";
 import { useBrandDraft } from "./BrandDraftContext";
 import { styles, domStyles } from "./BrandPreview.styles";
 
-const PLACEHOLDER_LOCATIONS = ["Riverside", "Old Town", "Harbour"];
+const PLACEHOLDER_LOCATIONS = ["exampleRiverside", "exampleOldTown", "exampleHarbour"] as const;
 
 /**
  * A miniature of the customer home page driven by the unsaved form state, so the admin can see
@@ -285,7 +285,7 @@ export function BrandPreview({
                         style={[styles.locationName, { color: site.text }]}
                         numberOfLines={1}
                       >
-                        {name}
+                        {t(`admin.settings.brandPreview.${name}`)}
                       </ThemedText>
                       <View style={[styles.skeletonBar, { backgroundColor: site.border }]} />
                       <View

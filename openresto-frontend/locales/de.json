@@ -559,7 +559,9 @@
     "embed": {
       "origin_invalid": "„{{origin}}“ ist keine Website-Adresse. Verwenden Sie die Form https://example.com.",
       "too_many_origins": "Höchstens {{max}} Websites können das Reservierungs-Widget zeigen."
-    }
+    },
+    "passwordMismatch": "Die Passwörter stimmen nicht überein.",
+    "network": "Netzwerkfehler."
   },
   "lookup": {
     "cancelModal": {
@@ -1529,7 +1531,8 @@
         "sendTestLabel": "Test-E-Mail senden",
         "testingButton": "Wird getestet…",
         "retestButton": "Erneut testen",
-        "sendTestButton": "Test senden"
+        "sendTestButton": "Test senden",
+        "connectionSuccessMessage": "Verbindung erfolgreich."
       },
       "contact": {
         "title": "Kontakt & Website",
@@ -1833,7 +1836,8 @@
           "customHint": "Eigener Server"
         },
         "saveFailed": "Speichern fehlgeschlagen.",
-        "saveToApply": "E-Mails werden über dein SMTP-Konto versendet. Zum Übernehmen speichern."
+        "saveToApply": "E-Mails werden über dein SMTP-Konto versendet. Zum Übernehmen speichern.",
+        "savedMessage": "E-Mail-Einstellungen gespeichert."
       },
       "users": {
         "title": "Benutzer",
@@ -1970,7 +1974,10 @@
         "darkMode": "Dunkel",
         "previewInModeLabel": "Vorschau im {{mode}}-Modus",
         "bookCta": "Buchen",
-        "hint": "Standorte sind Platzhalter. Alles andere ist Ihr echter Inhalt, einschließlich noch nicht gespeicherter Änderungen."
+        "hint": "Standorte sind Platzhalter. Alles andere ist Ihr echter Inhalt, einschließlich noch nicht gespeicherter Änderungen.",
+        "exampleRiverside": "Am Fluss",
+        "exampleOldTown": "Altstadt",
+        "exampleHarbour": "Hafen"
       },
       "restaurantInfo": {
         "oversizeOff": "Aus",
@@ -2210,7 +2217,8 @@
           "locationLabel": "Standort",
           "allLocations": "Alle Standorte",
           "scriptLabel": "Reservierungs-Widget",
-          "linkLabel": "Nur Link"
+          "linkLabel": "Nur Link",
+          "bookingLinkText": "Tisch reservieren"
         },
         "probe": {
           "checking": "Prüfe, ob dieser Server für das Widget eingerichtet ist…",
