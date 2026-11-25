@@ -2,7 +2,15 @@
   "booking": {
     "calendar": {
       "heading": "AÑADIR AL CALENDARIO",
-      "icsA11y": "Descargar el archivo .ics para Apple Calendar, Thunderbird y otros"
+      "icsA11y": "Descargar el archivo .ics para Apple Calendar, Thunderbird y otros",
+      "eventTitle": "Reserva en {{name}}",
+      "eventSource": "Reserva realizada a través de: ({{url}})",
+      "eventReference": "Referencia de reserva: {{ref}}",
+      "eventGuests": "Comensales: {{count}}",
+      "eventSection": "Zona: {{name}}",
+      "eventTable": "Mesa: {{name}}",
+      "eventAddress": "Dirección: {{address}}",
+      "eventRequests": "Peticiones: {{requests}}"
     },
     "confirmation": {
       "loadingInlineLabel": "Cargando la reserva",
@@ -300,7 +308,22 @@
     },
     "keyboardShortcuts": {
       "closeLabel": "Cerrar atajos de teclado",
-      "title": "Atajos de teclado"
+      "title": "Atajos de teclado",
+      "descriptions": {
+        "dashboard": "Ir al panel de control",
+        "bookings": "Ir a reservas",
+        "locations": "Ir a establecimientos",
+        "brand": "Ir a la configuración de marca",
+        "search": "Buscar reservas por nombre, correo o referencia",
+        "create": "Crear una reserva",
+        "down": "Bajar la selección en la lista de reservas",
+        "up": "Subir la selección en la lista de reservas",
+        "open": "Abrir la reserva seleccionada",
+        "extend": "Abrir las opciones para prolongar la reserva seleccionada",
+        "closeDialog": "Cerrar el cuadro de diálogo abierto",
+        "toggleHelp": "Mostrar u ocultar esta ayuda",
+        "lookup": "Ir a Buscar mi reserva"
+      }
     },
     "language": {
       "switcherLabel": "Idioma"

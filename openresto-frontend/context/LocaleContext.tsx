@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { Platform } from "react-native";
 import { getLocales } from "expo-localization";
 import i18n from "@/i18n";
@@ -28,24 +35,22 @@ function deviceLocale(): SupportedLocale | undefined {
 }
 
 /**
- * Resolution order, highest priority first:
- *  1. The viewer's own pick, in `localStorage["openresto.locale"]`, written by `setLocale`
- *     below — the admin sidebar's `LanguageSwitcher`, the guest navbar's overflow menu and
- *     the native guest settings sheet all go through it. A value outside `SUPPORTED_LOCALES`
- *     is ignored, not trusted.
- *  2. The device locale, **off web only**. An installed app is expected to follow the phone's
- *     language; a website is expected to follow the restaurant's, which is why the same step
- *     is absent on web — a restaurant that sets `fr` wants `fr` for every visitor, and the
- *     switcher is the escape hatch for the tourist.
- *  3. `brand.defaultLocale`, the self-hoster's `Locale:Default` / `OPENRESTO_DEFAULT_LOCALE`.
- *  4. `DEFAULT_LOCALE` ("en"), hardcoded.
- *
- * @see [LocaleContext.test.tsx](../tests/context/LocaleContext.test.tsx) — pins the web order,
- * device locale included.
+ * Public web visits (including the embed) start in the restaurant's configured language.
+ * A guest's manual choice remains active within that document, but is not persisted.
+ * Native apps and direct admin web visits retain their saved preference.
  */
-function resolveLocale(brandDefaultLocale: string | undefined): SupportedLocale {
-  const stored = StorageService.getItem(STORAGE_KEY);
-  if (isSupportedLocale(stored)) return stored;
+function shouldPersistLocale(): boolean {
+  return (
+    Platform.OS !== "web" ||
+    (typeof window !== "undefined" && /^\/admin(?:\/|$)/.test(window.location.pathname))
+  );
+}
+
+function resolveLocale(brandDefaultLocale: string | undefined, persist: boolean): SupportedLocale {
+  if (persist) {
+    const stored = StorageService.getItem(STORAGE_KEY);
+    if (isSupportedLocale(stored)) return stored;
+  }
   return (
     deviceLocale() ?? (isSupportedLocale(brandDefaultLocale) ? brandDefaultLocale : DEFAULT_LOCALE)
   );
@@ -54,9 +59,8 @@ function resolveLocale(brandDefaultLocale: string | undefined): SupportedLocale 
 interface LocaleContextValue {
   locale: SupportedLocale;
   /**
-   * The language switcher's write path: persists the pick to
-   * `localStorage["openresto.locale"]` (so it wins the resolution order on the next visit),
-   * updates the context so every `useLocale()` consumer re-renders, and applies it live via
+   * The language switcher updates context immediately and persists the pick only on native
+   * and admin web visits. It applies the language live via
    * `applyLocale` — the same i18next + `setActiveLocale` pair the initial resolution uses, so
    * switching languages re-formats dates/times immediately rather than only retranslating text.
    */
@@ -75,8 +79,8 @@ const LocaleContext = createContext<LocaleContextValue>({
  * resolution effect and the switcher's `setLocale`, so the two paths can't drift apart.
  */
 function applyLocale(locale: SupportedLocale): void {
-  i18n.changeLanguage(locale);
   setActiveLocale(locale);
+  i18n.changeLanguage(locale);
 
   /* istanbul ignore else -- native has no `document`; every test runs under jsdom */
   if (typeof document !== "undefined") {
@@ -93,18 +97,21 @@ function applyLocale(locale: SupportedLocale): void {
  */
 export function LocaleProvider({ children }: { children: ReactNode }) {
   const brand = useBrand();
+  const [persist] = useState(shouldPersistLocale);
+  const manualChoice = useRef<SupportedLocale | undefined>(undefined);
   const [locale, setLocaleState] = useState<SupportedLocale>(() =>
-    resolveLocale(brand.defaultLocale)
+    resolveLocale(brand.defaultLocale, persist)
   );
 
-  useEffect(() => {
-    const resolved = resolveLocale(brand.defaultLocale);
+  useLayoutEffect(() => {
+    const resolved = manualChoice.current ?? resolveLocale(brand.defaultLocale, persist);
     setLocaleState(resolved);
     applyLocale(resolved);
-  }, [brand.defaultLocale]);
+  }, [brand.defaultLocale, persist]);
 
   const setLocale = (next: SupportedLocale) => {
-    StorageService.setItem(STORAGE_KEY, next);
+    manualChoice.current = next;
+    if (persist) StorageService.setItem(STORAGE_KEY, next);
     setLocaleState(next);
     applyLocale(next);
   };

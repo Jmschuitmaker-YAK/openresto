@@ -43,6 +43,7 @@ function TestConsumer() {
 describe("LocaleContext", () => {
   beforeEach(() => {
     localStorage.clear();
+    window.history.replaceState({}, "", "/");
     jest.clearAllMocks();
     mockGetLocales.mockReturnValue([{ textDirection: "ltr" }]);
     mockBrand = {};
@@ -92,7 +93,7 @@ describe("LocaleContext", () => {
     expect(document.documentElement.lang).toBe("nl");
   });
 
-  it("prefers a supported localStorage pick over brand.defaultLocale", async () => {
+  it("ignores a saved pick on a new public web visit", async () => {
     localStorage.setItem("openresto.locale", "fr");
     mockBrand = { defaultLocale: "es" };
 
@@ -102,8 +103,35 @@ describe("LocaleContext", () => {
       </LocaleProvider>
     );
 
-    await waitFor(() => expect(screen.getByTestId("locale").props.children).toBe("fr"));
-    expect(i18n.changeLanguage).toHaveBeenCalledWith("fr");
+    await waitFor(() => expect(screen.getByTestId("locale").props.children).toBe("es"));
+    expect(i18n.changeLanguage).toHaveBeenCalledWith("es");
+  });
+
+  it("starts the embedded booking form in the configured Dutch locale", async () => {
+    window.history.replaceState({}, "", "/embed");
+    localStorage.setItem("openresto.locale", "fr");
+    mockBrand = { defaultLocale: "nl" };
+    render(
+      <LocaleProvider>
+        <TestConsumer />
+      </LocaleProvider>
+    );
+    expect(screen.getByTestId("locale").props.children).toBe("nl");
+    expect(document.documentElement.lang).toBe("nl");
+  });
+
+  it("retains a saved admin locale on direct admin visits", async () => {
+    window.history.replaceState({}, "", "/admin/dashboard");
+    localStorage.setItem("openresto.locale", "fr");
+    mockBrand = { defaultLocale: "nl" };
+    render(
+      <LocaleProvider>
+        <TestConsumer />
+      </LocaleProvider>
+    );
+    expect(screen.getByTestId("locale").props.children).toBe("fr");
+    fireEvent.press(screen.getByTestId("switch-to-fr"));
+    expect(localStorage.getItem("openresto.locale")).toBe("fr");
   });
 
   it("falls through an unsupported localStorage value to brand.defaultLocale", async () => {
@@ -177,7 +205,7 @@ describe("LocaleContext", () => {
     expect(screen.getByTestId("locale").props.children).toBe("en");
   });
 
-  it("setLocale updates the context live, persists the pick, and re-applies i18next/formatters", async () => {
+  it("setLocale updates the public context live without persisting the pick", async () => {
     render(
       <LocaleProvider>
         <TestConsumer />
@@ -189,9 +217,27 @@ describe("LocaleContext", () => {
     fireEvent.press(screen.getByTestId("switch-to-fr"));
 
     expect(screen.getByTestId("locale").props.children).toBe("fr");
-    expect(localStorage.getItem("openresto.locale")).toBe("fr");
+    expect(localStorage.getItem("openresto.locale")).toBeNull();
     expect(i18n.changeLanguage).toHaveBeenCalledWith("fr");
     expect(setActiveLocale).toHaveBeenCalledWith("fr");
     expect(document.documentElement.lang).toBe("fr");
+  });
+
+  it("resets a manual guest choice to the brand default on a fresh mount", () => {
+    mockBrand = { defaultLocale: "nl" };
+    const first = render(
+      <LocaleProvider>
+        <TestConsumer />
+      </LocaleProvider>
+    );
+    fireEvent.press(screen.getByTestId("switch-to-fr"));
+    expect(screen.getByTestId("locale").props.children).toBe("fr");
+    first.unmount();
+    render(
+      <LocaleProvider>
+        <TestConsumer />
+      </LocaleProvider>
+    );
+    expect(screen.getByTestId("locale").props.children).toBe("nl");
   });
 });

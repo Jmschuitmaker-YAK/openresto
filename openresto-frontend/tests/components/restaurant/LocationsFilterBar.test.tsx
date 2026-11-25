@@ -2,7 +2,8 @@
  * @jest-environment ./jest-mocks/jsdomEnvironment.js
  */
 import React from "react";
-import { screen, fireEvent } from "@testing-library/react-native";
+import i18n from "@/i18n";
+import { screen, fireEvent, act } from "@testing-library/react-native";
 import { StyleSheet } from "react-native";
 import LocationsFilterBar, { formatBarDate } from "@/components/restaurant/LocationsFilterBar";
 import { renderWithProviders } from "@/tests/helpers/renderWithProviders";
@@ -147,5 +148,28 @@ describe("LocationsFilterBar", () => {
       fireEvent.press(screen.getByText("6"));
       expect(onSeatsChange).toHaveBeenCalledWith(6);
     });
+  });
+});
+
+describe("filter localization", () => {
+  afterEach(async () => {
+    await act(async () => {
+      await i18n.changeLanguage("en");
+    });
+  });
+
+  it("updates the compact filter without remounting when the language changes", async () => {
+    await act(async () => {
+      await i18n.changeLanguage("nl");
+    });
+    renderWithProviders(<LocationsFilterBar {...baseProps} compact />);
+    expect(screen.getByText("Vandaag")).toBeTruthy();
+    expect(screen.getByText("Alles")).toBeTruthy();
+    await act(async () => {
+      await i18n.changeLanguage("fr");
+    });
+    expect(screen.getByText("Aujourd'hui")).toBeTruthy();
+    expect(screen.getByText("Tous")).toBeTruthy();
+    expect(screen.queryByText("Vandaag")).toBeNull();
   });
 });
