@@ -1,0 +1,27 @@
+name: Temporary PR 17 formatting repair
+on:
+  push:
+    branches: [feat/print-admin-layout]
+permissions:
+  contents: read
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: openresto-frontend
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: openresto-frontend/package-lock.json
+      - run: npm ci
+      - name: Generate formatting patch
+        run: |
+          npx prettier --write api/printing.ts components/admin/settings/PrintSettingsCard.tsx
+          git diff --no-ext-diff
+          npx prettier --check "**/*.{ts,tsx,js,json}"
