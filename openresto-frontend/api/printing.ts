@@ -23,13 +23,25 @@ export interface PrintJobStatus {
 export interface PrintStatus {
   agent: PrintAgentStatus | null;
   jobs: PrintJobStatus[];
+  counts: { pending: number; problems: number };
+}
+
+export interface PrintJobPage {
+  jobs: PrintJobStatus[];
+  nextBefore: number | null;
 }
 
 const path = (id: number) => `/admin/printing/${id}`;
 
 export async function getPrintStatus(id: number): Promise<PrintStatus> {
-  const response = await get(path(id));
+  const response = await get(`${path(id)}?limit=3`);
   if (!response.ok) throw new Error("Print status unavailable");
+  return response.json();
+}
+
+export async function getPrintJobs(id: number, before: number | null, problems: boolean): Promise<PrintJobPage> {
+  const response = await get(`${path(id)}/jobs?problems=${problems}${before === null ? "" : `&before=${before}`}`);
+  if (!response.ok) throw new Error("Print history unavailable");
   return response.json();
 }
 

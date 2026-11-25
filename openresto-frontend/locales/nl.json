@@ -2249,8 +2249,8 @@
         "title": "Bonprinter",
         "subtitle": "Onafhankelijk van reserveringsmails aan het restaurant. Bevestigingen aan gasten blijven ongewijzigd.",
         "location": "Locatie",
-        "online": "Agent recent verbonden",
-        "offline": "Agent niet recent verbonden",
+        "online": "Online",
+        "offline": "Offline",
         "enabled": "Print nieuwe reserveringen, wijzigingen en annuleringen",
         "test": "Print testbon",
         "revoke": "Trek agenttoegang in",
@@ -2277,7 +2277,20 @@
           "test": "Testbon"
         },
         "reprint": "Reservering opnieuw printen",
-        "reprintWarning": "Controleer eerst de papieren bon. Dit maakt een nieuwe, gemarkeerde bon met de actuele reserveringsgegevens."
+        "reprintWarning": "Controleer eerst de papieren bon. Dit maakt een nieuwe, gemarkeerde bon met de actuele reserveringsgegevens.",
+        "notConfigured": "Niet ingesteld",
+        "loading": "Status ophalen…",
+        "automatic": "Automatisch printen",
+        "configuration": "Configuratie",
+        "pending": "In behandeling: {{count}}",
+        "problems": "Te controleren: {{count}}",
+        "empty": "Geen printopdrachten",
+        "history": "Alle printopdrachten bekijken",
+        "all": "Alle",
+        "problemFilter": "Te controleren",
+        "previous": "Vorige",
+        "next": "Volgende",
+        "close": "Sluiten"
       }
     },
     "sidebar": {
