@@ -2,7 +2,15 @@
   "booking": {
     "calendar": {
       "heading": "ADD TO CALENDAR",
-      "icsA11y": "Download .ics for Apple Calendar, Thunderbird and others"
+      "icsA11y": "Download .ics for Apple Calendar, Thunderbird and others",
+      "eventTitle": "Reservation at {{name}}",
+      "eventSource": "Booked via the URL: ({{url}})",
+      "eventReference": "Booking reference: {{ref}}",
+      "eventGuests": "Guests: {{count}}",
+      "eventSection": "Section: {{name}}",
+      "eventTable": "Table: {{name}}",
+      "eventAddress": "Address: {{address}}",
+      "eventRequests": "Requests: {{requests}}"
     },
     "confirmation": {
       "loadingInlineLabel": "Loading booking",
@@ -300,7 +308,22 @@
     },
     "keyboardShortcuts": {
       "closeLabel": "Close keyboard shortcuts",
-      "title": "Keyboard shortcuts"
+      "title": "Keyboard shortcuts",
+      "descriptions": {
+        "dashboard": "Go to Dashboard",
+        "bookings": "Go to Bookings",
+        "locations": "Go to Locations",
+        "brand": "Go to Brand settings",
+        "search": "Search bookings by name, email or reference",
+        "create": "Create a new booking",
+        "down": "Move selection down in the bookings list",
+        "up": "Move selection up in the bookings list",
+        "open": "Open the selected booking",
+        "extend": "Open the selected booking's extend controls",
+        "closeDialog": "Close any open dialog",
+        "toggleHelp": "Toggle this help overlay",
+        "lookup": "Jump to the Find My Booking lookup"
+      }
     },
     "language": {
       "switcherLabel": "Language"

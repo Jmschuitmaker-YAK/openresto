@@ -2,7 +2,15 @@
   "booking": {
     "calendar": {
       "heading": "ZUM KALENDER HINZUFÜGEN",
-      "icsA11y": ".ics-Datei für Apple Calendar, Thunderbird und andere herunterladen"
+      "icsA11y": ".ics-Datei für Apple Calendar, Thunderbird und andere herunterladen",
+      "eventTitle": "Reservierung bei {{name}}",
+      "eventSource": "Gebucht über: ({{url}})",
+      "eventReference": "Reservierungsnummer: {{ref}}",
+      "eventGuests": "Gäste: {{count}}",
+      "eventSection": "Bereich: {{name}}",
+      "eventTable": "Tisch: {{name}}",
+      "eventAddress": "Adresse: {{address}}",
+      "eventRequests": "Wünsche: {{requests}}"
     },
     "confirmation": {
       "loadingInlineLabel": "Reservierung wird geladen",
@@ -300,7 +308,22 @@
     },
     "keyboardShortcuts": {
       "closeLabel": "Tastenkombinationen schließen",
-      "title": "Tastenkombinationen"
+      "title": "Tastenkombinationen",
+      "descriptions": {
+        "dashboard": "Zum Dashboard",
+        "bookings": "Zu den Reservierungen",
+        "locations": "Zu den Standorten",
+        "brand": "Zu den Markeneinstellungen",
+        "search": "Reservierungen nach Name, E-Mail oder Referenz suchen",
+        "create": "Neue Reservierung erstellen",
+        "down": "Auswahl in der Reservierungsliste nach unten verschieben",
+        "up": "Auswahl in der Reservierungsliste nach oben verschieben",
+        "open": "Ausgewählte Reservierung öffnen",
+        "extend": "Optionen zum Verlängern der ausgewählten Reservierung öffnen",
+        "closeDialog": "Geöffneten Dialog schließen",
+        "toggleHelp": "Diese Hilfe ein- oder ausblenden",
+        "lookup": "Zur Suche nach meiner Reservierung wechseln"
+      }
     },
     "language": {
       "switcherLabel": "Sprache"

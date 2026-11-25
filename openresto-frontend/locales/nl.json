@@ -2,7 +2,15 @@
   "booking": {
     "calendar": {
       "heading": "TOEVOEGEN AAN AGENDA",
-      "icsA11y": "Download een .ics-bestand voor Apple Agenda, Thunderbird en andere agenda's"
+      "icsA11y": "Download een .ics-bestand voor Apple Agenda, Thunderbird en andere agenda's",
+      "eventTitle": "Reservering bij {{name}}",
+      "eventSource": "Gereserveerd via: ({{url}})",
+      "eventReference": "Reserveringsnummer: {{ref}}",
+      "eventGuests": "Gasten: {{count}}",
+      "eventSection": "Ruimte: {{name}}",
+      "eventTable": "Tafel: {{name}}",
+      "eventAddress": "Adres: {{address}}",
+      "eventRequests": "Wensen: {{requests}}"
     },
     "confirmation": {
       "loadingInlineLabel": "Reservering laden",
@@ -300,7 +308,22 @@
     },
     "keyboardShortcuts": {
       "closeLabel": "Sluit sneltoetsen",
-      "title": "Sneltoetsen"
+      "title": "Sneltoetsen",
+      "descriptions": {
+        "dashboard": "Ga naar dashboard",
+        "bookings": "Ga naar reserveringen",
+        "locations": "Ga naar locaties",
+        "brand": "Ga naar merkinstellingen",
+        "search": "Zoek reserveringen op naam, e-mailadres of referentie",
+        "create": "Maak een nieuwe reservering",
+        "down": "Verplaats de selectie omlaag in de reserveringslijst",
+        "up": "Verplaats de selectie omhoog in de reserveringslijst",
+        "open": "Open de geselecteerde reservering",
+        "extend": "Open de opties om de geselecteerde reservering te verlengen",
+        "closeDialog": "Sluit een geopend dialoogvenster",
+        "toggleHelp": "Toon of verberg deze sneltoetsenhulp",
+        "lookup": "Ga naar Mijn reservering zoeken"
+      }
     },
     "language": {
       "switcherLabel": "Taal"
@@ -673,7 +696,7 @@
       "walkIn": "Zonder reservering",
       "wednesday": "Woensdag",
       "lastBooking": "Laatste reservering {{time}}",
-      "upcomingDatesTitle": "Komende dagen",
+      "upcomingDatesTitle": "Afwijkende openingstijden",
       "dateClosed": "Gesloten",
       "dateWalkIn": "Alleen binnenlopen"
     },

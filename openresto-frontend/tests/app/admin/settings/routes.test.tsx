@@ -67,6 +67,9 @@ jest.mock("@/components/admin/settings/EmailPreviewPanel", () => ({
 jest.mock("@/hooks/use-email-settings", () => ({
   useEmailSettings: () => ({}),
 }));
+jest.mock("@/components/admin/settings/PrintSettingsCard", () => ({
+  PrintSettingsCard: stub("PrintSettingsCard"),
+}));
 jest.mock("@/components/admin/settings/PushNotificationsCard", () => ({
   PushNotificationsCard: stub("PushNotificationsCard"),
 }));
@@ -153,6 +156,7 @@ describe("admin settings routes", () => {
       expect(screen.getByText("EmailDeliveryPanel")).toBeTruthy();
       expect(screen.getByText("EmailPreviewPanel")).toBeTruthy();
       expect(screen.getByText("PushNotificationsCard")).toBeTruthy();
+      expect(screen.getByText("PrintSettingsCard")).toBeTruthy();
     });
   });
 

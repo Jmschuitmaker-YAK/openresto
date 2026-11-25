@@ -2,7 +2,8 @@
  * @jest-environment ./jest-mocks/jsdomEnvironment.js
  */
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react-native";
+import i18n from "@/i18n";
+import { render, screen, fireEvent, act } from "@testing-library/react-native";
 import TestRenderer from "react-test-renderer";
 import { Modal } from "react-native";
 import KeyboardShortcutsHelp from "@/components/common/KeyboardShortcutsHelp";
@@ -54,5 +55,23 @@ describe("KeyboardShortcutsHelp", () => {
 
     const modal = tree.root.findByType(Modal);
     expect(modal.props.onRequestClose).toBe(onClose);
+  });
+});
+
+describe("shortcut localization", () => {
+  afterEach(async () => {
+    await act(async () => {
+      await i18n.changeLanguage("en");
+    });
+  });
+
+  it("updates an already open help overlay when switching languages", async () => {
+    render(<KeyboardShortcutsHelp visible scope="user" onClose={jest.fn()} />);
+    expect(screen.getByText("Close any open dialog")).toBeTruthy();
+    await act(async () => {
+      await i18n.changeLanguage("fr");
+    });
+    expect(screen.getByText("Fermer la boîte de dialogue ouverte")).toBeTruthy();
+    expect(screen.queryByText("Close any open dialog")).toBeNull();
   });
 });

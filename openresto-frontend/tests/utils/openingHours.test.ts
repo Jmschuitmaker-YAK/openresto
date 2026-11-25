@@ -1,3 +1,4 @@
+import { setActiveLocale } from "@/utils/locale";
 import {
   bookingTimePickerBounds,
   getHoursForDay,
@@ -377,5 +378,18 @@ describe("date exceptions (#521)", () => {
     expect(getLastBookingForDate(r, "2026-12-31")).toBe("23:00");
     expect(getLastBookingForDate(r, "2026-12-27")).toBeNull();
     expect(getLastBookingForDate(r, "2026-12-28")).toBe("21:00");
+  });
+});
+
+describe("localized weekday labels", () => {
+  afterEach(() => setActiveLocale(undefined));
+
+  it.each(["en", "nl", "fr", "de", "es"])("formats Thursday in %s", (locale) => {
+    setActiveLocale(locale);
+    expect(isoDayShortName(4)).toBe(
+      new Intl.DateTimeFormat(locale, { weekday: "short", timeZone: "UTC" }).format(
+        new Date(Date.UTC(2026, 0, 8))
+      )
+    );
   });
 });

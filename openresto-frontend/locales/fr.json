@@ -2,7 +2,15 @@
   "booking": {
     "calendar": {
       "heading": "AJOUTER AU CALENDRIER",
-      "icsA11y": "Télécharger le fichier .ics pour Apple Calendar, Thunderbird et autres"
+      "icsA11y": "Télécharger le fichier .ics pour Apple Calendar, Thunderbird et autres",
+      "eventTitle": "Réservation chez {{name}}",
+      "eventSource": "Réservé via : ({{url}})",
+      "eventReference": "Référence de réservation : {{ref}}",
+      "eventGuests": "Convives : {{count}}",
+      "eventSection": "Espace : {{name}}",
+      "eventTable": "Table : {{name}}",
+      "eventAddress": "Adresse : {{address}}",
+      "eventRequests": "Demandes : {{requests}}"
     },
     "confirmation": {
       "loadingInlineLabel": "Chargement de la réservation",
@@ -300,7 +308,22 @@
     },
     "keyboardShortcuts": {
       "closeLabel": "Fermer les raccourcis clavier",
-      "title": "Raccourcis clavier"
+      "title": "Raccourcis clavier",
+      "descriptions": {
+        "dashboard": "Aller au tableau de bord",
+        "bookings": "Aller aux réservations",
+        "locations": "Aller aux établissements",
+        "brand": "Aller aux paramètres de marque",
+        "search": "Rechercher par nom, e-mail ou référence",
+        "create": "Créer une réservation",
+        "down": "Descendre dans la liste des réservations",
+        "up": "Monter dans la liste des réservations",
+        "open": "Ouvrir la réservation sélectionnée",
+        "extend": "Ouvrir les options de prolongation de la réservation sélectionnée",
+        "closeDialog": "Fermer la boîte de dialogue ouverte",
+        "toggleHelp": "Afficher ou masquer cette aide",
+        "lookup": "Accéder à la recherche de ma réservation"
+      }
     },
     "language": {
       "switcherLabel": "Langue"
