@@ -59,3 +59,21 @@ Do not install against the current production API.
 7. Revoke the staging agent and verify polling is refused. Restore production only
    through a separately approved deployment. Never share a token between machines.
 
+
+## Receipt layout and offline preview
+
+Optional per-printer `paperWidthMm`: 58 or 80 (default 80 for existing configs).
+The conservative font-A layout wraps long names and notes. Heading, date/time
+and guest count are emphasized. ESC d feeds four lines; GS V 66 0 feeds to
+the cutting position and requests a partial cut when `cut` is enabled.
+Actual cutter support and margins depend on the printer and need a physical check.
+
+Generate a preview without credentials, network or printer:
+
+```sh
+./openresto-print-agent-linux-amd64 --preview 80 > receipt-80.html
+./openresto-print-agent-linux-amd64 --preview 58 > receipt-58.html
+```
+
+Open the HTML in a browser. It uses the same sanitized layout as printing, but
+is not an exact hardware emulation. It uses fictional booking data only.

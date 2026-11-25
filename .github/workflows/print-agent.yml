@@ -36,6 +36,8 @@ jobs:
           mkdir -p /tmp/print-agent-artifacts
           cp /tmp/agent-linux-amd64 /tmp/print-agent-artifacts/openresto-print-agent-linux-amd64
           cp /tmp/agent-linux-arm64 /tmp/print-agent-artifacts/openresto-print-agent-linux-arm64
+          /tmp/agent-linux-amd64 --preview 80 > /tmp/print-agent-artifacts/receipt-80.html
+          /tmp/agent-linux-amd64 --preview 58 > /tmp/print-agent-artifacts/receipt-58.html
           cp config.example.json systemd/openresto-print-agent.service /tmp/print-agent-artifacts/
           cd /tmp/print-agent-artifacts
           sha256sum openresto-print-agent-linux-* > SHA256SUMS
