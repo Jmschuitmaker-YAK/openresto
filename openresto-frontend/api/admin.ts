@@ -1,5 +1,6 @@
 import { get, post, patch, del, put, buildUrl } from "./client";
 import { apiErrorMessage } from "@/api/errors";
+import i18n from "@/i18n";
 
 export interface AdminOverviewDto {
   totalRestaurants: number;
@@ -292,7 +293,7 @@ export async function sendBookingEmail(
     const data = await res.json();
     return { ok: res.ok, message: data.message };
   } catch {
-    return { ok: false, message: "Network error." };
+    return { ok: false, message: i18n.t("errors.network") };
   }
 }
 
@@ -610,9 +611,22 @@ export async function saveEmailSettings(
     const res = await patch("/admin/email-settings", data);
     if (!res.ok) {
       const err = await res.json().catch(() => null);
-      return { ok: false, message: apiErrorMessage(err, "Failed to save.") };
+      return {
+        ok: false,
+        message: apiErrorMessage(err, i18n.t("admin.settings.emailSettings.saveFailed")),
+      };
     }
-    return { ok: true, data: await res.json() };
+    const result = await res.json();
+    return {
+      ok: true,
+      data: {
+        ...result,
+        message:
+          result.message === "Email settings saved."
+            ? i18n.t("admin.settings.emailSettings.savedMessage")
+            : result.message,
+      },
+    };
   } catch {
     return null;
   }
@@ -622,9 +636,16 @@ export async function testEmailConnection(): Promise<{ ok: boolean; message: str
   try {
     const res = await post("/admin/email-settings/test");
     const data = await res.json();
-    return { ok: res.ok, message: data.message };
+    return {
+      ok: res.ok,
+      message: res.ok
+        ? data.message === "Connection successful."
+          ? i18n.t("admin.settings.smtpTest.connectionSuccessMessage")
+          : data.message
+        : apiErrorMessage(data, i18n.t("admin.settings.smtpTest.failFallback")),
+    };
   } catch {
-    return { ok: false, message: "Network error." };
+    return { ok: false, message: i18n.t("errors.network") };
   }
 }
 
@@ -660,7 +681,10 @@ export async function saveBrandSettings(
     const res = await patch("/brand", data);
     if (!res.ok) {
       const err = await res.json().catch(() => null);
-      return { ok: false, message: apiErrorMessage(err, "Failed to save.") };
+      return {
+        ok: false,
+        message: apiErrorMessage(err, i18n.t("admin.settings.emailSettings.saveFailed")),
+      };
     }
     return { ok: true, data: await res.json() };
   } catch {

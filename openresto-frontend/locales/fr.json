@@ -559,7 +559,9 @@
     "embed": {
       "origin_invalid": "« {{origin}} » n'est pas une adresse de site. Utilisez la forme https://example.com.",
       "too_many_origins": "Au plus {{max}} sites peuvent afficher le widget de réservation."
-    }
+    },
+    "passwordMismatch": "Les mots de passe ne correspondent pas.",
+    "network": "Erreur réseau."
   },
   "lookup": {
     "cancelModal": {
@@ -1529,7 +1531,8 @@
         "sendTestLabel": "Envoyer un e-mail de test",
         "testingButton": "Test en cours…",
         "retestButton": "Retester",
-        "sendTestButton": "Envoyer un test"
+        "sendTestButton": "Envoyer un test",
+        "connectionSuccessMessage": "Connexion réussie."
       },
       "contact": {
         "title": "Contact et site web",
@@ -1825,7 +1828,16 @@
         "fromEmailLabel": "E-mail de l'expéditeur",
         "footerHintVerified": "Connexion vérifiée · confirmations prêtes",
         "footerHintUnverified": "Testez la connexion avant d'activer les confirmations",
-        "saveButton": "Enregistrer les paramètres SMTP"
+        "saveButton": "Enregistrer les paramètres SMTP",
+        "providers": {
+          "custom": "SMTP personnalisé",
+          "gmailHint": "Utiliser un mot de passe d’application",
+          "outlookHint": "Authentification moderne",
+          "customHint": "Votre propre serveur"
+        },
+        "saveFailed": "Échec de l’enregistrement.",
+        "saveToApply": "Les e-mails seront envoyés via votre compte SMTP. Enregistrez pour appliquer.",
+        "savedMessage": "Paramètres e-mail enregistrés."
       },
       "users": {
         "title": "Utilisateurs",
@@ -1962,7 +1974,10 @@
         "darkMode": "Sombre",
         "previewInModeLabel": "Aperçu en mode {{mode}}",
         "bookCta": "Réserver",
-        "hint": "Les lieux sont des exemples. Tout le reste est votre contenu réel, y compris les modifications non encore enregistrées."
+        "hint": "Les lieux sont des exemples. Tout le reste est votre contenu réel, y compris les modifications non encore enregistrées.",
+        "exampleRiverside": "Bord de l’eau",
+        "exampleOldTown": "Vieille ville",
+        "exampleHarbour": "Port"
       },
       "restaurantInfo": {
         "oversizeOff": "Désactivé",
@@ -2202,7 +2217,8 @@
           "locationLabel": "Établissement",
           "allLocations": "Tous les établissements",
           "scriptLabel": "Widget de réservation",
-          "linkLabel": "Lien seul"
+          "linkLabel": "Lien seul",
+          "bookingLinkText": "Réserver une table"
         },
         "probe": {
           "checking": "Vérification de la configuration du serveur pour le widget…",

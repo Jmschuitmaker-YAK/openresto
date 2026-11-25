@@ -559,7 +559,9 @@
     "embed": {
       "origin_invalid": "\"{{origin}}\" isn't a site address. Use the form https://example.com.",
       "too_many_origins": "At most {{max}} sites can show the booking widget."
-    }
+    },
+    "passwordMismatch": "Passwords do not match.",
+    "network": "Network error."
   },
   "lookup": {
     "cancelModal": {
@@ -1529,7 +1531,8 @@
         "sendTestLabel": "Send a test email",
         "testingButton": "Testing…",
         "retestButton": "Re-test",
-        "sendTestButton": "Send test"
+        "sendTestButton": "Send test",
+        "connectionSuccessMessage": "Connection successful."
       },
       "contact": {
         "title": "Contact & Website",
@@ -1825,7 +1828,16 @@
         "fromEmailLabel": "From email",
         "footerHintVerified": "Connection verified · confirmations ready",
         "footerHintUnverified": "Test the connection before enabling confirmations",
-        "saveButton": "Save SMTP settings"
+        "saveButton": "Save SMTP settings",
+        "providers": {
+          "custom": "Custom SMTP",
+          "gmailHint": "Use an app password",
+          "outlookHint": "Modern auth",
+          "customHint": "Your own host"
+        },
+        "saveFailed": "Failed to save.",
+        "saveToApply": "Emails will be sent using your SMTP account. Save to apply.",
+        "savedMessage": "Email settings saved."
       },
       "users": {
         "title": "Users",
@@ -1962,7 +1974,10 @@
         "darkMode": "Dark",
         "previewInModeLabel": "Preview in {{mode}} mode",
         "bookCta": "Book",
-        "hint": "Locations are stand-ins. Everything else is your real content, including edits you haven't saved yet."
+        "hint": "Locations are stand-ins. Everything else is your real content, including edits you haven't saved yet.",
+        "exampleRiverside": "Riverside",
+        "exampleOldTown": "Old Town",
+        "exampleHarbour": "Harbour"
       },
       "restaurantInfo": {
         "oversizeOff": "Off",
@@ -2202,7 +2217,8 @@
           "locationLabel": "Location",
           "allLocations": "All locations",
           "scriptLabel": "Booking widget",
-          "linkLabel": "Link only"
+          "linkLabel": "Link only",
+          "bookingLinkText": "Book a table"
         },
         "probe": {
           "checking": "Checking that this server is set up for the widget…",

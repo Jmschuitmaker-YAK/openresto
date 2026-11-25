@@ -1,3 +1,5 @@
+import i18n from "@/i18n";
+
 /**
  * Centralised lightweight input validation. The email check mirrors the backend EmailValidator
  * regex. This is a deliberately loose check (not RFC 5322); strict validation happens via the
@@ -54,10 +56,10 @@ export function validatePasswordChange(
   confirmPassword: string
 ): { ok: true } | { ok: false; error: string } {
   if (newPassword !== confirmPassword) {
-    return { ok: false, error: "Passwords do not match." };
+    return { ok: false, error: i18n.t("errors.passwordMismatch") };
   }
   if (newPassword.length < 6) {
-    return { ok: false, error: "Password must be at least 6 characters." };
+    return { ok: false, error: i18n.t("errors.user.password_too_short", { min: 6 }) };
   }
   return { ok: true };
 }
