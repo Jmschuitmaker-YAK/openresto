@@ -2265,8 +2265,8 @@
         "title": "Receipt printer",
         "subtitle": "Independent of restaurant alert emails. Guest confirmations are not affected.",
         "location": "Location",
-        "online": "Agent recently connected",
-        "offline": "Agent not recently connected",
+        "online": "Online",
+        "offline": "Offline",
         "enabled": "Print new bookings, changes and cancellations",
         "test": "Print test receipt",
         "revoke": "Revoke agent",
@@ -2293,7 +2293,20 @@
           "test": "Test"
         },
         "reprint": "Reprint current booking",
-        "reprintWarning": "Check the paper first. This creates a new, marked receipt using the current booking details."
+        "reprintWarning": "Check the paper first. This creates a new, marked receipt using the current booking details.",
+        "notConfigured": "Not configured",
+        "loading": "Checking status…",
+        "automatic": "Automatic printing",
+        "configuration": "Configuration",
+        "pending": "Pending: {{count}}",
+        "problems": "Needs review: {{count}}",
+        "empty": "No print jobs",
+        "history": "View all print jobs",
+        "all": "All",
+        "problemFilter": "Needs review",
+        "previous": "Previous",
+        "next": "Next",
+        "close": "Close"
       }
     },
     "sidebar": {

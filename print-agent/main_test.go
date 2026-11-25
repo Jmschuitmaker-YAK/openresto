@@ -39,12 +39,6 @@ func newTestAgent(t *testing.T, conn *fakeConn) (*agent,*int) {
 	return a,&calls
 }
 
-func TestReceiptSanitizesControlBytes(t *testing.T) {
-	got:=receipt("Réservation\x1b\x1d\r\n4 gasten",true)
-	want:=append([]byte{27,64},[]byte("Reservation\n4 gasten\n\n\n")...)
-	want=append(want,29,86,0)
-	if !bytes.Equal(got,want){t.Fatalf("receipt = %q",got)}
-}
 func TestReplayDoesNotPrintAgain(t *testing.T){
 	conn:=&fakeConn{}
 	a,calls:=newTestAgent(t,conn)

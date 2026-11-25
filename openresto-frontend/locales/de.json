@@ -2265,8 +2265,8 @@
         "title": "Bondrucker",
         "subtitle": "Unabhängig von Restaurant-E-Mails. Gästebestätigungen bleiben unverändert.",
         "location": "Standort",
-        "online": "Agent kürzlich verbunden",
-        "offline": "Agent nicht kürzlich verbunden",
+        "online": "Online",
+        "offline": "Offline",
         "enabled": "Neue Reservierungen, Änderungen und Stornierungen drucken",
         "test": "Testbon drucken",
         "revoke": "Agent widerrufen",
@@ -2293,7 +2293,20 @@
           "test": "Test"
         },
         "reprint": "Aktuelle Reservierung erneut drucken",
-        "reprintWarning": "Prüfen Sie zuerst den Papierbon. Ein neuer markierter Bon enthält die aktuellen Reservierungsdaten."
+        "reprintWarning": "Prüfen Sie zuerst den Papierbon. Ein neuer markierter Bon enthält die aktuellen Reservierungsdaten.",
+        "notConfigured": "Nicht eingerichtet",
+        "loading": "Status wird geprüft…",
+        "automatic": "Automatisch drucken",
+        "configuration": "Konfiguration",
+        "pending": "Ausstehend: {{count}}",
+        "problems": "Zu prüfen: {{count}}",
+        "empty": "Keine Druckaufträge",
+        "history": "Alle Druckaufträge anzeigen",
+        "all": "Alle",
+        "problemFilter": "Zu prüfen",
+        "previous": "Zurück",
+        "next": "Weiter",
+        "close": "Schließen"
       }
     },
     "sidebar": {

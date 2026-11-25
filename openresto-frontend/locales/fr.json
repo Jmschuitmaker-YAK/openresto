@@ -2265,8 +2265,8 @@
         "title": "Imprimante de tickets",
         "subtitle": "Indépendant des e-mails au restaurant. Les confirmations aux clients restent inchangées.",
         "location": "Établissement",
-        "online": "Agent connecté récemment",
-        "offline": "Agent non connecté récemment",
+        "online": "En ligne",
+        "offline": "Hors ligne",
         "enabled": "Imprimer les nouvelles réservations, modifications et annulations",
         "test": "Imprimer un ticket de test",
         "revoke": "Révoquer l’agent",
@@ -2293,7 +2293,20 @@
           "test": "Test"
         },
         "reprint": "Réimprimer la réservation actuelle",
-        "reprintWarning": "Vérifiez le ticket avant de réimprimer. Un nouveau ticket marqué reprend les données actuelles."
+        "reprintWarning": "Vérifiez le ticket avant de réimprimer. Un nouveau ticket marqué reprend les données actuelles.",
+        "notConfigured": "Non configuré",
+        "loading": "Vérification…",
+        "automatic": "Impression automatique",
+        "configuration": "Configuration",
+        "pending": "En attente : {{count}}",
+        "problems": "À vérifier : {{count}}",
+        "empty": "Aucune tâche d’impression",
+        "history": "Voir toutes les tâches d’impression",
+        "all": "Toutes",
+        "problemFilter": "À vérifier",
+        "previous": "Précédent",
+        "next": "Suivant",
+        "close": "Fermer"
       }
     },
     "sidebar": {
