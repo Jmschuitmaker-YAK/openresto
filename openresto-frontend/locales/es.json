@@ -2275,7 +2275,9 @@
           "cancelled": "Cancelada",
           "changed": "Modificada",
           "test": "Prueba"
-        }
+        },
+        "reprint": "Reimprimir reserva actual",
+        "reprintWarning": "Compruebe primero el ticket. Se crea un nuevo ticket marcado con los datos actuales."
       }
     },
     "sidebar": {

@@ -14,7 +14,7 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
     public sealed record Claim(string Id, string Lease, string Printer, string Text);
     public sealed record ClaimResult(bool Authorized, Claim? Job);
     public sealed record AgentStatus(string AgentId, string Printer, string Locale, bool Enabled, long? LastSeen);
-    public sealed record JobStatus(string Id, string AgentId, string Kind, string Status, int Attempts, string? Reason, long CreatedAt);
+    public sealed record JobStatus(string Id, string AgentId, string Kind, string Status, int Attempts, string? Reason, long CreatedAt, string BookingRef, bool CanReprint);
 
     [GeneratedRegex("^[A-Za-z0-9_-]{1,64}$", RegexOptions.CultureInvariant)]
     private static partial Regex AliasPattern();
@@ -136,6 +136,32 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
         return found;
     }
 
+    // Reprint the CURRENT reservation, never a stale historical snapshot. Terminal
+    // jobs have already had their guest name and notes erased. A fresh job ID
+    // and explicit marking distinguish operator reprints from automatic retries.
+    public bool QueueReprint(int restaurantId, string jobId)
+    {
+        if (jobId.Length != 32 || !jobId.All(char.IsAsciiHexDigit)) return false;
+        using SqliteTransaction tx = connection.BeginTransaction(deferred: false);
+        long now = Now;
+        using SqliteCommand cmd = Command(tx, """
+            INSERT INTO PrintJobs(Id,AgentId,RestaurantId,Kind,BookingRef,CustomerName,SpecialRequests,Seats,BookingDate,Timezone,RestaurantName,Printer,Locale,CreatedAt,AvailableAt,ReprintOf)
+            SELECT $new,a.Id,a.RestaurantId,CASE WHEN b.IsCancelled=1 THEN 'cancelled' ELSE 'changed' END,
+                b.BookingRef,substr(coalesce(b.CustomerName,''),1,200),substr(coalesce(b.SpecialRequests,''),1,500),
+                b.Seats,b.Date,r.Timezone,r.Name,a.Printer,a.Locale,$now,$now,j.Id
+            FROM PrintJobs j JOIN PrintAgents a ON a.RestaurantId=j.RestaurantId
+            JOIN Restaurants r ON r.Id=a.RestaurantId
+            JOIN Bookings b ON b.RestaurantId=j.RestaurantId AND b.BookingRef=j.BookingRef
+            WHERE j.Id=$old AND j.RestaurantId=$restaurant AND j.Status IN ('sent','uncertain')
+                AND j.Kind<>'test' AND a.Active=1 AND r.IsArchived=0
+                AND NOT EXISTS (SELECT 1 FROM PrintJobs p WHERE p.ReprintOf=j.Id AND p.Status IN ('queued','leased'))
+            LIMIT 1
+            """, ("$new", RandomId()), ("$now", now), ("$old", jobId), ("$restaurant", restaurantId));
+        bool found = cmd.ExecuteNonQuery() == 1;
+        tx.Commit();
+        return found;
+    }
+
     public AgentStatus? GetAgent(int restaurantId)
     {
         using SqliteTransaction tx = connection.BeginTransaction();
@@ -148,14 +174,16 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
     {
         using SqliteTransaction tx = connection.BeginTransaction();
         using SqliteCommand cmd = Command(tx, """
-            SELECT Id,AgentId,Kind,Status,Attempts,Reason,CreatedAt FROM PrintJobs
-            WHERE RestaurantId=$id ORDER BY Sequence DESC LIMIT 100
+            SELECT j.Id,j.AgentId,j.Kind,j.Status,j.Attempts,j.Reason,j.CreatedAt,j.BookingRef,
+                (j.Status IN ('sent','uncertain') AND j.Kind<>'test' AND EXISTS (
+                    SELECT 1 FROM Bookings b WHERE b.RestaurantId=j.RestaurantId AND b.BookingRef=j.BookingRef))
+            FROM PrintJobs j WHERE j.RestaurantId=$id ORDER BY j.Sequence DESC LIMIT 100
             """, ("$id", restaurantId));
         using SqliteDataReader r = cmd.ExecuteReader();
         var jobs = new List<JobStatus>();
         while (r.Read())
         {
-            jobs.Add(new JobStatus(r.GetString(0),r.GetString(1),r.GetString(2),r.GetString(3),r.GetInt32(4),r.IsDBNull(5) ? null : r.GetString(5),r.GetInt64(6)));
+            jobs.Add(new JobStatus(r.GetString(0),r.GetString(1),r.GetString(2),r.GetString(3),r.GetInt32(4),r.IsDBNull(5) ? null : r.GetString(5),r.GetInt64(6),r.GetString(7),r.GetBoolean(8)));
         }
         return jobs;
     }
@@ -192,17 +220,18 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
             UPDATE PrintJobs SET Status='leased', Lease=$lease, LeaseUntil=$until, Attempts=Attempts+1
             WHERE Id=(
                 SELECT Id FROM PrintJobs
-                WHERE AgentId=$agent AND ((Status='leased' AND LeaseUntil<=$now) OR (Status='queued' AND AvailableAt<=$now))
+                WHERE AgentId=$agent AND Status IN ('leased','queued')
                 ORDER BY CASE WHEN Status='leased' THEN 0 ELSE 1 END, Sequence LIMIT 1
-            ) AND NOT EXISTS (SELECT 1 FROM PrintJobs WHERE AgentId=$agent AND Status='leased' AND LeaseUntil>$now)
-            RETURNING Id,Printer,Kind,BookingRef,CustomerName,Seats,BookingDate,Timezone,RestaurantName,Locale,SpecialRequests
+            ) AND ((Status='leased' AND LeaseUntil<=$now) OR (Status='queued' AND AvailableAt<=$now))
+            AND NOT EXISTS (SELECT 1 FROM PrintJobs WHERE AgentId=$agent AND Status='leased' AND LeaseUntil>$now)
+            RETURNING Id,Printer,Kind,BookingRef,CustomerName,Seats,BookingDate,Timezone,RestaurantName,Locale,SpecialRequests,ReprintOf
             """, ("$lease", lease), ("$until", now+120), ("$agent", agent), ("$now", now)))
         using (SqliteDataReader r = cmd.ExecuteReader())
         {
             if (r.Read())
             {
                 job = new Claim(r.GetString(0), lease, r.GetString(1),
-                    Receipt(r.GetString(2),r.GetString(3),r.GetString(4),r.GetInt32(5),r.IsDBNull(6) ? null : r.GetString(6),r.GetString(7),r.GetString(8),r.GetString(9),r.GetString(10)));
+                    Receipt(r.GetString(2),r.GetString(3),r.GetString(4),r.GetInt32(5),r.IsDBNull(6) ? null : r.GetString(6),r.GetString(7),r.GetString(8),r.GetString(9),r.GetString(10),!r.IsDBNull(11)));
             }
         }
         tx.Commit();
@@ -258,7 +287,7 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
 
     private static string Line(string s) => string.Concat(s.Where(c => !char.IsControl(c))).Trim();
 
-    internal static string Receipt(string kind, string reference, string name, int seats, string? date, string timezone, string restaurant, string locale, string requests)
+    internal static string Receipt(string kind, string reference, string name, int seats, string? date, string timezone, string restaurant, string locale, string requests, bool reprint = false)
     {
         // UTC is stored in SQLite; print on the restaurant clock, never on the server's clock.
         string[] words = locale switch
@@ -278,6 +307,7 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
         DateTime local = TimeZoneHelper.ConvertUtcToLocal(utc, timezone);
         string notes = locale switch { "nl" => "Opmerking", "fr" => "Remarque", "de" => "Hinweis", "es" => "Nota", _ => "Note" };
         string receipt = string.Create(CultureInfo.InvariantCulture, $"{words[heading]}\n{Line(restaurant)}\n--------------------------------\n{local:dd-MM-yyyy HH:mm}\n{words[4]}: {seats}\n{words[5]}: {Line(name)}\n{words[6]}: {Line(reference)}");
-        return string.IsNullOrWhiteSpace(requests) ? receipt : $"{receipt}\n{notes}: {Line(requests)}";
+        string prefix = reprint ? (locale switch { "nl" => "HERDRUK", "fr" => "REIMPRESSION", "de" => "NACHDRUCK", "es" => "REIMPRESION", _ => "REPRINT" }) + "\n" : "";
+        return prefix + (string.IsNullOrWhiteSpace(requests) ? receipt : $"{receipt}\n{notes}: {Line(requests)}");
     }
 }

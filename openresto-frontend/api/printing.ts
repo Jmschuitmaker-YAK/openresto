@@ -16,6 +16,8 @@ export interface PrintJobStatus {
   attempts: number;
   reason: string | null;
   createdAt: number;
+  bookingRef: string;
+  canReprint: boolean;
 }
 
 export interface PrintStatus {
@@ -49,4 +51,9 @@ export async function printAction(
 ): Promise<void> {
   const response = await post(`${path(id)}/${action}`, body);
   if (!response.ok) throw new Error("Print action failed");
+}
+
+export async function reprintBooking(id: number, jobId: string): Promise<void> {
+  const response = await post(`${path(id)}/reprint/${encodeURIComponent(jobId)}`, { confirm: true });
+  if (!response.ok) throw new Error("Reprint failed");
 }

@@ -2275,7 +2275,9 @@
           "cancelled": "Cancelled",
           "changed": "Changed",
           "test": "Test"
-        }
+        },
+        "reprint": "Reprint current booking",
+        "reprintWarning": "Check the paper first. This creates a new, marked receipt using the current booking details."
       }
     },
     "sidebar": {

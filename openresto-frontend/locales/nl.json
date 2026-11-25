@@ -2275,7 +2275,9 @@
           "cancelled": "Geannuleerd",
           "changed": "Gewijzigd",
           "test": "Testbon"
-        }
+        },
+        "reprint": "Reservering opnieuw printen",
+        "reprintWarning": "Controleer eerst de papieren bon. Dit maakt een nieuwe, gemarkeerde bon met de actuele reserveringsgegevens."
       }
     },
     "sidebar": {

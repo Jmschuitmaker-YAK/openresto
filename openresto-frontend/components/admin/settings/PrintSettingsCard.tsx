@@ -12,7 +12,13 @@ import { useBrand } from "@/context/BrandContext";
 import { useCan } from "@/context/AuthContext";
 import { LOCALE_LABELS, SUPPORTED_LOCALES, isSupportedLocale } from "@/constants/locales";
 import { fetchRestaurants, type RestaurantDto } from "@/api/restaurants";
-import { getPrintStatus, printAction, registerPrintAgent, type PrintStatus } from "@/api/printing";
+import {
+  getPrintStatus,
+  printAction,
+  registerPrintAgent,
+  reprintBooking,
+  type PrintStatus,
+} from "@/api/printing";
 import { styles } from "./settings.styles";
 
 export function PrintSettingsCard() {
@@ -35,6 +41,7 @@ function PrintSettingsForm() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(false);
   const [reload, setReload] = useState(0);
+  const [reprintId, setReprintId] = useState<string | null>(null);
   const [confirm, setConfirm] = useState<"register" | "revoke" | null>(null);
 
   useEffect(() => {
@@ -76,6 +83,7 @@ function PrintSettingsForm() {
     } finally {
       setBusy(false);
       setConfirm(null);
+      setReprintId(null);
     }
   }
 
@@ -203,9 +211,32 @@ function PrintSettingsForm() {
               {t(`admin.settings.printing.status.${job.status}`)}
               {job.agentId !== agent?.agentId ? ` · ${t("admin.settings.printing.oldAgent")}` : ""}
             </ThemedText>
+            {job.bookingRef !== "" && <ThemedText>{job.bookingRef}</ThemedText>}
+            <ThemedText>{new Date(job.createdAt * 1000).toLocaleString(locale)}</ThemedText>
             {job.reason && <ThemedText>{job.reason}</ThemedText>}
+            {job.canReprint && agent && (
+              <Button
+                size="sm"
+                variant="secondary"
+                disabled={!ready}
+                onPress={() => setReprintId(job.id)}
+              >
+                {t("admin.settings.printing.reprint")}
+              </Button>
+            )}
           </View>
         ))}
+        <ConfirmModal
+          visible={reprintId !== null}
+          message={t("admin.settings.printing.reprintWarning")}
+          loading={busy}
+          onCancel={() => setReprintId(null)}
+          onConfirm={() => {
+            if (location !== undefined && reprintId !== null) {
+              void perform(() => reprintBooking(location, reprintId));
+            }
+          }}
+        />
         <ConfirmModal
           visible={confirm !== null}
           message={t("admin.settings.printing.replaceWarning")}

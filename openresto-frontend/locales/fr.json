@@ -2275,7 +2275,9 @@
           "cancelled": "Annulée",
           "changed": "Modifiée",
           "test": "Test"
-        }
+        },
+        "reprint": "Réimprimer la réservation actuelle",
+        "reprintWarning": "Vérifiez le ticket avant de réimprimer. Un nouveau ticket marqué reprend les données actuelles."
       }
     },
     "sidebar": {

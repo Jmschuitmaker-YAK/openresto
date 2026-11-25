@@ -18,7 +18,7 @@ Request: {}. Response: 204 when idle; otherwise 200 with JSON:
 
 The server must durably enqueue jobs after confirmed booking creation,
 cancellation and relevant modification (transactional outbox or equivalent).
-No queue or print failure may roll back a valid reservation.
+Network and printer failures do not affect bookings. The SQL outbox shares the booking transaction, so a database/outbox write failure can still abort that transaction.
 Each delivery has its own immutable job ID and event identity. Reprint is
 an explicit new job, not a reset of an old ID. Snapshot the receipt text in
 the restaurant's language/time zone, not the guest's UI language.
@@ -29,7 +29,7 @@ Lease duration at least 60 seconds. Expired jobs may be reclaimed only by the
 same agent, with a new lease token. Never auto-transfer ambiguous jobs to a
 different agent, including replacement devices with an empty journal.
 Server must preserve terminal states and reject stale/foreign leases. A
-single agent may have only one in-flight job. Claim records heartbeat even
+single agent may have only one in-flight job; retries preserve queue order. Claim records heartbeat even
 when no job exists.
 
 ## POST /api/print-agent/v1/result
@@ -55,7 +55,6 @@ Retention of both server queue data and agent journal must be coordinated.
 Independent email and printer toggles for internal alerts; guest email and
 push remain unchanged. Default printer off for existing installations.
 Initial scope: one active agent per location, alias, token registration/revocation,
-last heartbeat, queued/sent/uncertain status and test receipt. Explicit reprint and
-advanced event configuration are follow-up work.
+last heartbeat, queued/sent/uncertain status and test receipt. Explicit reprint creates a marked new job from the current booking, never replays a stale snapshot. Advanced event configuration is follow-up work.
 Use least-privilege access and minimize receipt PII; guest contact data and
 notes should be printed only when operationally necessary.

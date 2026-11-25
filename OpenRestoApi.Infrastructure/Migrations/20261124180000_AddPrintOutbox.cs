@@ -47,7 +47,8 @@ public sealed class AddPrintOutbox : Migration
                 LeaseUntil INTEGER NULL,
                 Attempts INTEGER NOT NULL DEFAULT 0,
                 Reason TEXT NULL,
-                CompletedAt INTEGER NULL
+                CompletedAt INTEGER NULL,
+                ReprintOf TEXT NULL
             );
             CREATE INDEX IX_PrintJobs_AgentStatus ON PrintJobs(AgentId, Status, Sequence);
             CREATE TRIGGER PrintBookingCreated AFTER INSERT ON Bookings

@@ -2275,7 +2275,9 @@
           "cancelled": "Storniert",
           "changed": "Geändert",
           "test": "Test"
-        }
+        },
+        "reprint": "Aktuelle Reservierung erneut drucken",
+        "reprintWarning": "Prüfen Sie zuerst den Papierbon. Ein neuer markierter Bon enthält die aktuellen Reservierungsdaten."
       }
     },
     "sidebar": {

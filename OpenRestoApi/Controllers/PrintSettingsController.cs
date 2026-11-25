@@ -62,6 +62,10 @@ public sealed class PrintSettingsController(AppDbContext db) : ControllerBase
     public IActionResult Revoke(int restaurantId, [FromBody] ConfirmRequest request)
         => !request.Confirm ? BadRequest() : Store().Revoke(restaurantId) ? NoContent() : NotFound();
 
+    [HttpPost("reprint/{jobId}")]
+    public IActionResult Reprint(int restaurantId, string jobId, [FromBody] ConfirmRequest request)
+        => !request.Confirm ? BadRequest() : Store().QueueReprint(restaurantId, jobId) ? NoContent() : Conflict();
+
     [HttpPost("test")]
     public IActionResult Test(int restaurantId, [FromBody] ConfirmRequest request)
         => !request.Confirm ? BadRequest() : Store().QueueTest(restaurantId) ? NoContent() : NotFound();

@@ -99,6 +99,39 @@ public sealed class PrintOutboxTests : IDisposable
         Assert.Empty(_store.GetJobs(RestaurantId));
     }
 
+    [Fact]
+    public void Reprint_UsesCurrentReservationAndNewJobIdentity()
+    {
+        var registration = _store.Register(RestaurantId, "bar", "nl")!;
+        _store.SetEnabled(RestaurantId, true);
+        Booking booking = AddBooking();
+        var original = _store.ClaimNext(registration.Token).Job!;
+        Assert.Equal(PrintQueueStore.ResultCode.Accepted, _store.Complete(registration.Token, original.Id, original.Lease, "uncertain", null));
+        _store.SetEnabled(RestaurantId, false);
+        booking.Seats = 6;
+        _db.SaveChanges();
+        Assert.False(_store.QueueReprint(RestaurantId + 1, original.Id));
+        Assert.True(_store.QueueReprint(RestaurantId, original.Id));
+        Assert.False(_store.QueueReprint(RestaurantId, original.Id));
+        var reprint = _store.ClaimNext(registration.Token).Job!;
+        Assert.NotEqual(original.Id, reprint.Id);
+        Assert.Contains("HERDRUK", reprint.Text);
+        Assert.Contains("Gasten: 6", reprint.Text);
+    }
+
+    [Fact]
+    public void RetryPreservesEventOrder()
+    {
+        var registration = _store.Register(RestaurantId, "bar", "nl")!;
+        _store.SetEnabled(RestaurantId, true);
+        Booking booking = AddBooking();
+        booking.IsCancelled = true;
+        _db.SaveChanges();
+        var first = _store.ClaimNext(registration.Token).Job!;
+        Assert.Equal(PrintQueueStore.ResultCode.Accepted, _store.Complete(registration.Token, first.Id, first.Lease, "retry", "printer_unreachable"));
+        Assert.Null(_store.ClaimNext(registration.Token).Job);
+    }
+
     public void Dispose()
     {
         _db.Dispose();
