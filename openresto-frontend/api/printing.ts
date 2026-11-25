@@ -54,6 +54,8 @@ export async function printAction(
 }
 
 export async function reprintBooking(id: number, jobId: string): Promise<void> {
-  const response = await post(`${path(id)}/reprint/${encodeURIComponent(jobId)}`, { confirm: true });
+  const response = await post(`${path(id)}/reprint/${encodeURIComponent(jobId)}`, {
+    confirm: true,
+  });
   if (!response.ok) throw new Error("Reprint failed");
 }
