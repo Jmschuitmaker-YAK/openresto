@@ -170,22 +170,48 @@ public sealed partial class PrintQueueStore(SqliteConnection connection)
         return r.Read() ? new AgentStatus(r.GetString(0),r.GetString(1),r.GetString(2),r.GetBoolean(3),r.IsDBNull(4) ? null : r.GetInt64(4)) : null;
     }
 
-    public IReadOnlyList<JobStatus> GetJobs(int restaurantId)
+    public sealed record JobPage(IReadOnlyList<JobStatus> Jobs, long? NextBefore);
+    public sealed record JobCounts(long Pending, long Problems);
+
+    public JobCounts GetJobCounts(int restaurantId)
     {
-        using SqliteTransaction tx = connection.BeginTransaction();
+        using SqliteTransaction tx = connection.BeginTransaction(deferred: true);
+        using SqliteCommand cmd = Command(tx, """
+            SELECT count(CASE WHEN Status IN ('queued','leased') THEN 1 END),
+                count(CASE WHEN Status='uncertain' OR (Status IN ('queued','leased') AND Reason IS NOT NULL) THEN 1 END)
+            FROM PrintJobs WHERE RestaurantId=$id
+            """, ("$id", restaurantId));
+        using SqliteDataReader r = cmd.ExecuteReader();
+        r.Read();
+        return new JobCounts(r.GetInt64(0), r.GetInt64(1));
+    }
+
+    public IReadOnlyList<JobStatus> GetJobs(int restaurantId, int limit = 100)
+        => GetJobPage(restaurantId, null, limit, false).Jobs;
+
+    public JobPage GetJobPage(int restaurantId, long? before, int limit, bool problems)
+    {
+        limit = Math.Clamp(limit, 1, 100);
+        using SqliteTransaction tx = connection.BeginTransaction(deferred: true);
         using SqliteCommand cmd = Command(tx, """
             SELECT j.Id,j.AgentId,j.Kind,j.Status,j.Attempts,j.Reason,j.CreatedAt,j.BookingRef,
                 (j.Status IN ('sent','uncertain') AND j.Kind<>'test' AND EXISTS (
-                    SELECT 1 FROM Bookings b WHERE b.RestaurantId=j.RestaurantId AND b.BookingRef=j.BookingRef))
-            FROM PrintJobs j WHERE j.RestaurantId=$id ORDER BY j.Sequence DESC LIMIT 100
-            """, ("$id", restaurantId));
+                    SELECT 1 FROM Bookings b WHERE b.RestaurantId=j.RestaurantId AND b.BookingRef=j.BookingRef)),
+                j.Sequence
+            FROM PrintJobs j WHERE j.RestaurantId=$id AND ($before IS NULL OR j.Sequence<$before)
+                AND ($problems=0 OR j.Status='uncertain' OR (j.Status IN ('queued','leased') AND j.Reason IS NOT NULL))
+            ORDER BY j.Sequence DESC LIMIT $limit
+            """, ("$id", restaurantId), ("$before", before), ("$limit", limit+1), ("$problems", problems ? 1 : 0));
         using SqliteDataReader r = cmd.ExecuteReader();
         var jobs = new List<JobStatus>();
+        long? last = null;
         while (r.Read())
         {
+            if (jobs.Count == limit) return new JobPage(jobs, last);
             jobs.Add(new JobStatus(r.GetString(0),r.GetString(1),r.GetString(2),r.GetString(3),r.GetInt32(4),r.IsDBNull(5) ? null : r.GetString(5),r.GetInt64(6),r.GetString(7),r.GetBoolean(8)));
+            last = r.GetInt64(9);
         }
-        return jobs;
+        return new JobPage(jobs, null);
     }
 
     // Run even when an agent has been offline for weeks. Expiration is visible;

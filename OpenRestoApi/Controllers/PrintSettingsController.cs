@@ -30,11 +30,15 @@ public sealed class PrintSettingsController(AppDbContext db) : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Get(int restaurantId)
+    public IActionResult Get(int restaurantId, [FromQuery] int limit = 100)
     {
         PrintQueueStore store = Store();
-        return Ok(new { agent = store.GetAgent(restaurantId), jobs = store.GetJobs(restaurantId) });
+        return Ok(new { agent = store.GetAgent(restaurantId), jobs = store.GetJobs(restaurantId, limit), counts = store.GetJobCounts(restaurantId) });
     }
+
+    [HttpGet("jobs")]
+    public IActionResult Jobs(int restaurantId, [FromQuery] long? before = null, [FromQuery] bool problems = false)
+        => Ok(Store().GetJobPage(restaurantId, before, 20, problems));
 
     [HttpPost("register")]
     public IActionResult Register(int restaurantId, [FromBody] RegisterRequest request)
