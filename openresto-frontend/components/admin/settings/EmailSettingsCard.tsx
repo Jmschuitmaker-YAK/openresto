@@ -110,7 +110,11 @@ export function EmailSettingsCard({
                     key={p.id}
                     onPress={() => selectProvider(p)}
                     accessibilityRole="radio"
-                    accessibilityLabel={p.id === "custom" ? t("admin.settings.emailSettings.providers.custom") : p.name}
+                    accessibilityLabel={
+                      p.id === "custom"
+                        ? t("admin.settings.emailSettings.providers.custom")
+                        : p.name
+                    }
                     accessibilityState={{ checked: on }}
                     style={[
                       styles.providerCard,
@@ -133,9 +137,15 @@ export function EmailSettingsCard({
                     >
                       <Icon name={p.icon} size={15} color={on ? primaryColor : mutedColor} />
                     </View>
-                    <ThemedText style={styles.providerName}>{p.id === "custom" ? t("admin.settings.emailSettings.providers.custom") : p.name}</ThemedText>
+                    <ThemedText style={styles.providerName}>
+                      {p.id === "custom"
+                        ? t("admin.settings.emailSettings.providers.custom")
+                        : p.name}
+                    </ThemedText>
                     <ThemedText style={[styles.providerHint, { color: mutedColor }]}>
-                      {t(`admin.settings.emailSettings.providers.${p.id}Hint`, { defaultValue: p.hint })}
+                      {t(`admin.settings.emailSettings.providers.${p.id}Hint`, {
+                        defaultValue: p.hint,
+                      })}
                     </ThemedText>
                     {on && (
                       <View style={[styles.providerCheck, { backgroundColor: primaryColor }]}>

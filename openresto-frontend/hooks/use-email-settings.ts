@@ -86,7 +86,10 @@ export function useEmailSettings() {
       setSaveMsg({ text: result.data.message, ok: true });
       setIsConfigured(true);
     } else {
-      setSaveMsg({ text: result?.message ?? t("admin.settings.emailSettings.saveFailed"), ok: false });
+      setSaveMsg({
+        text: result?.message ?? t("admin.settings.emailSettings.saveFailed"),
+        ok: false,
+      });
     }
   };
 
@@ -108,11 +111,7 @@ export function useEmailSettings() {
   // The hint shares the slot the save outcome uses, so toggling back off has to clear it:
   // otherwise "Save to apply" sits there after the change it referred to has been undone.
   const noteSaveToApply = (next: boolean) =>
-    setSaveMsg(
-      next
-        ? { text: t("admin.settings.emailSettings.saveToApply"), ok: false }
-        : null
-    );
+    setSaveMsg(next ? { text: t("admin.settings.emailSettings.saveToApply"), ok: false } : null);
 
   const toggleConfirmations = (next: boolean) => {
     setSendConfirmations(next);

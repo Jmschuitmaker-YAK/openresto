@@ -172,7 +172,11 @@ export function EmbedSnippetCard({
     };
   }, [origins, probeRun]);
 
-  const snippets = embedSnippets(resolveServerAddress(null, brand.websiteUrl), locationId, t("admin.settings.embed.snippet.bookingLinkText"));
+  const snippets = embedSnippets(
+    resolveServerAddress(null, brand.websiteUrl),
+    locationId,
+    t("admin.settings.embed.snippet.bookingLinkText")
+  );
 
   return (
     <View

@@ -38,7 +38,9 @@ describe("embedSnippets", () => {
   });
 
   it("accepts localized link text and escapes HTML", () => {
-    expect(embedSnippets("https://book.example", 0, "Reserveer <nu> & later").link).toContain("Reserveer &lt;nu&gt; &amp; later</a>");
+    expect(embedSnippets("https://book.example", 0, "Reserveer <nu> & later").link).toContain(
+      "Reserveer &lt;nu&gt; &amp; later</a>"
+    );
   });
 
   it("leaves the location out for all locations", () => {
