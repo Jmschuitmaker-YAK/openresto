@@ -1825,7 +1825,15 @@
         "fromEmailLabel": "Absender-E-Mail",
         "footerHintVerified": "Verbindung geprüft · Bestätigungen bereit",
         "footerHintUnverified": "Testen Sie die Verbindung, bevor Sie Bestätigungen aktivieren",
-        "saveButton": "SMTP-Einstellungen speichern"
+        "saveButton": "SMTP-Einstellungen speichern",
+        "providers": {
+          "custom": "Eigener SMTP-Server",
+          "gmailHint": "App-Passwort verwenden",
+          "outlookHint": "Moderne Authentifizierung",
+          "customHint": "Eigener Server"
+        },
+        "saveFailed": "Speichern fehlgeschlagen.",
+        "saveToApply": "E-Mails werden über dein SMTP-Konto versendet. Zum Übernehmen speichern."
       },
       "users": {
         "title": "Benutzer",

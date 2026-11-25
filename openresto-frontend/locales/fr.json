@@ -1825,7 +1825,15 @@
         "fromEmailLabel": "E-mail de l'expéditeur",
         "footerHintVerified": "Connexion vérifiée · confirmations prêtes",
         "footerHintUnverified": "Testez la connexion avant d'activer les confirmations",
-        "saveButton": "Enregistrer les paramètres SMTP"
+        "saveButton": "Enregistrer les paramètres SMTP",
+        "providers": {
+          "custom": "SMTP personnalisé",
+          "gmailHint": "Utiliser un mot de passe d’application",
+          "outlookHint": "Authentification moderne",
+          "customHint": "Votre propre serveur"
+        },
+        "saveFailed": "Échec de l’enregistrement.",
+        "saveToApply": "Les e-mails seront envoyés via votre compte SMTP. Enregistrez pour appliquer."
       },
       "users": {
         "title": "Utilisateurs",

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   getEmailSettings,
   saveEmailSettings,
@@ -20,6 +21,7 @@ export type EmailTestState = "idle" | "testing" | "ok" | "fail";
  * in the card that owns that save.
  */
 export function useEmailSettings() {
+  const { t } = useTranslation();
   const [host, setHost] = useState("");
   const [port, setPort] = useState("587");
   const [username, setUsername] = useState("");
@@ -84,7 +86,7 @@ export function useEmailSettings() {
       setSaveMsg({ text: result.data.message, ok: true });
       setIsConfigured(true);
     } else {
-      setSaveMsg({ text: result?.message ?? "Failed to save.", ok: false });
+      setSaveMsg({ text: result?.message ?? t("admin.settings.emailSettings.saveFailed"), ok: false });
     }
   };
 
@@ -108,7 +110,7 @@ export function useEmailSettings() {
   const noteSaveToApply = (next: boolean) =>
     setSaveMsg(
       next
-        ? { text: "Emails will be sent using your SMTP account. Save to apply.", ok: false }
+        ? { text: t("admin.settings.emailSettings.saveToApply"), ok: false }
         : null
     );
 

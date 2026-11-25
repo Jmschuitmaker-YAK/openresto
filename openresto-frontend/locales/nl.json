@@ -1485,51 +1485,51 @@
         "deleteLabel": "Delete {{label}}"
       },
       "emailFailures": {
-        "title": "Send failures",
+        "title": "Mislukte verzendingen",
         "refLine": "Ref: {{ref}}"
       },
       "emailDelivery": {
-        "title": "Delivery",
-        "subtitle": "Connection and send history",
-        "recentFailures_one": "{{count}} recent failure",
-        "recentFailures_other": "{{count}} recent failures"
+        "title": "E-mailbezorging",
+        "subtitle": "Verbinding en verzendgeschiedenis",
+        "recentFailures_one": "{{count}} recente mislukte verzending",
+        "recentFailures_other": "{{count}} recente mislukte verzendingen"
       },
       "emailPreview": {
-        "title": "Confirmation preview",
-        "subtitle": "What a guest receives after booking",
-        "locationLabel": "Preview location",
-        "from": "From",
-        "to": "To",
-        "subject": "Subject",
-        "senderNotSet": "{{name}} (no sender address set yet)",
-        "frameTitle": "Booking confirmation email preview",
-        "notConfigured": "Nothing is sent yet: add your SMTP details and test the connection.",
-        "confirmationsOff": "Booking confirmations are off, so guests receive nothing.",
-        "hint": "A sample booking, rendered with your real branding. Nothing is sent.",
-        "loading": "Rendering the preview…",
-        "unavailable": "The preview could not be rendered."
+        "title": "Voorbeeld bevestigingsmail",
+        "subtitle": "Wat een gast ontvangt na reservering",
+        "locationLabel": "Voorbeeldlocatie",
+        "from": "Van",
+        "to": "Aan",
+        "subject": "Onderwerp",
+        "senderNotSet": "{{name}} (nog geen afzenderadres ingesteld)",
+        "frameTitle": "Voorbeeld van de reserveringsbevestiging",
+        "notConfigured": "Er wordt nog niets verstuurd. Vul je SMTP-gegevens in en test de verbinding.",
+        "confirmationsOff": "Reserveringsbevestigingen staan uit. Gasten ontvangen geen bevestigingsmail.",
+        "hint": "Een voorbeeldreservering in je eigen huisstijl. Er wordt niets verstuurd.",
+        "loading": "Voorbeeld laden…",
+        "unavailable": "Het voorbeeld kon niet worden weergegeven."
       },
       "bookingConfirmation": {
-        "sectionLabel": "Automatic emails",
-        "toggleLabel": "Send booking confirmation emails",
-        "title": "Booking confirmation",
-        "subtitle": "Sent the moment a guest books a table.",
-        "disabledHint": "Configure and test SMTP above to enable."
+        "sectionLabel": "Automatische e-mails",
+        "toggleLabel": "Verstuur reserveringsbevestigingen per e-mail",
+        "title": "Reserveringsbevestiging",
+        "subtitle": "Wordt verstuurd zodra een gast reserveert.",
+        "disabledHint": "Stel SMTP hierboven in en test de verbinding om dit in te schakelen."
       },
       "smtpTest": {
-        "idleTitle": "Not yet tested",
-        "testingTitle": "Testing connection…",
-        "okTitle": "Connection successful",
-        "failTitle": "Connection failed",
-        "idleSubtitle": "Send a test to verify settings before going live.",
-        "testingSubtitle": "Reaching {{host}}:{{port}}…",
-        "hostFallback": "host",
-        "okFallback": "Authentication accepted. Test email delivered.",
-        "failFallback": "Check your credentials and try again.",
-        "sendTestLabel": "Send a test email",
-        "testingButton": "Testing…",
-        "retestButton": "Re-test",
-        "sendTestButton": "Send test"
+        "idleTitle": "Nog niet getest",
+        "testingTitle": "Verbinding testen…",
+        "okTitle": "Verbinding geslaagd",
+        "failTitle": "Verbinding mislukt",
+        "idleSubtitle": "Verstuur een testmail om de instellingen te controleren.",
+        "testingSubtitle": "Verbinding maken met {{host}}:{{port}}…",
+        "hostFallback": "server",
+        "okFallback": "Inloggen gelukt. Testmail bezorgd.",
+        "failFallback": "Controleer je inloggegevens en probeer het opnieuw.",
+        "sendTestLabel": "Verstuur een testmail",
+        "testingButton": "Testen…",
+        "retestButton": "Opnieuw testen",
+        "sendTestButton": "Testmail versturen"
       },
       "contact": {
         "title": "Contact & Website",
@@ -1602,25 +1602,25 @@
         "faviconDeselectHint": "{{label}} · tap to deselect"
       },
       "pushNotifications": {
-        "title": "Push Notifications",
-        "blockedError": "Notifications blocked. Enable them in your browser settings.",
-        "enableFailed": "Failed to enable push notifications.",
-        "disableFailed": "Failed to disable push notifications.",
-        "checkingStatus": "Checking status…",
-        "activeSubtitle": "Push notifications active for all locations",
-        "deniedSubtitle": "Notifications are blocked. Enable them in your browser settings.",
-        "unconfiguredSubtitle": "VAPID keys not configured",
-        "unavailableSubtitle": "Not supported in this browser",
-        "inactiveSubtitle": "Enable to receive real-time booking alerts",
-        "unconfiguredNotice": "Push notifications require VAPID keys to be configured in the server environment (VAPID_PUBLIC_KEY and VAPID_PRIVATE_KEY). Contact your administrator to set these up.",
-        "deniedNotice": "Push notifications are blocked by your browser. Open your browser's site settings to allow notifications, then reload this page.",
-        "unavailableBody": "Push notifications are not supported in this browser.",
-        "activeBody": "You will receive push notifications for new bookings, cancellations, and capacity alerts across all locations.",
-        "inactiveBody": "Enable push notifications to receive real-time alerts for new bookings, cancellations, and when a location is nearly full.",
-        "disableButton": "Disable push notifications",
-        "enableButton": "Enable push notifications",
-        "disabling": "Disabling…",
-        "enabling": "Enabling…"
+        "title": "Pushmeldingen",
+        "blockedError": "Meldingen zijn geblokkeerd. Sta ze toe in je browserinstellingen.",
+        "enableFailed": "Pushmeldingen konden niet worden ingeschakeld.",
+        "disableFailed": "Pushmeldingen konden niet worden uitgeschakeld.",
+        "checkingStatus": "Status ophalen…",
+        "activeSubtitle": "Pushmeldingen actief voor alle locaties",
+        "deniedSubtitle": "Meldingen zijn geblokkeerd. Sta ze toe in je browserinstellingen.",
+        "unconfiguredSubtitle": "VAPID-sleutels niet ingesteld",
+        "unavailableSubtitle": "Niet ondersteund door deze browser",
+        "inactiveSubtitle": "Schakel in om direct reserveringsmeldingen te ontvangen",
+        "unconfiguredNotice": "Voor pushmeldingen moeten de VAPID-sleutels (VAPID_PUBLIC_KEY en VAPID_PRIVATE_KEY) op de server worden ingesteld. Vraag je beheerder dit te regelen.",
+        "deniedNotice": "Je browser blokkeert pushmeldingen. Sta meldingen toe in de site-instellingen van je browser en herlaad deze pagina.",
+        "unavailableBody": "Deze browser ondersteunt geen pushmeldingen.",
+        "activeBody": "Je ontvangt pushmeldingen voor nieuwe reserveringen, annuleringen en capaciteitsmeldingen van alle locaties.",
+        "inactiveBody": "Schakel pushmeldingen in om direct een melding te ontvangen bij nieuwe reserveringen, annuleringen en wanneer een locatie bijna vol is.",
+        "disableButton": "Pushmeldingen uitschakelen",
+        "enableButton": "Pushmeldingen inschakelen",
+        "disabling": "Uitschakelen…",
+        "enabling": "Inschakelen…"
       },
       "footer": {
         "title": "Footer",
@@ -1802,30 +1802,38 @@
         "seatsPlaceholder": "Seats"
       },
       "emailSettings": {
-        "title": "Email (SMTP)",
-        "connectedSubtitle": "Connected · {{host}}",
-        "setupRequired": "Setup required",
+        "title": "E-mail (SMTP)",
+        "connectedSubtitle": "Verbonden · {{host}}",
+        "setupRequired": "Instellen vereist",
         "providerLabel": "Provider",
-        "connectionLabel": "Connection",
-        "hostLabel": "SMTP Host",
-        "portLabel": "Port",
-        "usePortLabel": "Use port {{port}}",
-        "encryptionLabel": "Encryption",
-        "sslTlsA11yLabel": "SSL/TLS encryption",
+        "connectionLabel": "Verbinding",
+        "hostLabel": "SMTP-server",
+        "portLabel": "Poort",
+        "usePortLabel": "Gebruik poort {{port}}",
+        "encryptionLabel": "Versleuteling",
+        "sslTlsA11yLabel": "SSL/TLS-versleuteling",
         "sslTls": "SSL/TLS",
-        "noEncryptionA11yLabel": "No encryption",
-        "none": "None",
-        "usernameLabel": "Username",
-        "passwordLabel": "Password",
-        "passwordPlaceholder": "SMTP password or app token",
-        "hidePassword": "Hide password",
-        "showPassword": "Show password",
-        "senderIdentityLabel": "Sender identity",
-        "fromNameLabel": "From name",
-        "fromEmailLabel": "From email",
-        "footerHintVerified": "Connection verified · confirmations ready",
-        "footerHintUnverified": "Test the connection before enabling confirmations",
-        "saveButton": "Save SMTP settings"
+        "noEncryptionA11yLabel": "Geen versleuteling",
+        "none": "Geen",
+        "usernameLabel": "Gebruikersnaam",
+        "passwordLabel": "Wachtwoord",
+        "passwordPlaceholder": "SMTP-wachtwoord of app-token",
+        "hidePassword": "Wachtwoord verbergen",
+        "showPassword": "Wachtwoord tonen",
+        "senderIdentityLabel": "Afzender",
+        "fromNameLabel": "Naam afzender",
+        "fromEmailLabel": "E-mailadres afzender",
+        "footerHintVerified": "Verbinding gecontroleerd · bevestigingen gereed",
+        "footerHintUnverified": "Test de verbinding voordat je bevestigingen inschakelt",
+        "saveButton": "SMTP-instellingen opslaan",
+        "providers": {
+          "custom": "Eigen SMTP-server",
+          "gmailHint": "Gebruik een app-wachtwoord",
+          "outlookHint": "Moderne authenticatie",
+          "customHint": "Je eigen server"
+        },
+        "saveFailed": "Opslaan mislukt.",
+        "saveToApply": "E-mails worden via je SMTP-account verstuurd. Sla op om de wijziging toe te passen."
       },
       "users": {
         "title": "Users",
@@ -2075,8 +2083,8 @@
         "subtitle": "How the site looks and what it says about you."
       },
       "emailRoute": {
-        "title": "Email & Push",
-        "subtitle": "Email delivery, guest confirmations, and push alerts."
+        "title": "E-mail & pushmeldingen",
+        "subtitle": "E-mailbezorging, reserveringsbevestigingen en pushmeldingen."
       },
       "usersRoute": {
         "title": "Users",
@@ -2178,9 +2186,9 @@
         "serverUnreachable": "Couldn't reach the server."
       },
       "restaurantAlerts": {
-        "toggleLabel": "Email the restaurant about bookings",
-        "title": "Booking alerts to the restaurant",
-        "subtitle": "Sent to each location's contact email (or the brand's) when a booking is made or cancelled."
+        "toggleLabel": "Stuur het restaurant een e-mail over reserveringen",
+        "title": "Reserveringsmeldingen aan het restaurant",
+        "subtitle": "Bij een nieuwe reservering of annulering wordt een e-mail gestuurd naar het contactadres van de locatie (of het algemene contactadres)."
       },
       "embed": {
         "route": {

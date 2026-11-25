@@ -1825,7 +1825,15 @@
         "fromEmailLabel": "Correo del remitente",
         "footerHintVerified": "Conexión verificada · confirmaciones listas",
         "footerHintUnverified": "Pruebe la conexión antes de activar las confirmaciones",
-        "saveButton": "Guardar configuración SMTP"
+        "saveButton": "Guardar configuración SMTP",
+        "providers": {
+          "custom": "SMTP personalizado",
+          "gmailHint": "Usa una contraseña de aplicación",
+          "outlookHint": "Autenticación moderna",
+          "customHint": "Tu propio servidor"
+        },
+        "saveFailed": "No se pudo guardar.",
+        "saveToApply": "Los correos se enviarán mediante tu cuenta SMTP. Guarda para aplicar los cambios."
       },
       "users": {
         "title": "Usuarios",

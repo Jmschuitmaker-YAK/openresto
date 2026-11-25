@@ -1825,7 +1825,15 @@
         "fromEmailLabel": "From email",
         "footerHintVerified": "Connection verified · confirmations ready",
         "footerHintUnverified": "Test the connection before enabling confirmations",
-        "saveButton": "Save SMTP settings"
+        "saveButton": "Save SMTP settings",
+        "providers": {
+          "custom": "Custom SMTP",
+          "gmailHint": "Use an app password",
+          "outlookHint": "Modern auth",
+          "customHint": "Your own host"
+        },
+        "saveFailed": "Failed to save.",
+        "saveToApply": "Emails will be sent using your SMTP account. Save to apply."
       },
       "users": {
         "title": "Users",
