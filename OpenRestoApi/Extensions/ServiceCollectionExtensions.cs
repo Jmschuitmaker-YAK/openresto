@@ -387,6 +387,10 @@ public static class ServiceCollectionExtensions
         services.AddOptions<OpenRestoApi.Core.Application.Settings.AuditSettings>()
                 .BindConfiguration("Audit");
         services.AddHostedService<OpenRestoApi.Infrastructure.Auditing.AuditRetentionWorker>();
+        if (!env.IsEnvironment("Testing"))
+        {
+            services.AddHostedService<OpenRestoApi.Infrastructure.Printing.PrintRetentionWorker>();
+        }
 
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<IPasswordService, PasswordService>();

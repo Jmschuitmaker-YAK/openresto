@@ -2244,6 +2244,40 @@
         "replaceHint": "Dieses Datum ist bereits aufgeführt; erneutes Hinzufügen ersetzt den früheren Eintrag.",
         "cancelLabel": "Hinzufügen abbrechen",
         "addAction": "Hinzufügen"
+      },
+      "printing": {
+        "title": "Bondrucker",
+        "subtitle": "Unabhängig von Restaurant-E-Mails. Gästebestätigungen bleiben unverändert.",
+        "location": "Standort",
+        "online": "Agent kürzlich verbunden",
+        "offline": "Agent nicht kürzlich verbunden",
+        "enabled": "Neue Reservierungen, Änderungen und Stornierungen drucken",
+        "test": "Testbon drucken",
+        "revoke": "Agent widerrufen",
+        "alias": "Lokaler Druckername",
+        "locale": "Bonsprache",
+        "register": "Agent registrieren",
+        "tokenWarning": "Kopieren Sie den Schlüssel jetzt in die geschützte Tokendatei. Er wird nicht erneut angezeigt.",
+        "hideToken": "Schlüssel ausblenden",
+        "refresh": "Status aktualisieren",
+        "jobs": "Letzte Druckaufträge",
+        "error": "Druckeinstellungen konnten nicht geladen oder gespeichert werden.",
+        "replaceWarning": "Der alte Agent wird widerrufen. Seine offenen Aufträge müssen geprüft werden.",
+        "oldAgent": "Vorheriger Agent",
+        "status": {
+          "queued": "Warteschlange",
+          "leased": "In Bearbeitung",
+          "sent": "An Drucker gesendet",
+          "uncertain": "Unsicher – Bon prüfen"
+        },
+        "kind": {
+          "created": "Neue Reservierung",
+          "cancelled": "Storniert",
+          "changed": "Geändert",
+          "test": "Test"
+        },
+        "reprint": "Aktuelle Reservierung erneut drucken",
+        "reprintWarning": "Prüfen Sie zuerst den Papierbon. Ein neuer markierter Bon enthält die aktuellen Reservierungsdaten."
       }
     },
     "sidebar": {

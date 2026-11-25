@@ -1,0 +1,46 @@
+name: Print Agent
+on:
+  pull_request:
+    paths:
+      - 'print-agent/**'
+      - '.github/workflows/print-agent.yml'
+  push:
+    branches:
+      - main
+      - feat/print-agent
+    paths:
+      - 'print-agent/**'
+      - '.github/workflows/print-agent.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: print-agent
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+          cache: false
+      - run: go test -race ./...
+      - run: go vet ./...
+      - run: |
+          for target in linux/amd64 linux/arm64 windows/amd64 darwin/arm64; do
+            GOOS=${target%/*} GOARCH=${target#*/} CGO_ENABLED=0 go build -trimpath -o /tmp/agent-${target%/*}-${target#*/} .
+          done
+      - name: Stage Linux test binaries
+        run: |
+          mkdir -p /tmp/print-agent-artifacts
+          cp /tmp/agent-linux-amd64 /tmp/print-agent-artifacts/openresto-print-agent-linux-amd64
+          cp /tmp/agent-linux-arm64 /tmp/print-agent-artifacts/openresto-print-agent-linux-arm64
+          cp config.example.json systemd/openresto-print-agent.service /tmp/print-agent-artifacts/
+          cd /tmp/print-agent-artifacts
+          sha256sum openresto-print-agent-linux-* > SHA256SUMS
+      - uses: actions/upload-artifact@v7
+        with:
+          name: print-agent-linux-test
+          path: /tmp/print-agent-artifacts/
+          retention-days: 7

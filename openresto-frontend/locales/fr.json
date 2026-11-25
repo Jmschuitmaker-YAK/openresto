@@ -2244,6 +2244,40 @@
         "replaceHint": "Cette date figure déjà dans la liste ; l'ajouter à nouveau remplace l'entrée précédente.",
         "cancelLabel": "Annuler l'ajout",
         "addAction": "Ajouter"
+      },
+      "printing": {
+        "title": "Imprimante de tickets",
+        "subtitle": "Indépendant des e-mails au restaurant. Les confirmations aux clients restent inchangées.",
+        "location": "Établissement",
+        "online": "Agent connecté récemment",
+        "offline": "Agent non connecté récemment",
+        "enabled": "Imprimer les nouvelles réservations, modifications et annulations",
+        "test": "Imprimer un ticket de test",
+        "revoke": "Révoquer l’agent",
+        "alias": "Nom local de l’imprimante",
+        "locale": "Langue du ticket",
+        "register": "Enregistrer l’agent",
+        "tokenWarning": "Copiez ce jeton dans le fichier protégé de l’agent. Il ne sera plus affiché.",
+        "hideToken": "Masquer le jeton",
+        "refresh": "Actualiser",
+        "jobs": "Impressions récentes",
+        "error": "Impossible de charger ou d’enregistrer les paramètres.",
+        "replaceWarning": "L’ancien agent sera révoqué. Ses tâches restantes devront être vérifiées.",
+        "oldAgent": "Agent précédent",
+        "status": {
+          "queued": "En attente",
+          "leased": "En cours",
+          "sent": "Envoyé à l’imprimante",
+          "uncertain": "Incertain – vérifier le ticket"
+        },
+        "kind": {
+          "created": "Nouvelle réservation",
+          "cancelled": "Annulée",
+          "changed": "Modifiée",
+          "test": "Test"
+        },
+        "reprint": "Réimprimer la réservation actuelle",
+        "reprintWarning": "Vérifiez le ticket avant de réimprimer. Un nouveau ticket marqué reprend les données actuelles."
       }
     },
     "sidebar": {

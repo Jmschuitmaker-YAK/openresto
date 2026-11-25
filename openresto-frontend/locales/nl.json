@@ -2244,6 +2244,40 @@
         "replaceHint": "That date is already listed; adding it again replaces the earlier entry.",
         "cancelLabel": "Cancel add",
         "addAction": "Add"
+      },
+      "printing": {
+        "title": "Bonprinter",
+        "subtitle": "Onafhankelijk van reserveringsmails aan het restaurant. Bevestigingen aan gasten blijven ongewijzigd.",
+        "location": "Locatie",
+        "online": "Agent recent verbonden",
+        "offline": "Agent niet recent verbonden",
+        "enabled": "Print nieuwe reserveringen, wijzigingen en annuleringen",
+        "test": "Print testbon",
+        "revoke": "Trek agenttoegang in",
+        "alias": "Lokale printernaam",
+        "locale": "Taal van de bon",
+        "register": "Registreer agent",
+        "tokenWarning": "Kopieer deze sleutel nu naar het beveiligde tokenbestand van de agent. Hij wordt niet opnieuw getoond.",
+        "hideToken": "Verberg sleutel",
+        "refresh": "Ververs status",
+        "jobs": "Recente printopdrachten",
+        "error": "Printerinstellingen konden niet worden geladen of opgeslagen.",
+        "replaceWarning": "De toegang van de vorige agent vervalt. Openstaande opdrachten blijven daaraan gekoppeld en moeten worden beoordeeld.",
+        "oldAgent": "Vorige agent",
+        "status": {
+          "queued": "In wachtrij",
+          "leased": "Bezig",
+          "sent": "Naar printer verzonden",
+          "uncertain": "Onzeker – controleer de bon"
+        },
+        "kind": {
+          "created": "Nieuwe reservering",
+          "cancelled": "Geannuleerd",
+          "changed": "Gewijzigd",
+          "test": "Testbon"
+        },
+        "reprint": "Reservering opnieuw printen",
+        "reprintWarning": "Controleer eerst de papieren bon. Dit maakt een nieuwe, gemarkeerde bon met de actuele reserveringsgegevens."
       }
     },
     "sidebar": {

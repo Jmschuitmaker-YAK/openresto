@@ -1,0 +1,28 @@
+[Unit]
+Description=OpenResto reservation print agent
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+StateDirectory=openresto-print-agent
+StateDirectoryMode=0700
+LoadCredential=token:/etc/openresto-print-agent/token
+ExecStart=/usr/local/bin/openresto-print-agent /etc/openresto-print-agent/config.json
+Restart=on-failure
+RestartSec=5s
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+CapabilityBoundingSet=
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

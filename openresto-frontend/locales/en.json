@@ -2244,6 +2244,40 @@
         "replaceHint": "That date is already listed; adding it again replaces the earlier entry.",
         "cancelLabel": "Cancel add",
         "addAction": "Add"
+      },
+      "printing": {
+        "title": "Receipt printer",
+        "subtitle": "Independent of restaurant alert emails. Guest confirmations are not affected.",
+        "location": "Location",
+        "online": "Agent recently connected",
+        "offline": "Agent not recently connected",
+        "enabled": "Print new bookings, changes and cancellations",
+        "test": "Print test receipt",
+        "revoke": "Revoke agent",
+        "alias": "Local printer alias",
+        "locale": "Receipt language",
+        "register": "Register agent",
+        "tokenWarning": "Copy this token to the agent's protected token file now. It will not be shown again.",
+        "hideToken": "Hide token",
+        "refresh": "Refresh status",
+        "jobs": "Recent print jobs",
+        "error": "Printing settings could not be loaded or saved.",
+        "replaceWarning": "This revokes the previous agent. Its outstanding jobs stay assigned to it and require review.",
+        "oldAgent": "Previous agent",
+        "status": {
+          "queued": "Queued",
+          "leased": "In progress",
+          "sent": "Sent to printer",
+          "uncertain": "Uncertain — check paper"
+        },
+        "kind": {
+          "created": "New booking",
+          "cancelled": "Cancelled",
+          "changed": "Changed",
+          "test": "Test"
+        },
+        "reprint": "Reprint current booking",
+        "reprintWarning": "Check the paper first. This creates a new, marked receipt using the current booking details."
       }
     },
     "sidebar": {
